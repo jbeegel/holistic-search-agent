@@ -8,26 +8,19 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-/* Palette lifted from mybrightwheel.com design tokens.
-   Light is the default because the brand's surface is white. Dark is a toggle for war-room use. */
+/* Palette lifted from mybrightwheel.com design tokens. Light only: the brand surface is white.
+   The log pane and tooltips stay dark on purpose and carry their own fixed on-dark colours. */
 :root{--bg:#F7F9FB;--panel:#FFFFFF;--panel2:#F7F9FF;--line:#EBEFF4;--ink:#18181D;--mut:#5C5E6A;--dim:#737685;
 --brand:#5463D6;--brand2:#6476FF;--teal:#03A39C;--warn:#896507;--green:#21774E;--red:#CF193A;--blue:#1570B9;--purple:#7E42EB;
 --rowhov:#F7F9FF;--rowline:#EBEFF4;--track:#EEF1FF;--logbg:#1E2549;--todobg:#F7F9FF;
 --tipbg:#1E2549;--scrollbg:#EEF1FF;--scrollth:#BABEC6;--execgrad:linear-gradient(90deg,#EEF1FF,#FFFFFF);--logoink:#FFFFFF;
 --r:10px;--rs:6px;--shadow:0 1px 2px rgba(24,24,29,.06),0 4px 16px rgba(24,24,29,.05)}
-html[data-theme="dark"]{--bg:#141A33;--panel:#1E2549;--panel2:#262E57;--line:#333C6B;--ink:#F7F9FF;--mut:#BABEC6;--dim:#8B93B8;
---brand:#B1BAFF;--brand2:#6476FF;--teal:#29B9BB;--warn:#FECC38;--green:#62CD8B;--red:#FF5B60;--blue:#49A8F3;--purple:#B1BAFF;
---rowhov:#262E57;--rowline:#2B3360;--track:#141A33;--logbg:#0E1330;--todobg:#232B52;
---tipbg:#0E1330;--scrollbg:#141A33;--scrollth:#3D4779;--execgrad:linear-gradient(90deg,#262E57,#1E2549);--logoink:#1E2549;
---shadow:0 1px 2px rgba(0,0,0,.3),0 4px 16px rgba(0,0,0,.25)}
 /* The log pane and tooltips are dark surfaces in BOTH themes, so they carry fixed on-dark colors. */
 .log .ln{color:#8B93B8}.log .ln.hi{color:#B1BAFF}.log .ln.ok{color:#62CD8B}.log .ln.info{color:#49A8F3}
 .log .out{color:#F7F9FF}
 .i .tip{color:#F7F9FF}.i .tip b{color:#B1BAFF}
 .tile.g0{background:rgba(207,25,58,.14)}.tile.g1{background:rgba(254,204,56,.30)}
 .tile.g2{background:rgba(21,112,185,.13)}.tile.g3{background:rgba(33,119,78,.15)}
-html[data-theme="dark"] .tile.g0{background:rgba(255,91,96,.20)}html[data-theme="dark"] .tile.g1{background:rgba(254,204,56,.18)}
-html[data-theme="dark"] .tile.g2{background:rgba(73,168,243,.18)}html[data-theme="dark"] .tile.g3{background:rgba(98,205,139,.20)}
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:var(--bg);color:var(--ink);transition:background .2s,color .2s;font-family:'AvenirNext','Avenir Next',Avenir,Figtree,'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased}
 .app{max-width:1600px;margin:0 auto;padding:0 18px 50px}
@@ -44,8 +37,6 @@ header{display:flex;align-items:center;gap:14px;padding:16px 0 14px;border-botto
 .rst{background:none;border:1px solid var(--line);border-radius:var(--rs);color:var(--dim);font:inherit;font-size:11px;font-family:'IBM Plex Mono',ui-monospace,Menlo,monospace;padding:6px 11px;cursor:pointer;letter-spacing:.06em}
 .rst:hover{border-color:var(--red);color:var(--red)}
 .rst.flash{border-color:var(--green);color:var(--green)}
-.tog{background:none;border:1px solid var(--line);border-radius:var(--rs);color:var(--mut);font:inherit;font-size:11px;font-family:'IBM Plex Mono',ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace;padding:6px 11px;cursor:pointer;display:flex;align-items:center;gap:6px;letter-spacing:.06em}
-.tog:hover{border-color:var(--brand);color:var(--brand)}
 .live{margin-left:auto;display:flex;align-items:center;gap:8px;font-family:'IBM Plex Mono',ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace;font-size:10.5px;color:var(--mut)}
 .dot{width:7px;height:7px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
@@ -257,7 +248,6 @@ footer{margin-top:22px;padding-top:14px;border-top:1px solid var(--line);font-fa
   <p>owned + earned + community + paid, measured as one demand system</p></div>
   <div class="live"><span class="dot"></span>DEMO DATA · 2026-08-14 06:11 ET</div>
   <button class="rst" id="rst" title="Clear all agent runs and restore the opening state">⟲ RESET DEMO</button>
-  <button class="tog" id="tog" title="Toggle light / dark">◐ <span id="togL">LIGHT</span></button>
 </header>
 
 <div class="dsbar">
@@ -1296,11 +1286,6 @@ rstBtn.onclick=()=>{
   setTimeout(()=>{rstBtn.classList.remove('flash');rstBtn.textContent='⟲ RESET DEMO';},1400);
 };
 
-/* theme toggle */
-const root=document.documentElement, tog=document.getElementById('tog'), togL=document.getElementById('togL');
-function setTheme(t){root.setAttribute('data-theme',t);togL.textContent=t==='light'?'DARK':'LIGHT';}
-setTheme('light');
-tog.onclick=()=>setTheme(root.getAttribute('data-theme')==='light'?'dark':'light');
 </script>
 </body>
 </html>

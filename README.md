@@ -64,8 +64,8 @@ ANTHROPIC_API_KEY=
 
 Colours, type, and the logo are taken from mybrightwheel.com: periwinkle `#6476FF` / `#5463D6`,
 teal `#29B9BB`, ink `#18181D`, and the Avenir Next stack the site itself specifies, with Figtree as
-the web fallback. Light is the default because the brand surface is white; a dark theme is available
-from the header toggle.
+the web fallback. Light only, matching the brand's white surface. The log pane and tooltips are
+deliberately dark and carry their own fixed on-dark colours.
 
 ## Design principles
 
