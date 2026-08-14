@@ -1,0 +1,962 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Organic Revenue Command Center — brightwheel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#080C11;--panel:#111922;--panel2:#17212B;--line:#243240;--ink:#E7EDF3;--mut:#8A9CAE;--dim:#5C6E80;
+--amber:#F0A93B;--green:#3FCF8E;--red:#F2565C;--blue:#5B9EE8;--purple:#A47FE8;
+--rowhov:#131C25;--rowline:#19222C;--track:#0B1219;--logbg:#040609;--todobg:#0C141C;
+--tipbg:#050810;--scrollbg:#0B1219;--scrollth:#2A3846;--execgrad:linear-gradient(90deg,#12202B,#111922);--logoink:#080C11}
+html[data-theme="light"]{--bg:#F4F6F8;--panel:#FFFFFF;--panel2:#EEF1F4;--line:#D5DCE3;--ink:#16202B;--mut:#4F6070;--dim:#7B8B9A;
+--amber:#B4700F;--green:#1F7A4D;--red:#C0353B;--blue:#2C6BB0;--purple:#6B48B8;
+--rowhov:#F0F3F6;--rowline:#E5EAEF;--track:#E2E7EC;--logbg:#0E151C;--todobg:#FBF6EC;
+--tipbg:#16202B;--scrollbg:#E8ECF0;--scrollth:#BAC5CF;--execgrad:linear-gradient(90deg,#FBF3E4,#FFFFFF);--logoink:#FFFFFF}
+html[data-theme="light"] .log .ln{color:#8A9CAE}
+html[data-theme="light"] .log .out{color:#E7EDF3}
+html[data-theme="light"] .i .tip{color:#E7EDF3}
+html[data-theme="light"] .i .tip b{color:#F0A93B}
+html[data-theme="light"] .tile.g0{background:rgba(192,53,59,.16)}
+html[data-theme="light"] .tile.g1{background:rgba(180,112,15,.18)}
+html[data-theme="light"] .tile.g2{background:rgba(44,107,176,.14)}
+html[data-theme="light"] .tile.g3{background:rgba(31,122,77,.16)}
+html[data-theme="light"] .run{color:#FFFFFF}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);transition:background .2s,color .2s;font-family:'IBM Plex Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased}
+.app{max-width:1600px;margin:0 auto;padding:0 18px 50px}
+.shell{display:grid;grid-template-columns:1fr 316px;gap:16px;align-items:start}
+@media(max-width:1180px){.shell{grid-template-columns:1fr}}
+header{display:flex;align-items:center;gap:14px;padding:16px 0 14px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.logo{width:30px;height:30px;background:var(--amber);border-radius:6px;display:grid;place-items:center;color:var(--logoink);font-weight:700;font-size:16px}
+.hd h1{font-size:15.5px;font-weight:600;letter-spacing:-.01em}
+.hd p{font-size:11px;color:var(--dim);font-family:'IBM Plex Mono',ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace;letter-spacing:.04em}
+.rst{background:none;border:1px solid var(--line);color:var(--dim);font:inherit;font-size:11px;font-family:'IBM Plex Mono',ui-monospace,Menlo,monospace;padding:6px 11px;cursor:pointer;letter-spacing:.06em}
+.rst:hover{border-color:var(--red);color:var(--red)}
+.rst.flash{border-color:var(--green);color:var(--green)}
+.tog{background:none;border:1px solid var(--line);color:var(--mut);font:inherit;font-size:11px;font-family:'IBM Plex Mono',ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace;padding:6px 11px;cursor:pointer;display:flex;align-items:center;gap:6px;letter-spacing:.06em}
+.tog:hover{border-color:var(--amber);color:var(--amber)}
+.live{margin-left:auto;display:flex;align-items:center;gap:8px;font-family:'IBM Plex Mono',ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace;font-size:10.5px;color:var(--mut)}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.exec{background:var(--execgrad);border:1px solid var(--line);border-left:3px solid var(--amber);padding:16px 20px;margin-top:14px}
+.exec .lbl{font-family:'IBM Plex Mono',ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--amber);margin-bottom:8px;display:flex;align-items:center;gap:7px}
+.exec .stmt{font-size:16.5px;line-height:1.55;font-weight:500}
+.exec .stmt b{color:var(--green)}
+.exec .cyc{margin-top:9px;font-family:'IBM Plex Mono',ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace;font-size:10.5px;color:var(--dim)}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(168px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);margin-top:14px}
+.kpi{background:var(--panel);padding:13px 15px;position:relative}
+.kpi.clk{cursor:pointer}.kpi.clk:hover{background:var(--panel2)}
+.kpi .k{font-family:'IBM Plex Mono',ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);margin-bottom:7px;display:flex;align-items:center;gap:5px}
+.kpi .v{font-family:'IBM Plex Mono',ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace;font-size:23px;font-weight:600;letter-spacing:-.02em;line-height:1}
+.kpi .d{font-size:10.5px;margin-top:6px;font-family:'IBM Plex Mono',ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace}
+.up{color:var(--green)}.down{color:var(--red)}.flat{color:var(--mut)}
+.kpi .arrow{position:absolute;right:11px;bottom:9px;color:var(--dim);font-size:11px}
+.i{display:inline-grid;place-items:center;width:12px;height:12px;border:1px solid var(--dim);border-radius:50%;font-size:8.5px;color:var(--dim);cursor:help;position:relative;font-weight:600;flex:none}
+.i:hover{border-color:var(--amber);color:var(--amber)}
+.i .tip{visibility:hidden;opacity:0;position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);width:290px;background:var(--tipbg);border:1px solid var(--amber);padding:11px 13px;font-size:11.5px;line-height:1.55;color:var(--ink);text-transform:none;letter-spacing:0;z-index:99;transition:.15s;font-weight:400;text-align:left;box-shadow:0 8px 28px rgba(0,0,0,.7)}
+.i:hover .tip{visibility:visible;opacity:1}
+.i .tip b{color:var(--amber)}
+.i.r .tip{left:auto;right:0;transform:none}
+nav{display:flex;gap:2px;margin-top:16px;border-bottom:1px solid var(--line);overflow-x:auto}
+nav button{background:none;border:none;color:var(--mut);font:inherit;font-size:12.5px;padding:10px 14px;cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap}
+nav button:hover{color:var(--ink)}
+nav button.on{color:var(--amber);border-bottom-color:var(--amber)}
+.view{display:none;padding-top:18px}.view.on{display:block;animation:fade .22s ease}
+@keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+.row{display:grid;gap:13px;margin-bottom:13px}
+.c2{grid-template-columns:1fr 1fr}.c3{grid-template-columns:1.35fr 1fr}
+@media(max-width:900px){.c2,.c3{grid-template-columns:1fr}}
+.panel{background:var(--panel);border:1px solid var(--line);padding:17px}
+.panel h3{font-size:13px;font-weight:600;margin-bottom:3px;display:flex;align-items:center;gap:7px}
+.panel .sub{font-size:11px;color:var(--dim);margin-bottom:14px;font-family:'IBM Plex Mono',ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace}
+.bar-row{display:grid;grid-template-columns:128px 1fr 50px;align-items:center;gap:11px;padding:6px 0}
+.bar-row .nm{font-size:12px;color:var(--mut)}.bar-row .nm.us{color:var(--amber);font-weight:600}
+.track{height:7px;background:var(--track);border-radius:3px;overflow:hidden}
+.fill{display:block;height:100%;border-radius:3px;transition:width .8s cubic-bezier(.4,0,.2,1)}
+.bar-row .pct{font-family:'IBM Plex Mono',ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace;font-size:11.5px;text-align:right}
+table{width:100%;border-collapse:collapse;font-size:12px}
+th{text-align:left;font-family:'IBM Plex Mono',ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);padding:0 9px 8px 0;border-bottom:1px solid var(--line);font-weight:500}
+td{padding:8px 9px 8px 0;border-bottom:1px solid var(--rowline);color:var(--mut)}
+td.p{color:var(--ink)}tr:hover td{background:var(--rowhov)}
+.pill{font-family:'IBM Plex Mono',ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace;font-size:9.5px;padding:2px 6px;border-radius:3px;display:inline-block;white-space:nowrap}
+.p-crit{background:rgba(242,86,92,.13);color:var(--red)}.p-warn{background:rgba(240,169,59,.13);color:var(--amber)}
+.p-ok{background:rgba(63,207,142,.13);color:var(--green)}.p-info{background:rgba(91,158,232,.13);color:var(--blue)}
+.todo{background:var(--todobg);border:1px solid var(--line);border-top:2px solid var(--amber);padding:13px 15px;margin-top:13px}
+.todo .h{font-family:'IBM Plex Mono',ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace;font-size:9.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--amber);margin-bottom:9px}
+.todo p{font-size:12.5px;color:var(--mut);margin-bottom:11px}
+.acts{display:flex;gap:8px;flex-wrap:wrap}
+.act{background:none;border:1px solid var(--line);color:var(--amber);font:inherit;font-size:11px;padding:6px 11px;cursor:pointer;font-family:'IBM Plex Mono',ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace}
+.act:hover{border-color:var(--amber);background:rgba(240,169,59,.08)}
+.scores{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:13px}
+.score{background:var(--panel2);border:1px solid var(--line);padding:15px;text-align:center}
+.score .n{font-family:'IBM Plex Mono',ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace;font-size:31px;font-weight:600;line-height:1}
+.score .t{font-size:11.5px;color:var(--mut);margin-top:7px}
+.score .b{font-family:'IBM Plex Mono',ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace;font-size:10px;margin-top:5px}
+.usmap{display:grid;grid-template-columns:repeat(11,1fr);gap:4px;max-width:660px;margin:0 auto}
+.tile{aspect-ratio:1;background:var(--panel2);border:1px solid var(--line);display:grid;place-items:center;cursor:pointer;transition:.13s;position:relative}
+.tile:hover{transform:scale(1.11);z-index:5;border-color:var(--amber)}
+.tile.sel{border-color:var(--amber);box-shadow:0 0 0 2px rgba(240,169,59,.3)}
+.tile span{font-family:'IBM Plex Mono',ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace;font-size:10.5px;font-weight:600}
+.tile.g0{background:rgba(242,86,92,.22)}.tile.g1{background:rgba(240,169,59,.2)}
+.tile.g2{background:rgba(91,158,232,.18)}.tile.g3{background:rgba(63,207,142,.22)}
+.legend{display:flex;gap:15px;flex-wrap:wrap;justify-content:center;margin-top:15px;font-family:'IBM Plex Mono',ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace;font-size:10px;color:var(--dim)}
+.legend i{display:inline-block;width:9px;height:9px;margin-right:5px;border-radius:2px}
+.stkpi{display:grid;grid-template-columns:repeat(auto-fit,minmax(112px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);margin-bottom:13px}
+.stkpi div{background:var(--panel2);padding:11px 12px}
+.stkpi .k{font-family:'IBM Plex Mono',ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace;font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);margin-bottom:5px}
+.stkpi .v{font-family:'IBM Plex Mono',ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace;font-size:17px;font-weight:600}
+.feed{background:var(--panel);border:1px solid var(--line);position:sticky;top:14px;max-height:calc(100vh - 30px);display:flex;flex-direction:column}
+.feed .fh{padding:13px 15px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:8px}
+.feed .fh h4{font-size:12px;font-weight:600;flex:1}
+.feed .body{overflow-y:auto;padding:6px 0}
+.fi{padding:10px 15px;border-bottom:1px solid var(--rowline);animation:slide .35s ease}
+@keyframes slide{from{opacity:0;transform:translateX(10px)}to{opacity:1;transform:none}}
+.fi .ft{font-family:'IBM Plex Mono',ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace;font-size:9px;color:var(--dim);display:flex;justify-content:space-between;margin-bottom:5px}
+.fi .fm{font-size:11.5px;color:var(--mut);line-height:1.5}
+.fi .fm b{color:var(--ink);font-weight:600}
+.fi.crit{border-left:2px solid var(--red)}.fi.opp{border-left:2px solid var(--green)}
+.fi.warn{border-left:2px solid var(--amber)}.fi.info{border-left:2px solid var(--blue)}
+.agents{display:grid;grid-template-columns:repeat(auto-fill,minmax(292px,1fr));gap:12px}
+.agent{background:var(--panel);border:1px solid var(--line);padding:15px;display:flex;flex-direction:column}
+.agent .top{display:flex;justify-content:space-between;gap:9px;margin-bottom:8px}
+.agent h4{font-size:13px;font-weight:600}
+.agent .desc{font-size:11.5px;color:var(--mut);margin-bottom:11px;flex:1}
+.agent .meta{font-family:'IBM Plex Mono',ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace;font-size:10px;color:var(--dim);margin-bottom:11px;line-height:1.7}
+.agent .meta b{color:var(--mut);font-weight:500}
+.run{background:var(--amber);border:none;color:var(--logoink);font:inherit;font-weight:600;font-size:12px;padding:8px;cursor:pointer;width:100%}
+.run:hover{background:#FFBB55}.run:disabled{background:var(--panel2);color:var(--dim);cursor:default}
+.log{background:var(--logbg);border:1px solid var(--line);border-top:none;padding:0 12px;font-family:'IBM Plex Mono',ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace;font-size:10px;line-height:1.85;max-height:0;overflow:hidden;transition:max-height .4s ease}
+.log.open{max-height:320px;overflow-y:auto;padding:11px 12px}
+.log .ln{color:var(--dim)}.log .ln.ok{color:var(--green)}.log .ln.hi{color:var(--amber)}.log .ln.info{color:var(--blue)}
+.log .out{color:var(--ink);border-top:1px solid var(--line);margin-top:8px;padding-top:8px;white-space:pre-wrap}
+.note{background:var(--panel2);border-left:2px solid var(--blue);padding:11px 14px;font-size:12px;color:var(--mut);margin-top:12px}
+.note b{color:var(--ink)}
+footer{margin-top:22px;padding-top:14px;border-top:1px solid var(--line);font-family:'IBM Plex Mono',ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace;font-size:10px;color:var(--dim);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+
+/* data source strip */
+.dsbar{display:flex;gap:0;background:var(--panel);border:1px solid var(--line);margin-top:12px;flex-wrap:wrap}
+.ds{flex:1;min-width:132px;padding:9px 13px;border-right:1px solid var(--line);display:flex;align-items:center;gap:8px}
+.ds:last-child{border-right:none}
+.ds .sd{width:6px;height:6px;border-radius:50%;background:var(--green);flex:none}
+.ds .sd.amb{background:var(--amber)}
+.ds .nm{font-family:'IBM Plex Mono',ui-monospace,Menlo,monospace;font-size:10px;color:var(--mut);letter-spacing:.05em}
+.ds .st{margin-left:auto;font-family:'IBM Plex Mono',ui-monospace,Menlo,monospace;font-size:9px;color:var(--dim)}
+/* exec nav */
+.execrow{display:flex;align-items:center;gap:14px}
+.execrow .txt{flex:1}
+.enav{display:flex;gap:5px;flex:none}
+.enav button{background:none;border:1px solid var(--line);color:var(--mut);width:26px;height:26px;cursor:pointer;font-size:13px;line-height:1;display:grid;place-items:center}
+.enav button:hover{border-color:var(--amber);color:var(--amber)}
+.edots{display:flex;gap:5px;margin-top:10px}
+.edots i{width:16px;height:2px;background:var(--line);display:block;cursor:pointer}
+.edots i.on{background:var(--amber)}
+/* impact badge */
+.imp{font-family:'IBM Plex Mono',ui-monospace,Menlo,monospace;font-size:9.5px;color:var(--green);border:1px solid rgba(63,207,142,.3);background:rgba(63,207,142,.08);padding:1px 5px;margin-left:6px;border-radius:2px}
+/* modal */
+.ovl{display:none;position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:200;padding:34px 18px;overflow-y:auto}
+.ovl.on{display:block}
+.mdl{max-width:1000px;margin:0 auto;background:var(--panel);border:1px solid var(--line)}
+.mdl .mh{padding:18px 22px;border-bottom:1px solid var(--line);display:flex;align-items:flex-start;gap:14px}
+.mdl .mh h3{font-size:16px;font-weight:600}
+.mdl .mh p{font-size:11.5px;color:var(--dim);font-family:'IBM Plex Mono',ui-monospace,Menlo,monospace;margin-top:3px}
+.mdl .x{margin-left:auto;background:none;border:1px solid var(--line);color:var(--mut);padding:6px 11px;cursor:pointer;font-family:'IBM Plex Mono',ui-monospace,Menlo,monospace;font-size:11px}
+.mdl .x:hover{border-color:var(--red);color:var(--red)}
+.mdl .mb{padding:20px 22px}
+.chart{width:100%;height:210px;margin:6px 0 14px}
+.copybtn{background:none;border:1px solid var(--line);color:var(--amber);font-family:'IBM Plex Mono',ui-monospace,Menlo,monospace;font-size:11px;padding:6px 11px;cursor:pointer}
+.copybtn:hover{border-color:var(--amber)}
+/* brain */
+.brain{padding:12px 15px;border-bottom:1px solid var(--line);background:var(--panel2)}
+.brain .bt{font-family:'IBM Plex Mono',ui-monospace,Menlo,monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);margin-bottom:9px}
+.bstage{display:flex;align-items:center;gap:8px;padding:4px 0;font-size:11px;color:var(--mut)}
+.bstage .bn{font-family:'IBM Plex Mono',ui-monospace,Menlo,monospace;font-size:13px;font-weight:600;color:var(--ink);min-width:34px}
+.bstage .bl{flex:1}
+.bstage .bd{width:5px;height:5px;border-radius:50%;background:var(--amber)}
+/* heatmap */
+.heat{display:grid;grid-template-columns:repeat(auto-fill,minmax(94px,1fr));gap:4px}
+.hc{padding:9px 8px;border:1px solid var(--line);cursor:pointer;transition:.13s}
+.hc:hover{transform:translateY(-2px);border-color:var(--amber)}
+.hc .hn{font-size:10.5px;color:var(--ink);line-height:1.25;margin-bottom:5px}
+.hc .hv{font-family:'IBM Plex Mono',ui-monospace,Menlo,monospace;font-size:11px}
+.hfilters{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:13px}
+.hf{background:none;border:1px solid var(--line);color:var(--mut);font:inherit;font-size:11px;padding:5px 10px;cursor:pointer;font-family:'IBM Plex Mono',ui-monospace,Menlo,monospace}
+.hf.on{border-color:var(--amber);color:var(--amber);background:rgba(240,169,59,.08)}
+/* persona */
+.pcards{display:grid;grid-template-columns:repeat(auto-fit,minmax(232px,1fr));gap:12px}
+.pc{background:var(--panel2);border:1px solid var(--line);padding:14px}
+.pc h4{font-size:13px;font-weight:600;margin-bottom:3px}
+.pc .role{font-family:'IBM Plex Mono',ui-monospace,Menlo,monospace;font-size:9.5px;color:var(--dim);margin-bottom:10px}
+.stage{display:grid;grid-template-columns:74px 1fr 40px;align-items:center;gap:8px;padding:4px 0;font-size:11px;color:var(--mut)}
+.defs{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px;margin-top:13px}
+.def{background:var(--panel2);border-left:2px solid var(--blue);padding:10px 12px}
+.def b{font-size:11.5px;color:var(--ink);display:block;margin-bottom:3px}
+.def span{font-size:11.5px;color:var(--mut)}
+
+::-webkit-scrollbar{width:7px;height:7px}::-webkit-scrollbar-track{background:var(--scrollbg)}
+::-webkit-scrollbar-thumb{background:var(--scrollth);border-radius:4px}
+</style>
+</head>
+<body>
+<div class="app">
+<header>
+  <div class="logo">b</div>
+  <div class="hd"><h1>Organic Revenue Command Center</h1>
+  <p>brightwheel &nbsp;·&nbsp; owned + earned + community + paid, measured as one demand system</p></div>
+  <div class="live"><span class="dot"></span>DEMO DATA · 2026-08-14 06:11 ET</div>
+  <button class="rst" id="rst" title="Clear all agent runs and restore the opening state">⟲ RESET DEMO</button>
+  <button class="tog" id="tog" title="Toggle light / dark">◐ <span id="togL">LIGHT</span></button>
+</header>
+
+<div class="dsbar">
+  <div class="ds"><span class="sd"></span><span class="nm">GA4</span><span class="st">SYNCED 04:00</span></div>
+  <div class="ds"><span class="sd"></span><span class="nm">SEARCH CONSOLE</span><span class="st">SYNCED 04:00</span></div>
+  <div class="ds"><span class="sd"></span><span class="nm">SEMRUSH / PROFOUND</span><span class="st">SYNCED 06:00</span></div>
+  <div class="ds"><span class="sd"></span><span class="nm">DATAFORSEO</span><span class="st">LIVE</span></div>
+  <div class="ds"><span class="sd"></span><span class="nm">SALESFORCE CRM</span><span class="st">SYNCED 05:30</span></div>
+  <div class="ds"><span class="sd amb"></span><span class="nm">CMS (CONTENTFUL)</span><span class="st">WRITE ENABLED</span></div>
+</div>
+
+<div class="exec">
+  <div class="lbl">Report-up line <span class="i">i<span class="tip"><b>The single sentence you take to the CMO.</b> Not a metric, a claim, with the number that substantiates it. Three defensible statements this program can currently make. Use the arrows to step through them.</span></span></div>
+  <div class="execrow">
+    <div class="txt"><div class="stmt" id="execStmt"></div><div class="cyc" id="execCyc"></div></div>
+    <div class="enav"><button id="ePrev" title="Previous">‹</button><button id="eNext" title="Next">›</button></div>
+  </div>
+  <div class="edots" id="eDots"></div>
+</div>
+
+<div class="kpis">
+  <div class="kpi clk" data-drill="pipeline"><div class="k">Organic-sourced pipeline <span class="i">i<span class="tip"><b>Pipeline dollars</b> attributable to organic first touch, on the same attribution model as paid. The number that makes organic defensible in a budget conversation.</span></span></div><div class="v" style="color:var(--green)">$4.82M</div><div class="d up">▲ 11.4% QoQ · ▲ 31% YoY</div></div>
+  <div class="kpi clk" data-drill="aiconv"><div class="k">AI-assisted conversions <span class="i">i<span class="tip"><b>Conversions where an AI answer engine appeared in the path.</b> 6.1% of converting sessions and growing ~2 pts per quarter. Low volume, disproportionate value: these buyers arrive pre-qualified because the engine already screened alternatives.</span></span></div><div class="v">1,847</div><div class="d up">▲ 42% QoQ</div></div>
+  <div class="kpi clk" data-drill="cac"><div class="k">Organic CAC vs paid <span class="i">i<span class="tip"><b>Blended cost per acquisition, organic against paid.</b> The durability argument: organic CAC compounds downward as content ages, paid CAC does not. This ratio is the strongest case for shifting mix.</span></span></div><div class="v" style="color:var(--green)">0.31×</div><div class="d up">paid $412 · organic $128</div></div>
+  <div class="kpi clk" data-drill="forecast"><div class="k">Forecast Q4 contribution <span class="i">i<span class="tip"><b>Modeled organic pipeline for Q4</b> at current velocity with the state-coverage and citation-recovery programs shipped. Range reflects citation volatility, not measurement error.</span></span></div><div class="v" style="color:var(--blue)">$6.1M</div><div class="d flat">range $5.4M – $6.9M</div></div>
+  <div class="kpi clk" data-go="brand" data-drill="brand"><div class="k">Brand accuracy <span class="i">i<span class="tip"><b>How correctly engines describe brightwheel</b> when they mention you, scored by topic cluster. Distinct from sentiment: an engine can be positive and wrong. Factual drift compounds silently and surfaces later as churn.</span></span></div><div class="v" style="color:var(--amber)">71</div><div class="d down">▼ 6 pts QoQ</div><span class="arrow">→</span></div>
+  <div class="kpi clk" data-go="sent" data-drill="sent"><div class="k">Sentiment <span class="i">i<span class="tip"><b>Tone of AI-generated descriptions,</b> normalized 0–100 across clusters and engines. Tracked separately from accuracy because they move independently and need different fixes.</span></span></div><div class="v" style="color:var(--green)">78</div><div class="d flat">▲ 1 pt QoQ</div><span class="arrow">→</span></div>
+  <div class="kpi clk" data-go="tech" data-drill="tech"><div class="k">Technical AI readiness <span class="i">i<span class="tip"><b>Whether pages are mechanically citable:</b> answer-first passages, entity and schema coverage, crawler access, llms.txt, attribution, freshness. The controllable half of citation.</span></span></div><div class="v" style="color:var(--red)">54</div><div class="d up">▲ 4 pts QoQ</div><span class="arrow">→</span></div>
+</div>
+
+<nav>
+  <button class="on" data-v="cmd">Command</button>
+  <button data-v="pers">Personas &amp; Journey</button>
+  <button data-v="brand">Brand Accuracy</button>
+  <button data-v="sent">Sentiment</button>
+  <button data-v="tech">Technical Readiness</button>
+  <button data-v="agentic">Agentic Readiness</button>
+  <button data-v="states">State Coverage</button>
+  <button data-v="loop">Citation Loop</button>
+  <button data-v="content">Content Health</button>
+  <button data-v="ag">Agents</button>
+</nav>
+
+<div class="shell">
+<div>
+
+<section class="view on" id="cmd">
+  <div class="row c2">
+    <div class="panel">
+      <h3>Revenue &amp; forecast <span class="i">i<span class="tip"><b>Organic as a revenue line, not a traffic line.</b> Every row is something defensible in an MBR. Leading indicators are reported against revenue rather than as goals in themselves.</span></span></h3>
+      <div class="sub">MoM · QoQ · YoY, on the same basis as paid</div>
+      <table>
+        <tr><th>Measure</th><th>Now</th><th>MoM</th><th>QoQ</th><th>YoY</th></tr>
+        <tr><td class="p">Organic-sourced pipeline <span class="i">i<span class="tip"><b>Dollar value of sales opportunities</b> whose first touch was organic, counted the same way paid counts its pipeline. This is the number that survives a budget review.</span></span></td><td class="p">$4.82M</td><td class="up">+3.1%</td><td class="up">+11.4%</td><td class="up">+31%</td></tr>
+        <tr><td class="p">Organic MQLs <span class="i">i<span class="tip"><b>Marketing qualified leads</b> from organic: people who took a real buying action (demo request, pricing view, trial start) and met the qualification bar, not just visitors.</span></span></td><td class="p">3,180</td><td class="up">+1.1%</td><td class="up">+6.8%</td><td class="up">+19%</td></tr>
+        <tr><td class="p">AI-assisted conversions <span class="i">i<span class="tip"><b>Conversions where an AI answer engine appeared somewhere in the path,</b> not necessarily the last click. Small volume today, growing fast, and unusually high quality because the engine pre-screened alternatives before the person arrived.</span></span></td><td class="p">1,847</td><td class="up">+9.4%</td><td class="up">+42%</td><td class="up">+310%</td></tr>
+        <tr><td class="p">Organic CAC <span class="i">i<span class="tip"><b>Customer acquisition cost:</b> total organic program spend divided by customers acquired. Falling CAC means each new customer costs less than the last, which is the compounding argument paid cannot make.</span></span></td><td class="p">$128</td><td class="up">−2.2%</td><td class="up">−7.9%</td><td class="up">−24%</td></tr>
+        <tr><td class="p">Share of model <span class="i">i<span class="tip"><b>Of all AI answers to buying questions in this category, the share that mention brightwheel.</b> Think of it as share of voice, but inside the AI conversation instead of the search results page.</span></span></td><td class="p">18.4%</td><td class="down">−1.2pt</td><td class="down">−3.1pt</td><td class="flat">n/a</td></tr>
+        <tr><td class="p">Citation share <span class="i">i<span class="tip"><b>How often an AI answer links to us as a source,</b> versus merely naming us. Being cited with a link drives traffic and trust; being mentioned without one does not.</span></span></td><td class="p">21%</td><td class="down">−2pt</td><td class="down">−5pt</td><td class="flat">n/a</td></tr>
+      </table>
+      <div class="todo"><div class="h">What to do about it</div>
+      <p>Pipeline and CAC are healthy and improving. The two red rows are leading indicators of a future pipeline problem, not a current one, which is exactly when they are cheapest to fix. Citation share is falling while traffic rises because competitors are winning the answer layer above the click.</p>
+      <div class="acts"><button class="act" data-agent="a3">Run citation gap analysis <span class="imp">analysis</span></button><button class="act" data-agent="a2">Run pricing extractability <span class="imp">+$410K est.</span></button></div></div>
+    </div>
+    <div class="panel">
+      <h3>B2B buying committee coverage <span class="i">i<span class="tip"><b>brightwheel sells to businesses:</b> center directors, multi-site and franchise operators, owner-operators, and the finance person who signs. Each role asks different questions. Winning the director query while losing the multi-site query is a revenue problem disguised as a visibility win.</span></span></h3>
+      <div class="sub">citation coverage by buyer role and deal size</div>
+      <table>
+        <tr><th>Buyer role</th><th>Deal size <span class="i">i<span class="tip"><b>ACV = annual contract value:</b> what one customer pays per year. A single-center director signing at $5K ACV and a 40-site franchise signing at $120K ACV are the same "customer" in a traffic report and wildly different in a revenue report.</span></span></th><th>Prompts</th><th>Cited</th><th>Status</th></tr>
+        <tr><td class="p">Single-center director</td><td>$3–8K ACV</td><td>84</td><td>27%</td><td><span class="pill p-ok">LEAD</span></td></tr>
+        <tr><td class="p">Multi-site operator</td><td>$25–90K</td><td>46</td><td>11%</td><td><span class="pill p-crit">LOSING</span></td></tr>
+        <tr><td class="p">Franchise / enterprise</td><td>$90K+</td><td>31</td><td>7%</td><td><span class="pill p-crit">LOSING</span></td></tr>
+        <tr><td class="p">Owner-operator (new)</td><td>$2–5K</td><td>58</td><td>31%</td><td><span class="pill p-ok">LEAD</span></td></tr>
+        <tr><td class="p">Procurement / finance</td><td>all</td><td>21</td><td>6%</td><td><span class="pill p-crit">LOSING</span></td></tr>
+      </table>
+      <div class="todo"><div class="h">What to do about it</div>
+      <p>You win the smallest deals and lose the largest. Citation coverage is inverse to ACV. Multi-site and franchise queries surface competitors positioned on consolidated dashboards, billing depth, and subsidy handling. That is a content gap, not a product gap.</p>
+      <div class="acts"><button class="act" data-agent="a7">Build enterprise-tier content set <span class="imp">+$1.4M est.</span></button></div></div>
+    </div>
+  </div>
+  <div class="row c3">
+    <div class="panel">
+      <h3>Where citations originate <span class="i">i<span class="tip"><b>Owned content is roughly a third of the input.</b> The rest is review platforms, community, earned press, and video. This is the structural reason AI search cannot be run as an SEO channel and has to be run as an integrated program.</span></span></h3>
+      <div class="sub">source mix across cited answers · 30d</div>
+      <div class="bar-row"><span class="nm us">Owned site</span><span class="track"><span class="fill" style="width:34%;background:var(--amber)"></span></span><span class="pct">34%</span></div>
+      <div class="bar-row"><span class="nm">Review platforms</span><span class="track"><span class="fill" style="width:23%;background:var(--red)"></span></span><span class="pct">23%</span></div>
+      <div class="bar-row"><span class="nm">Reddit / ECE forums</span><span class="track"><span class="fill" style="width:17%;background:var(--purple)"></span></span><span class="pct">17%</span></div>
+      <div class="bar-row"><span class="nm">Trade press / PR</span><span class="track"><span class="fill" style="width:12%;background:var(--blue)"></span></span><span class="pct">12%</span></div>
+      <div class="bar-row"><span class="nm">YouTube</span><span class="track"><span class="fill" style="width:8%;background:var(--green)"></span></span><span class="pct">8%</span></div>
+      <div class="bar-row"><span class="nm">Directories</span><span class="track"><span class="fill" style="width:6%;background:var(--dim)"></span></span><span class="pct">6%</span></div>
+      <div class="todo"><div class="h">What to do about it</div>
+      <p>66% of citations come from surfaces SEO does not own, and two of them are decaying: review recency and community presence. Neither is fixed by publishing more pages, and both are fixable this quarter with CS and Brand as partners.</p>
+      <div class="acts"><button class="act" data-agent="a5">Run review velocity <span class="imp">+$240K est.</span></button><button class="act" data-agent="a4">Run narrative defense <span class="imp">+$1.4M est.</span></button></div></div>
+    </div>
+    <div class="panel">
+      <h3>Production vs decay <span class="i">i<span class="tip"><b>At 2,000 pages a month you add 24,000 a year.</b> The question is not whether to publish, it is what share of production routes into refresh and depth. Pages older than a year draw traffic on 17% of URLs while diluting site-level quality signals.</span></span></h3>
+      <div class="sub">32,400 published URLs</div>
+      <table>
+        <tr><th>Cohort</th><th>Pages</th><th>Traffic</th><th>Cited</th></tr>
+        <tr><td class="p">0–3mo</td><td>6,000</td><td>41%</td><td>3.1%</td></tr>
+        <tr><td class="p">3–6mo</td><td>5,800</td><td>38%</td><td>4.4%</td></tr>
+        <tr><td class="p">6–12mo</td><td>9,400</td><td>29%</td><td>2.8%</td></tr>
+        <tr><td class="p">12mo+</td><td>11,200</td><td class="down">17%</td><td class="down">1.2%</td></tr>
+      </table>
+      <div class="todo"><div class="h">What to do about it</div>
+      <p>Reallocate, do not reduce. Route roughly 30% of production into refresh and consolidation, and put automated staleness monitoring on regulatory content where being out of date is a trust liability rather than a ranking one.</p>
+      <div class="acts"><button class="act" data-agent="a6">Run content decay scan <span class="imp">+$310K est.</span></button></div></div>
+    </div>
+  </div>
+  <div class="panel">
+    <h3>State coverage rollup <span class="i">i<span class="tip"><b>The single most winnable surface brightwheel has.</b> Childcare is licensed state by state, so every operator has jurisdiction-specific questions with real commercial intent. Full detail on the State Coverage tab.</span></span></h3>
+    <div class="sub">50 states · regulatory query surface · the number to report upward</div>
+    <div class="stkpi">
+      <div><div class="k">States cited</div><div class="v" style="color:var(--green)">7</div></div>
+      <div><div class="k">Covered, not cited</div><div class="v" style="color:var(--blue)">12</div></div>
+      <div><div class="k">Thin / stale</div><div class="v" style="color:var(--amber)">13</div></div>
+      <div><div class="k">No coverage</div><div class="v" style="color:var(--red)">18</div></div>
+      <div><div class="k">Uncovered queries/mo</div><div class="v">14.2K</div></div>
+      <div><div class="k">Pipeline at stake</div><div class="v" style="color:var(--green)">$2.1M</div></div>
+    </div>
+    <div class="todo"><div class="h">What to do about it</div>
+    <p>31 of 50 states are uncovered or stale. The seven cited states prove the pattern works; the template exists and simply has not been replicated. This is the clearest "we took ground this quarter" story available for a board deck.</p>
+    <div class="acts"><button class="act" data-agent="a1">Run state coverage agent <span class="imp">+$2.1M est.</span></button><button class="act" data-go="states">Open state map →</button></div></div>
+  </div>
+</section>
+
+<section class="view" id="pers">
+  <div class="panel">
+    <h3>Who we sell to, and where AI enters their journey <span class="i">i<span class="tip"><b>This is a B2B purchase with a long cycle.</b> A director evaluating software touches 8 to 14 sources over 30 to 90 days. AI engines now sit at the front of that journey, shaping the shortlist before anyone visits a website. Coverage has to be measured per role, not in aggregate.</span></span></h3>
+    <div class="sub">4 buying roles · avg cycle 30–90 days · avg 8–14 touches</div>
+    <div class="pcards">
+      <div class="pc"><h4>Center Director</h4><div class="role">$3–8K ACV · decides alone · 30-day cycle</div>
+        <div class="stage"><span>Awareness</span><span class="track"><span class="fill" style="width:74%;background:var(--green)"></span></span><span>74%</span></div>
+        <div class="stage"><span>Compare</span><span class="track"><span class="fill" style="width:41%;background:var(--amber)"></span></span><span>41%</span></div>
+        <div class="stage"><span>Validate</span><span class="track"><span class="fill" style="width:33%;background:var(--amber)"></span></span><span>33%</span></div>
+        <div class="stage"><span>Decide</span><span class="track"><span class="fill" style="width:27%;background:var(--red)"></span></span><span>27%</span></div>
+        <div class="note" style="margin-top:10px">Asks AI first about licensing and daily operations, then compares. We win awareness and lose the compare step.</div></div>
+      <div class="pc"><h4>Multi-Site Operator</h4><div class="role">$25–90K ACV · 2–4 stakeholders · 60-day cycle</div>
+        <div class="stage"><span>Awareness</span><span class="track"><span class="fill" style="width:38%;background:var(--amber)"></span></span><span>38%</span></div>
+        <div class="stage"><span>Compare</span><span class="track"><span class="fill" style="width:16%;background:var(--red)"></span></span><span>16%</span></div>
+        <div class="stage"><span>Validate</span><span class="track"><span class="fill" style="width:11%;background:var(--red)"></span></span><span>11%</span></div>
+        <div class="stage"><span>Decide</span><span class="track"><span class="fill" style="width:9%;background:var(--red)"></span></span><span>9%</span></div>
+        <div class="note" style="margin-top:10px">Highest value, worst coverage. Asks about consolidated reporting and subsidy billing, where competitors own the answer.</div></div>
+      <div class="pc"><h4>Franchise / Enterprise</h4><div class="role">$90K+ ACV · committee · 90-day cycle</div>
+        <div class="stage"><span>Awareness</span><span class="track"><span class="fill" style="width:29%;background:var(--red)"></span></span><span>29%</span></div>
+        <div class="stage"><span>Compare</span><span class="track"><span class="fill" style="width:12%;background:var(--red)"></span></span><span>12%</span></div>
+        <div class="stage"><span>Validate</span><span class="track"><span class="fill" style="width:8%;background:var(--red)"></span></span><span>8%</span></div>
+        <div class="stage"><span>Decide</span><span class="track"><span class="fill" style="width:7%;background:var(--red)"></span></span><span>7%</span></div>
+        <div class="note" style="margin-top:10px">Procurement and finance join the committee. Security, SLA, and integration questions have almost no owned content.</div></div>
+      <div class="pc"><h4>New Center Owner</h4><div class="role">$2–5K ACV · decides alone · 45-day cycle</div>
+        <div class="stage"><span>Awareness</span><span class="track"><span class="fill" style="width:81%;background:var(--green)"></span></span><span>81%</span></div>
+        <div class="stage"><span>Compare</span><span class="track"><span class="fill" style="width:44%;background:var(--amber)"></span></span><span>44%</span></div>
+        <div class="stage"><span>Validate</span><span class="track"><span class="fill" style="width:36%;background:var(--amber)"></span></span><span>36%</span></div>
+        <div class="stage"><span>Decide</span><span class="track"><span class="fill" style="width:31%;background:var(--green)"></span></span><span>31%</span></div>
+        <div class="note" style="margin-top:10px">Our best-covered journey, because state licensing content catches them before they even choose software.</div></div>
+    </div>
+    <div class="todo"><div class="h">What to do about it</div>
+    <p>Coverage is inverse to deal value at every stage. The two roles worth the most, multi-site and franchise, are the two we are least present for, and the drop happens at compare and validate, which is where AI is most used and where we publish least.</p>
+    <div class="acts"><button class="act" data-agent="a7">Build enterprise journey content <span class="imp">+$1.4M est.</span></button><button class="act" data-agent="a3">Map compare-stage gaps <span class="imp">analysis</span></button></div></div>
+  </div>
+</section>
+
+<section class="view" id="brand">
+  <div class="panel">
+    <h3>Brand accuracy by cluster <span class="i">i<span class="tip"><b>Scored on whether claims engines make about brightwheel are factually correct,</b> verified against product truth. Accuracy and sentiment are independent: an engine can be enthusiastic and wrong, which is the most dangerous combination because it sets expectations that surface later as churn.</span></span></h3>
+    <div class="sub">overall 71/100 · ▼6 QoQ · 240 sampled answers · click any claim to trace it</div>
+    <div class="scores" style="margin-bottom:15px">
+      <div class="score"><div class="n" style="color:var(--green)">88</div><div class="t">Product capability</div><div class="b up">▲ 2</div></div>
+      <div class="score"><div class="n" style="color:var(--red)">46</div><div class="t">Pricing</div><div class="b down">▼ 11</div></div>
+      <div class="score"><div class="n" style="color:var(--amber)">63</div><div class="t">Billing depth</div><div class="b down">▼ 14</div></div>
+      <div class="score"><div class="n" style="color:var(--green)">84</div><div class="t">Parent comms</div><div class="b flat">—</div></div>
+      <div class="score"><div class="n" style="color:var(--amber)">67</div><div class="t">Multi-site support</div><div class="b down">▼ 9</div></div>
+      <div class="score"><div class="n" style="color:var(--green)">81</div><div class="t">Compliance / licensing</div><div class="b up">▲ 3</div></div>
+    </div>
+    <table>
+      <tr><th>Detected claim</th><th>Accurate?</th><th>Traced to</th><th>Engines</th></tr>
+      <tr style="cursor:pointer" data-claim="c1"><td class="p">"Pricing scales with enrollment, can get expensive"</td><td><span class="pill p-warn">PARTIAL</span></td><td>competitor comparison post</td><td>4 of 5 <span style="color:var(--amber)">→</span></td></tr>
+      <tr style="cursor:pointer" data-claim="c2"><td class="p">"Lighter on billing than Procare"</td><td><span class="pill p-crit">OUTDATED</span></td><td>2024 third-party review</td><td>3 of 5 <span style="color:var(--amber)">→</span></td></tr>
+      <tr style="cursor:pointer" data-claim="c3"><td class="p">"Struggles with consolidated multi-site dashboards"</td><td><span class="pill p-crit">DISPUTED</span></td><td>competitor blog, 2026</td><td>2 of 5 <span style="color:var(--amber)">→</span></td></tr>
+      <tr><td class="p">"Reports of crashes during daily operations"</td><td><span class="pill p-crit">DISPUTED</span></td><td>competitor blog, 2026</td><td>2 of 5</td></tr>
+      <tr><td class="p">"Strong parent engagement and daily reports"</td><td><span class="pill p-ok">ACCURATE</span></td><td>owned + reviews</td><td>5 of 5</td></tr>
+    </table>
+    <div class="todo"><div class="h">What to do about it</div>
+    <p>Four of five drift patterns trace to two competitor-authored documents and one stale third-party review. This is a corpus problem, not an SEO problem, and the fix is publishing sourced, dated, structured counter-evidence rather than arguing. Pricing accuracy cannot be fixed at all until pricing is published, which makes it a Product Marketing decision.</p>
+    <div class="acts"><button class="act" data-agent="a4">Draft sourced corrections <span class="imp">+$1.4M est.</span></button><button class="act" data-agent="a2">Model pricing disclosure <span class="imp">+$410K est.</span></button></div></div>
+  </div>
+</section>
+
+<section class="view" id="sent">
+  <div class="panel">
+    <h3>Sentiment by engine <span class="i">i<span class="tip"><b>Tone, normalized 0–100.</b> Tracked separately from accuracy because the fixes differ: sentiment responds to reviews, community presence, and earned coverage, while accuracy responds to published, sourced fact.</span></span></h3>
+    <div class="sub">overall 78/100 · ▲1 QoQ</div>
+    <div class="scores" style="margin-bottom:15px">
+      <div class="score"><div class="n" style="color:var(--green)">86</div><div class="t">ChatGPT</div><div class="b up">▲ 3</div></div>
+      <div class="score"><div class="n" style="color:var(--green)">89</div><div class="t">Google AI</div><div class="b up">▲ 2</div></div>
+      <div class="score"><div class="n" style="color:var(--amber)">68</div><div class="t">Perplexity</div><div class="b down">▼ 7</div></div>
+      <div class="score"><div class="n" style="color:var(--amber)">71</div><div class="t">Gemini</div><div class="b down">▼ 4</div></div>
+      <div class="score"><div class="n" style="color:var(--red)">58</div><div class="t">Copilot</div><div class="b down">▼ 9</div></div>
+    </div>
+    <div class="note"><b>The pattern is diagnostic.</b> Sentiment is strong where engines lean on owned content and reviews, weak where they lean on third-party comparison sites and G2 summaries. Perplexity and Copilot both cite the sources you have least influence over, which tells you exactly where to spend: review recency and community presence, not more blog posts.</div>
+    <h3 style="margin-top:20px">Sentiment by topic <span class="i">i<span class="tip"><b>Tone varies more by subject than by engine.</b> Where we are described warmly and where we are described coolly points directly at which part of the story needs work.</span></span></h3>
+    <div class="sub">what engines feel about each part of the product</div>
+    <table>
+      <tr><th>Topic</th><th>Score</th><th>Direction</th><th>Driven by</th></tr>
+      <tr><td class="p">Ease of use / onboarding</td><td class="p">91</td><td class="up">▲ 4</td><td>customer reviews, owned content</td></tr>
+      <tr><td class="p">Parent communication</td><td class="p">88</td><td class="up">▲ 2</td><td>reviews, App Store ratings</td></tr>
+      <tr><td class="p">Customer support</td><td class="p">79</td><td class="flat">—</td><td>mixed review sentiment</td></tr>
+      <tr><td class="p">Billing &amp; payments</td><td class="p">64</td><td class="down">▼ 9</td><td>competitor comparison content</td></tr>
+      <tr><td class="p">Multi-site / franchise</td><td class="p">61</td><td class="down">▼ 11</td><td>competitor blog, forum threads</td></tr>
+      <tr><td class="p">Value for money</td><td class="p">58</td><td class="down">▼ 7</td><td>no published pricing to anchor against</td></tr>
+    </table>
+    <div class="note"><b>The three weakest topics are the three that matter most to your biggest deals.</b> Billing, multi-site, and pricing are exactly what a franchise operator evaluates, and all three are being narrated by someone other than us.</div>
+    <div class="todo"><div class="h">What to do about it</div>
+    <p>Copilot repeats the G2 AI summary nearly verbatim, and that summary currently favors a competitor on satisfaction and review recency. Closing the review gap is the highest-leverage sentiment action available, and it belongs to CS rather than to search.</p>
+    <div class="acts"><button class="act" data-agent="a5">Run review velocity agent <span class="imp">+$240K est.</span></button></div></div>
+  </div>
+</section>
+
+<section class="view" id="tech">
+  <div class="panel">
+    <h3>Technical AI readiness <span class="i">i<span class="tip"><b>The mechanically controllable half of citation.</b> These checks are simultaneously the E-E-A-T defense and the reason an engine selects one passage over another. Fixing quality and fixing citation are the same project.</span></span></h3>
+    <div class="sub">overall 54/100 · ▲4 QoQ · 32,400 URLs assessed</div>
+    <table>
+      <tr><th>Check</th><th>Coverage</th><th>Citation lift when present</th><th>Priority</th></tr>
+      <tr><td class="p">Answer-first opening passage</td><td>18%</td><td class="p">+3.4×</td><td><span class="pill p-crit">P0</span></td></tr>
+      <tr><td class="p">Practitioner reviewer credited</td><td>11%</td><td class="p">+2.9×</td><td><span class="pill p-crit">P0</span></td></tr>
+      <tr><td class="p">Primary source cited (statute)</td><td>22%</td><td class="p">+2.6×</td><td><span class="pill p-crit">P0</span></td></tr>
+      <tr><td class="p">FAQ / QAPage schema</td><td>29%</td><td class="p">+1.8×</td><td><span class="pill p-warn">P1</span></td></tr>
+      <tr><td class="p">Named author w/ credentials</td><td>34%</td><td class="p">+1.6×</td><td><span class="pill p-warn">P1</span></td></tr>
+      <tr><td class="p">Last-reviewed date visible</td><td>48%</td><td class="p">+1.4×</td><td><span class="pill p-warn">P1</span></td></tr>
+      <tr><td class="p">llms.txt present and current</td><td>yes</td><td class="p">—</td><td><span class="pill p-ok">DONE</span></td></tr>
+      <tr><td class="p">AI crawler access</td><td>allowed</td><td class="p">—</td><td><span class="pill p-ok">DONE</span></td></tr>
+    </table>
+    <div class="todo"><div class="h">What to do about it</div>
+    <p>The three P0 items are template-level fixes, not per-page work. Applying them across the top 2,000 pages by traffic is a two-sprint job with engineering and would move readiness from 54 to an estimated 78. Largest single lever on the board.</p>
+    <div class="acts"><button class="act" data-agent="a8">Generate template patch spec <span class="imp">+$880K est.</span></button><button class="act" data-agent="a6">Run decay scan <span class="imp">+$310K est.</span></button></div></div>
+  </div>
+</section>
+
+<section class="view" id="agentic">
+  <div class="panel">
+    <h3>Agentic readiness <span class="i">i<span class="tip"><b>Software buying is starting to involve AI agents acting for the buyer.</b> Very few will autonomously purchase a childcare platform. But agents already gather requirements, shortlist vendors, pull pricing, check integrations, and book demos. Every one of those steps can either work smoothly with us or fail silently.</span></span></h3>
+    <div class="sub">current 38/100 · projected 79/100 once shipped</div>
+    <div class="scores" style="margin-bottom:16px">
+      <div class="score"><div class="n" style="color:var(--red)">38</div><div class="t">Today</div><div class="b flat">baseline</div></div>
+      <div class="score"><div class="n" style="color:var(--green)">79</div><div class="t">After roadmap</div><div class="b up">▲ 41 pts</div></div>
+      <div class="score"><div class="n" style="color:var(--blue)">$1.9M</div><div class="t">Pipeline exposed</div><div class="b flat">agent-mediated by 2027</div></div>
+      <div class="score"><div class="n" style="color:var(--amber)">2</div><div class="t">Quarters to ship</div><div class="b flat">est. effort</div></div>
+    </div>
+    <table>
+      <tr><th>Where an agent touches us</th><th>What it tries to do</th><th>Today</th><th>After</th><th>Why it matters</th></tr>
+      <tr><td class="p">Requirements gathering</td><td>read what the product does and for whom</td><td><span class="pill p-warn">62</span></td><td><span class="pill p-ok">88</span></td><td>determines whether we make the longlist at all</td></tr>
+      <tr><td class="p">Pricing retrieval</td><td>find a number to compare</td><td><span class="pill p-crit">8</span></td><td><span class="pill p-ok">85</span></td><td>no published price means silent elimination</td></tr>
+      <tr><td class="p">Feature comparison</td><td>match capabilities to a requirement list</td><td><span class="pill p-crit">31</span></td><td><span class="pill p-ok">82</span></td><td>needs structured, machine-readable feature data</td></tr>
+      <tr><td class="p">Integration check</td><td>confirm we work with their accounting or payroll stack</td><td><span class="pill p-crit">24</span></td><td><span class="pill p-ok">80</span></td><td>a hard filter for multi-site buyers</td></tr>
+      <tr><td class="p">Compliance verification</td><td>confirm we support their state rules and data handling</td><td><span class="pill p-warn">55</span></td><td><span class="pill p-ok">90</span></td><td>gatekeeper question in a regulated category</td></tr>
+      <tr><td class="p">Demo booking</td><td>schedule on the buyer's behalf</td><td><span class="pill p-crit">12</span></td><td><span class="pill p-ok">70</span></td><td>agent-navigable forms and calendar endpoints</td></tr>
+      <tr><td class="p">Trial provisioning</td><td>start an evaluation without a human</td><td><span class="pill p-crit">5</span></td><td><span class="pill p-warn">45</span></td><td>furthest out, highest long-term leverage</td></tr>
+    </table>
+    <div class="defs">
+      <div class="def"><b>The near-term reality</b><span>Nobody expects an agent to buy childcare software unattended. But agents are already doing steps 1 through 4 for the human, and those steps decide the shortlist.</span></div>
+      <div class="def"><b>The cheapest wins</b><span>Structured pricing, a machine-readable feature matrix, and a published integrations list. All three are content and schema work, not engineering.</span></div>
+      <div class="def"><b>How it ties to revenue</b><span>Agent-mediated evaluation concentrates in multi-site and franchise deals, which is where our coverage is already weakest and our ACV is highest.</span></div>
+    </div>
+    <div class="todo"><div class="h">What to do about it</div>
+    <p>Three of the seven touchpoints are content and schema fixes we can ship this quarter without engineering. They lift the composite score from 38 to roughly 65 on their own, and they are the same fixes that improve human-facing citation, so nothing here is speculative spend.</p>
+    <div class="acts"><button class="act" data-agent="a12">Generate agentic readiness spec <span class="imp">+$620K est.</span></button><button class="act" data-agent="a2">Model pricing disclosure <span class="imp">+$410K est.</span></button></div></div>
+  </div>
+</section>
+
+<section class="view" id="states">
+  <div class="panel">
+    <h3>State regulatory coverage <span class="i">i<span class="tip"><b>Why this section exists.</b> Childcare is licensed state by state, so operators' real questions are jurisdictional: staff-to-child ratios, required annual training hours, background check rules, subsidy program requirements, and licensing steps. Each varies by state, changes on its own schedule, and carries commercial intent because the person asking runs or is opening a center. Nobody has structured this for retrieval.</span></span></h3>
+    <div class="sub">click any state · shaded by citation readiness</div>
+    <div class="usmap" id="usmap"></div>
+    <div class="legend">
+      <span><i style="background:rgba(242,86,92,.6)"></i>No coverage</span>
+      <span><i style="background:rgba(240,169,59,.6)"></i>Thin / stale</span>
+      <span><i style="background:rgba(91,158,232,.6)"></i>Covered, not cited</span>
+      <span><i style="background:rgba(63,207,142,.6)"></i>Covered &amp; cited</span>
+    </div>
+  </div>
+  <div class="panel" id="stPanel" style="margin-top:13px"></div>
+</section>
+
+<section class="view" id="loop">
+  <div class="panel">
+    <h3>The citation loop <span class="i">i<span class="tip"><b>Ownership map for every surface that feeds a citation.</b> Most are owned by teams outside search, which is why this runs as a shared roadmap rather than a channel plan.</span></span></h3>
+    <div class="sub">who owns each input today</div>
+    <table>
+      <tr><th>Surface</th><th>Owner</th><th>Weight</th><th>Status</th><th>What it needs</th></tr>
+      <tr><td class="p">Owned content</td><td>Search &amp; Content</td><td>34%</td><td><span class="pill p-ok">ACTIVE</span></td><td>template-level extractability</td></tr>
+      <tr><td class="p">G2 / Capterra</td><td>Customer Marketing</td><td>23%</td><td><span class="pill p-crit">DECAYING</span></td><td>review velocity program, run with CS</td></tr>
+      <tr><td class="p">Reddit / ECE forums</td><td>Social &amp; Community</td><td>17%</td><td><span class="pill p-warn">NOT TRACKED</span></td><td>listening + factual correction, not posting</td></tr>
+      <tr><td class="p">Trade press / PR</td><td>Brand &amp; Comms</td><td>12%</td><td><span class="pill p-warn">UNCOORDINATED</span></td><td>brief PR against citation targets</td></tr>
+      <tr><td class="p">YouTube</td><td>Content</td><td>8%</td><td><span class="pill p-warn">AD HOC</span></td><td>transcripts, chaptering, schema</td></tr>
+      <tr><td class="p">Partner / affiliate listings</td><td>Partnerships</td><td>6%</td><td><span class="pill p-info">STABLE</span></td><td>keep entity data consistent</td></tr>
+      <tr><td class="p">Paid landing pages</td><td>Growth</td><td>—</td><td><span class="pill p-info">CRAWLED</span></td><td>make paid pages citable, not noindexed</td></tr>
+    </table>
+    <div class="defs">
+      <div class="def"><b>Every surface has an owner</b><span>None of this is unowned. The issue is that no one currently owns them <i>for citation</i>, because citation was not a goal when the responsibilities were assigned.</span></div>
+      <div class="def"><b>CS = Customer Success</b><span>The team that manages existing customers. They own the relationship, so they own the review ask. Search should never email a customer directly.</span></div>
+      <div class="def"><b>What "not tracked" means</b><span>Community threads are heavily cited by engines but nobody is watching them, so factual errors about the product sit uncorrected for months.</span></div>
+    </div>
+    <div class="note"><b>Paid is the highest-fidelity input you already own.</b> Converting paid query data is the best available definition of the prompt set worth tracking for citation. That makes paid and organic a shared roadmap rather than a reporting line, and it is the fastest integration to stand up because both already report to the same leader.</div>
+    <div class="todo"><div class="h">What to do about it</div>
+    <p>Three of six surfaces have no owner. The proposal is a standing citation council: search, brand, CS, and paid, biweekly against one shared scorecard, with citation-source mix as the agenda rather than each team's channel metrics.</p>
+    <div class="acts"><button class="act" data-agent="a9">Draft citation council charter <span class="imp">org design</span></button></div></div>
+  </div>
+</section>
+
+<section class="view" id="content">
+  <div class="panel">
+    <h3>Content health <span class="i">i<span class="tip"><b>Plain version:</b> you publish 2,000 pages a month. Some earn their keep, some quietly hurt you. This tells you which is which, and lets you push fixes straight into the CMS.</span></span></h3>
+    <div class="sub">32,400 live pages · Contentful connected, write enabled</div>
+    <table>
+      <tr><th>What we found</th><th>How many</th><th>Trend</th><th>What it means</th></tr>
+      <tr><td class="p">Pages that got no visits at all last year</td><td class="p">9,296</td><td class="down">▲ 14% QoQ</td><td><span class="pill p-crit">PRUNE</span></td></tr>
+      <tr><td class="p">Pages competing with each other for the same search</td><td class="p">640 pairs</td><td class="down">▲ 9%</td><td><span class="pill p-warn">MERGE</span></td></tr>
+      <tr><td class="p">State rule pages that are now out of date</td><td class="p">213</td><td class="down">▲ 22%</td><td><span class="pill p-crit">TRUST RISK</span></td></tr>
+      <tr><td class="p">Average monthly visits per older page</td><td class="p">3.1</td><td class="down">▼ 18%</td><td><span class="pill p-warn">DILUTION</span></td></tr>
+      <tr><td class="p">Pages built the way AI engines prefer</td><td class="p">7%</td><td class="up">▲ 2pt</td><td><span class="pill p-crit">TOP FIX</span></td></tr>
+    </table>
+    <div class="defs">
+      <div class="def"><b>PRUNE</b><span>Remove or de-index. A page nobody visits still costs you: Google judges site quality partly on the average, so dead weight drags down the pages that do work.</span></div>
+      <div class="def"><b>MERGE</b><span>Two of our own pages targeting the same question split the votes between them. Combined into one, they usually outrank either.</span></div>
+      <div class="def"><b>TRUST RISK</b><span>An operator reading an outdated staff ratio could staff a room illegally. That is a brand and liability problem, not a ranking problem.</span></div>
+      <div class="def"><b>DILUTION</b><span>We are adding pages faster than they earn visits, so the average value of a brightwheel page is falling. Publishing more does not fix this.</span></div>
+    </div>
+    <div class="todo"><div class="h">What to do about it</div>
+    <p>Reallocate, do not reduce. Route about 30% of monthly production into refreshing and merging what already exists, and put automated monitoring on the state rule pages so they update themselves when a regulation changes.</p>
+    <div class="acts"><button class="act" data-agent="a6">Run full content scan <span class="imp">+$310K est.</span></button><button class="act" data-agent="a11">Push refreshes to CMS <span class="imp">213 pages</span></button></div></div>
+  </div>
+
+  <div class="panel" style="margin-top:13px">
+    <h3>Content inventory by topic <span class="i">i<span class="tip"><b>Every page on the site, grouped by subject.</b> Colour shows health: green means the cluster earns traffic and citations, red means it is stale, thin, or ignored. Use the filters to look at one dimension at a time.</span></span></h3>
+    <div class="sub">click a cluster for page-level detail · colour = health score</div>
+    <div class="hfilters" id="hFilters"></div>
+    <div class="heat" id="heat"></div>
+    <div class="note" id="heatNote"><b>Read it this way.</b> Clusters are ranked by pages, not by value. The biggest cluster on the page is state compliance, which is also the least fresh, which is the whole argument for automating that content rather than staffing it.</div>
+  </div>
+</section>
+
+<section class="view" id="ag">
+  <div class="panel" style="margin-bottom:13px">
+    <h3>Agent queue <span class="i">i<span class="tip"><b>Every agent has a defined output, a named source, a stated guardrail, and a human checkpoint.</b> Agents automate extraction, analysis, and drafting. They never automate the decision. Anything that publishes, contacts a customer, or makes a factual claim routes to review with confidence scoring.</span></span></h3>
+    <div class="sub">findings dispatch work · nothing auto-publishes · every action carries a projected impact before you run it</div>
+  </div>
+  <div class="agents" id="agentGrid"></div>
+</section>
+
+</div>
+
+<aside class="feed">
+  <div class="brain">
+    <div class="bt">Signal pipeline · last 24h</div>
+    <div class="bstage"><span class="bn" id="b1">0</span><span class="bl">signals ingested</span><span class="bd"></span></div>
+    <div class="bstage"><span class="bn" id="b2">0</span><span class="bl">classified &amp; deduped</span><span class="bd"></span></div>
+    <div class="bstage"><span class="bn" id="b3">0</span><span class="bl">matched to a playbook</span><span class="bd"></span></div>
+    <div class="bstage"><span class="bn" id="b4">0</span><span class="bl">queued for human review</span><span class="bd"></span></div>
+  </div>
+  <div class="fh"><span class="dot"></span><h4>Autonomous intelligence</h4>
+    <span class="i r">i<span class="tip"><b>Continuous monitoring, not a quarterly audit.</b> Agents watch engines, competitors, regulators, and review platforms and surface what changed. The strategy document is static; this is not.</span></span>
+  </div>
+  <div class="body" id="feedBody"></div>
+</aside>
+</div>
+
+<footer>
+  <span>Prototype · seeded demo data · domain-agnostic engine, brightwheel configuration</span>
+  <span>Wire-ready: DataForSEO SERP / Labs / Business Data · Anthropic · GA4 · GSC</span>
+</footer>
+</div>
+
+<div class="ovl" id="ovl"><div class="mdl" id="mdl"></div></div>
+
+<script>
+const STMTS=[
+ ['Organic sourced <b>$4.82M</b> in pipeline this quarter at <b>0.31×</b> the CAC of paid, up 31% year over year.','the durability argument · QoQ +11.4%'],
+ ['AI-referred sessions convert at <b>3.4×</b> our organic average and drove <b>1,847</b> assisted conversions, up 42% QoQ.','the emerging-channel argument · YoY +310%'],
+ ['We are cited in <b>21%</b> of category buying conversations inside AI engines, and we know exactly which 79% we are losing and why.','the defensibility argument · measured, not estimated']];
+let si=0;
+
+const TILES=[["AK",1,1],["ME",1,11],["VT",2,10],["NH",2,11],
+["WA",3,1],["ID",3,2],["MT",3,3],["ND",3,4],["MN",3,5],["WI",3,6],["MI",3,7],["NY",3,9],["MA",3,10],["RI",3,11],
+["OR",4,1],["NV",4,2],["WY",4,3],["SD",4,4],["IA",4,5],["IL",4,6],["IN",4,7],["OH",4,8],["PA",4,9],["NJ",4,10],["CT",4,11],
+["CA",5,1],["UT",5,2],["CO",5,3],["NE",5,4],["MO",5,5],["KY",5,6],["WV",5,7],["VA",5,8],["MD",5,9],["DE",5,10],
+["AZ",6,2],["NM",6,3],["KS",6,4],["AR",6,5],["TN",6,6],["NC",6,7],["SC",6,8],["DC",6,9],
+["TX",7,3],["OK",7,4],["LA",7,5],["MS",7,6],["AL",7,7],["GA",7,8],
+["HI",8,1],["FL",8,8]];
+const NAMES={AL:"Alabama",AK:"Alaska",AZ:"Arizona",AR:"Arkansas",CA:"California",CO:"Colorado",CT:"Connecticut",DE:"Delaware",DC:"District of Columbia",FL:"Florida",GA:"Georgia",HI:"Hawaii",ID:"Idaho",IL:"Illinois",IN:"Indiana",IA:"Iowa",KS:"Kansas",KY:"Kentucky",LA:"Louisiana",ME:"Maine",MD:"Maryland",MA:"Massachusetts",MI:"Michigan",MN:"Minnesota",MS:"Mississippi",MO:"Missouri",MT:"Montana",NE:"Nebraska",NV:"Nevada",NH:"New Hampshire",NJ:"New Jersey",NM:"New Mexico",NY:"New York",NC:"North Carolina",ND:"North Dakota",OH:"Ohio",OK:"Oklahoma",OR:"Oregon",PA:"Pennsylvania",RI:"Rhode Island",SC:"South Carolina",SD:"South Dakota",TN:"Tennessee",TX:"Texas",UT:"Utah",VT:"Vermont",VA:"Virginia",WA:"Washington",WV:"West Virginia",WI:"Wisconsin",WY:"Wyoming"};
+const G={CA:3,TX:3,FL:3,NY:3,IL:3,GA:3,NC:3,
+AZ:2,CO:2,MD:2,MA:2,MI:2,NJ:2,OH:2,PA:2,VA:2,WA:2,WI:2,
+CT:1,IN:1,IA:1,MO:1,NV:1,OK:1,OR:1,SC:1,TN:1,UT:1,KY:1,NE:1,MN:1};
+function seed(s){let h=0;for(let i=0;i<s.length;i++)h=(h*31+s.charCodeAt(i))>>>0;return()=>{h=(h*1103515245+12345)>>>0;return h/4294967296;}}
+const SD={};TILES.forEach(([ab])=>{const r=seed(ab);const g=G[ab]??0;
+ SD[ab]={g,centers:Math.round(400+r()*11000),q:Math.round(90+r()*720),
+  cite:g===0?0:Math.round([0,9,17,44][g]+r()*13),
+  pipe:Math.round((g+1)*(18+r()*70))*1000,rules:Math.round(4+r()*4),
+  lastChg:["2026-06-01","2026-04-15","2025-11-02","2026-07-20","2025-08-14","2026-02-28"][Math.floor(r()*6)],
+  comp:["Procare","Lillio","Playground","LineLeader","fragmented / none"][Math.floor(r()*5)]};});
+const LBL=["No coverage","Thin / stale","Covered, not cited","Covered &amp; cited"];
+const map=document.getElementById('usmap');
+TILES.forEach(([ab,r,c])=>{const d=document.createElement('div');
+ d.className='tile g'+SD[ab].g;d.style.gridRow=r;d.style.gridColumn=c;
+ d.innerHTML=`<span>${ab}</span>`;d.onclick=()=>showState(ab,d);map.appendChild(d);});
+
+function showState(ab,el){
+  document.querySelectorAll('.tile').forEach(t=>t.classList.remove('sel'));
+  if(el)el.classList.add('sel');
+  const s=SD[ab],p=document.getElementById('stPanel');
+  p.innerHTML=`
+  <h3>${NAMES[ab]} <span class="pill ${['p-crit','p-warn','p-info','p-ok'][s.g]}">${LBL[s.g]}</span></h3>
+  <div class="sub">licensed centers ≈ ${s.centers.toLocaleString()} · ${s.rules} tracked rule categories · last regulatory change ${s.lastChg}</div>
+  <div class="stkpi">
+    <div><div class="k">Queries / mo</div><div class="v">${s.q.toLocaleString()}</div></div>
+    <div><div class="k">Citation rate</div><div class="v" style="color:${s.cite>35?'var(--green)':s.cite>12?'var(--amber)':'var(--red)'}">${s.cite}%</div></div>
+    <div><div class="k">Pipeline at stake</div><div class="v" style="color:var(--green)">$${(s.pipe/1000).toFixed(0)}K</div></div>
+    <div><div class="k">TAM (centers)</div><div class="v">${(s.centers/1000).toFixed(1)}K</div></div>
+    <div><div class="k">Answer owned by</div><div class="v" style="font-size:12px">${s.comp}</div></div>
+    <div><div class="k">Freshness</div><div class="v" style="font-size:12px;color:${s.g===1?'var(--red)':'var(--mut)'}">${s.g===0?'none':s.g===1?'stale':'current'}</div></div>
+  </div>
+  <table>
+    <tr><th>Rule category</th><th>Why operators ask</th><th>Our coverage</th></tr>
+    <tr><td class="p">Staff-to-child ratios</td><td>determines staffing cost and legal capacity per room</td><td>${s.g>1?'<span class="pill p-ok">CURRENT</span>':s.g===1?'<span class="pill p-warn">STALE</span>':'<span class="pill p-crit">NONE</span>'}</td></tr>
+    <tr><td class="p">Annual training hours</td><td>per-staff compliance requirement, drives scheduling</td><td>${s.g>2?'<span class="pill p-ok">CURRENT</span>':s.g>0?'<span class="pill p-warn">PARTIAL</span>':'<span class="pill p-crit">NONE</span>'}</td></tr>
+    <tr><td class="p">Licensing application steps</td><td>the first question every new center owner asks</td><td>${s.g>1?'<span class="pill p-ok">CURRENT</span>':'<span class="pill p-crit">NONE</span>'}</td></tr>
+    <tr><td class="p">Background check requirements</td><td>onboarding blocker, changes frequently</td><td>${s.g>2?'<span class="pill p-ok">CURRENT</span>':'<span class="pill p-crit">NONE</span>'}</td></tr>
+    <tr><td class="p">Subsidy / assistance program</td><td>revenue source; billing must support it</td><td>${s.g>2?'<span class="pill p-warn">PARTIAL</span>':'<span class="pill p-crit">NONE</span>'}</td></tr>
+  </table>
+  <div class="todo"><div class="h">What to do about ${ab}</div>
+  <p>${s.g===0
+    ?`No indexed page covers ${NAMES[ab]} licensing. Roughly ${s.q.toLocaleString()} monthly AI-mediated queries from about ${s.centers.toLocaleString()} licensed centers currently resolve to ${s.comp==='fragmented / none'?'fragmented state .gov sources':s.comp}. Build from the cited-state template: answer-first passage per rule category, statute citation, QAPage schema, practitioner review.`
+    :s.g===1
+    ?`Page exists but predates the ${s.lastChg} rule change. In a compliance-shaped category, stale is worse than absent: an operator acting on an outdated ratio requirement is a trust failure, not a ranking miss. Refresh and arm the regulatory monitor so it does not recur.`
+    :s.g===2
+    ?`Content is accurate and indexed but not structured for retrieval: no answer-first opening, no QAPage schema, no primary-source link to the statute. Purely mechanical template-level fix, and the highest ROI action available because the content investment is already sunk.`
+    :`Cited across multiple engines at ${s.cite}%. Treat as the reference template and replicate its structure. Monitor for rule changes so the position is not quietly lost.`}</p>
+  <div class="acts">
+    <button class="act" data-agent="a1">Queue ${ab} in coverage agent →</button>
+    ${s.g===2?'<button class="act" data-agent="a8">Apply extractability patch →</button>':''}
+    ${s.g<2?'<button class="act" data-agent="a10">Draft '+ab+' rule brief →</button>':''}
+  </div></div>`;
+  bindActs();p.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+showState('OH');
+
+const AGENTS=[
+{id:'a1',imp:'+$2.1M est.',n:'State Coverage Agent',d:'Monitors all 50 state licensing authorities for rule changes, diffs against published content, drafts updates with primary-source citations.',src:'DataForSEO SERP + state .gov sources',out:'Refresh queue + drafted deltas',guard:'Every regulatory claim routes to human review',
+log:['Loading 50 state authority source registry','Fetching current rule text · 50 jurisdictions','Diffing against published pages','› OH ratio rule changed 2026-06-01, page not updated','› TX training hours revised, page stale 11mo','› 18 states with no page at all','Drafting answer-first passages with statute citations','Scoring extractability and schema readiness'],
+res:'31 states queued.\n13 stale pages with detected rule drift → priority refresh.\n18 net-new drafted with primary-source citations.\nAll routed to human review. Zero auto-publish.\nEst. reach 14,200 monthly queries · $2.1M pipeline at stake.'},
+{id:'a2',imp:'+$410K est.',n:'Pricing Extractability Agent',d:'Builds the citable pricing surface the category is missing. Your worst prompt cluster is the question you decline to answer.',src:'DataForSEO SERP + competitor pricing pages',out:'Page spec + Offer schema',guard:'Commercial terms require Product Marketing sign-off',
+log:['Sampling pricing-intent prompts (21 × 20)','Measuring competitor pricing-page citation rate','› Playground cited 29%, publishes tiered pricing','› brightwheel cited 6%, no published pricing','Modeling range vs starting-at vs calculator','Generating Offer + PriceSpecification schema','Drafting FAQ for 9 recurring pricing questions'],
+res:'Recommendation: publish starting-at range plus per-child calculator.\nEst. citation lift on pricing cluster 6% → 22–28%.\nBrand accuracy on pricing cluster 46 → est. 74.\nBlocked pending Product Marketing decision. Flagged as a business decision, not a search one.'},
+{id:'a3',imp:'analysis',n:'Citation Gap Agent',d:'Finds prompts where competitors are cited and you are not, then identifies the structural reason rather than guessing.',src:'DataForSEO SERP + LLM sampling',out:'Ranked gap list + fix per page',guard:'Analysis only',
+log:['Running 240-prompt set × 20 samples × 5 engines','Extracting cited URLs and source domains','Clustering by buyer role and intent','› multi-site cluster: 11% us / 39% competitors','› vs cluster: 9% us / 44% Procare','› self-comparison pages discounted across all engines','Diffing cited competitor page structure'],
+res:'Root cause: vendor-authored comparison pages are systematically discounted.\nCited pages in this cluster are third-party or data-led.\nRecommendation: shift comparison strategy from persuasion to data publication.\n34 pages flagged for restructure, ranked by prompt volume × ACV.'},
+{id:'a4',imp:'+$1.4M est.',n:'Narrative Defense Agent',d:'Watches how engines describe brightwheel, detects factual drift and competitor-seeded framing, drafts sourced corrections.',src:'LLM sampling + Anthropic analysis',out:'Drift report + correction briefs',guard:'Public response requires Brand and Comms approval',
+log:['Sampling 28 trust-intent prompts × 20','Extracting descriptive claims','Classifying accurate / outdated / competitor-framed','› "crashes and glitches" → competitor blog 2026','› "lighter on billing" → 2024 third-party review','› G2 AI summary repeated verbatim by Copilot','Locating source document per claim','Drafting sourced counter-content briefs'],
+res:'4 active drift patterns, all traceable to 3 source documents.\nStrategy: publish sourced billing-depth documentation and dated case evidence. Do not attack the competitor directly.\nRouted to Brand and Comms. This is a PR problem with a search symptom.'},
+{id:'a5',imp:'+$240K est.',n:'Review Velocity Agent',d:'Treats review platforms as a citation input rather than a sales metric. Detects decay, identifies eligible customers, drafts asks.',src:'DataForSEO Business Data + review APIs',out:'Outreach queue + weekly monitor',guard:'No automated sending. CS owns all customer contact.',
+log:['Pulling counts and recency · G2, Capterra, SoftwareAdvice','› G2 recent 90d: competitor 23, brightwheel 1','› G2 AI summary explicitly cites the recency gap','Cross-referencing NPS promoters with no review','Segmenting by buyer role','Drafting persona-specific ask copy'],
+res:'412 eligible promoters identified with no G2 review.\nTarget 20–25/month closes the recency gap in about 2 quarters.\nEst. sentiment impact: Copilot 58 → 70, Perplexity 68 → 76.\nHanded to CS for approval. Weekly monitor armed.'},
+{id:'a6',imp:'+$310K est.',n:'Content Decay Agent',d:'Continuously samples the published base against a quality rubric and flags decay before an algorithm update finds it.',src:'GSC + GA4 + Anthropic rubric scoring',out:'Prune / refresh / consolidate queue',guard:'Deletions require human approval',
+log:['Scoring 32,400 URLs against rubric','Checks: traffic, citation, freshness, author, source, schema','› 11,200 pages 12mo+, 17% draw any traffic','› 2,847 flagged stale or thin','› 640 cannibalization pairs','› 213 regulatory pages past review date','Clustering into prune / refresh / consolidate'],
+res:'Prune 1,180 · Refresh 1,667 · Consolidate 640 pairs into 320.\n213 regulatory pages escalated as trust risk, not SEO risk.\nProjected site-level quality improvement and crawl budget recovery.\nAll deletions queued for human approval.'},
+{id:'a7',imp:'+$1.4M est.',n:'Enterprise Tier Agent',d:'Builds the content set for multi-site and franchise buyers, where citation coverage is inverse to deal size.',src:'DataForSEO Labs + CRM won/lost',out:'Content brief set + entity plan',guard:'Capability claims verified against product',
+log:['Isolating multi-site and franchise clusters (77 prompts)','Analyzing cited competitor content structure','› competitors lead on dashboards, subsidy, billing depth','Cross-referencing CRM lost-deal reasons','Mapping objection → content artifact','Drafting 14 briefs with entity and schema plans'],
+res:'14 briefs drafted for the highest-ACV uncovered cluster.\nEvery capability claim tagged for product verification before publish.\nEst. coverage lift on $25K+ ACV prompts: 11% → 30%.\nThis cluster is 8% of prompt volume and roughly 41% of pipeline value.'},
+{id:'a8',imp:'+$880K est.',n:'Extractability Patch Agent',d:'Generates the template-level spec for the three P0 readiness fixes, applied across page types rather than page by page.',src:'Crawl + Anthropic',out:'Engineering spec + schema templates',guard:'Ships through normal engineering review',
+log:['Sampling 2,000 top pages by traffic','Scoring against P0 checks','› answer-first passage on 18%','› practitioner reviewer on 11%','› primary source cited on 22%','Grouping by template (7 cover 89%)','Generating per-template patch spec + JSON-LD'],
+res:'7 template patches cover 89% of the affected base.\nTwo-sprint estimate with engineering.\nProjected technical readiness 54 → 78.\nSingle largest lever currently available.'},
+{id:'a9',imp:'org design',n:'Citation Council Agent',d:'Drafts the operating model: shared scorecard, cadence, and ownership across search, brand, CS, and paid.',src:'Internal signal mix',out:'Charter + scorecard + cadence',guard:'Org design proposal, not a decision',
+log:['Mapping citation source mix to current owners','› 3 of 6 surfaces have no owner','Modeling shared scorecard metrics','Drafting biweekly cadence and agenda','Defining escalation path for drift incidents'],
+res:'Charter drafted: biweekly, one scorecard, citation-source mix as the agenda.\nOwnership assigned for the 3 unowned surfaces.\nProposal only. Requires CMO endorsement to stand up.'},
+{id:'a11',n:'CMS Refresh Agent',d:'Pushes approved content updates directly into Contentful: refreshed regulatory text, schema blocks, review dates, author attribution.',src:'Contentful API + approved review queue',out:'Staged CMS entries, unpublished',guard:'Staged only. A human clicks publish, always.',imp:'+$310K est.',
+log:['Authenticating to Contentful (write scope)','Loading approved items from review queue (213)','Mapping content model fields per template','Injecting answer-first passages and QAPage schema','Setting last-reviewed dates and reviewer attribution','Staging entries as drafts','Generating diff report for reviewer'],
+res:'213 entries staged in Contentful as drafts.\nEvery entry carries a diff showing exactly what changed and why.\nNothing published. Publish is a human action.\nEst. impact: recovers 213 trust-risk pages and lifts state cluster health 31 → 58.'},
+{id:'a12',n:'Agentic Readiness Agent',d:'Audits how an AI agent acting for a buyer would experience the site, and specs the fixes for the steps that currently fail.',src:'Crawl + agent simulation + Anthropic',out:'Readiness spec by touchpoint',guard:'Spec only. Ships through engineering review.',imp:'+$620K est.',
+log:['Simulating agent journeys across 7 buying touchpoints','› pricing retrieval fails, no machine-readable price','› feature comparison fails, no structured feature data','› integration check fails, no published integrations list','› demo booking partially blocked by form structure','Scoring each touchpoint 0–100','Drafting schema and content spec per gap'],
+res:'3 of 7 touchpoints fixable with content and schema alone this quarter.\nComposite readiness 38 → est. 65 without engineering.\nFull roadmap reaches 79 over two quarters.\nSame fixes lift human-facing citation, so no speculative spend.'},
+{id:'a10',imp:'per-state',n:'Rule Brief Agent',d:'For a single state, extracts current regulation from primary sources and drafts a citable, structured brief.',src:'State .gov + Anthropic extraction',out:'Drafted page + schema + source links',guard:'Practitioner review required before publish',
+log:['Fetching statute and licensing authority pages','Extracting ratios, training hours, background checks, subsidy','Comparing against last published version','Structuring answer-first passages per rule category','Generating QAPage schema and source citations','Flagging ambiguous language for human review'],
+res:'Draft complete with primary-source citation per claim.\n3 ambiguous provisions flagged for practitioner review.\nSchema generated. Ready for review queue.\nNot published. Regulatory content never auto-publishes.'}];
+
+const agrid=document.getElementById('agentGrid');
+AGENTS.forEach(a=>{const el=document.createElement('div');
+ el.innerHTML=`<div class="agent"><div class="top"><h4>${a.n}</h4><span class="pill p-info">IDLE</span></div>
+ <div style="font-family:'IBM Plex Mono',ui-monospace,Menlo,monospace;font-size:10px;color:var(--green);margin-bottom:8px">PROJECTED IMPACT: ${a.imp||'—'}</div>
+ <div class="desc">${a.d}</div>
+ <div class="meta"><b>Source:</b> ${a.src}<br><b>Output:</b> ${a.out}<br><b>Guardrail:</b> ${a.guard}</div>
+ <button class="run" id="btn_${a.id}">Run agent · ${a.imp||''}</button></div><div class="log" id="log_${a.id}"></div>`;
+ agrid.appendChild(el);document.getElementById('btn_'+a.id).onclick=()=>runAgent(a);});
+
+function runAgent(a){
+  const btn=document.getElementById('btn_'+a.id),log=document.getElementById('log_'+a.id);
+  const pill=btn.closest('.agent').querySelector('.pill');
+  btn.disabled=true;btn.textContent='Running…';pill.className='pill p-warn';pill.textContent='RUNNING';
+  log.className='log open';log.innerHTML='';let i=0;
+  const tick=()=>{
+    if(i<a.log.length){const l=a.log[i],cls=l.startsWith('›')?'hi':(i===0?'info':'');
+      log.innerHTML+=`<div class="ln ${cls}">${l.startsWith('›')?'':'▸ '}${l}</div>`;
+      log.scrollTop=log.scrollHeight;i++;setTimeout(tick,240+Math.random()*200);
+    }else{log.innerHTML+=`<div class="ln ok">▸ complete</div><div class="out">${a.res}</div>`;
+      log.scrollTop=log.scrollHeight;btn.textContent='Re-run';btn.disabled=false;
+      pill.className='pill p-ok';pill.textContent='COMPLETE';
+      pushFeed('info',a.n+' completed. Output routed to review queue.','AGENT',a.imp||'review queue');}};
+  setTimeout(tick,260);
+}
+
+const FEED=[
+ ['crit','Copilot','Answer for <b>"best childcare software for multi-site"</b> now cites competitor billing-depth page. brightwheel absent from 4 of 5 samples.','queued Enterprise Tier Agent · est. $1.4M exposure'],
+ ['opp','DataForSEO','AI Overview newly present on <b>18 state licensing queries</b> that had none 14 days ago.','State Coverage Agent re-prioritised those 18'],
+ ['warn','Regulatory','<b>Ohio</b> staff-to-child ratio rule effective 2026-06-01. Published page still reflects the prior requirement.','CMS refresh drafted · awaiting practitioner review'],
+ ['crit','G2','Competitor added <b>7 reviews</b> in 72 hours. Recency gap widening. AI summary refresh expected within 30 days.','Review Velocity Agent armed · 412 promoters identified'],
+ ['info','Reddit','Thread in <b>r/ECEProfessionals</b> comparing platforms gaining traction. 3 factual errors about brightwheel billing detected.','routed to Social &amp; Community with sourced correction'],
+ ['opp','ChatGPT','Citation gained on <b>"childcare subsidy billing"</b> cluster. First appearance. Monitoring for stability.','added to template library as a winning pattern'],
+ ['warn','Perplexity','Sentiment on <b>billing topic</b> down 9 pts over 7 days. Source: third-party comparison page updated 2026-08-09.','Narrative Defense Agent drafting counter-evidence'],
+ ['info','CMS','<b>213 state rule pages</b> now past review date. Threshold breached at 200.','bulk refresh staged in Contentful · not published'],
+ ['opp','Gemini','<b>Texas licensing</b> answer restructured. Our page surfaced in 6 of 20 samples, up from 1.','pattern logged · replicating to 12 similar states'],
+ ['crit','Paid signal','Top-converting paid term <b>"daycare billing software"</b> shows 0% organic citation.','flagged to Growth · highest-intent gap on the board']];
+const body=document.getElementById('feedBody');let fi=0;
+function pushFeed(type,msg,src,act){
+  const d=document.createElement('div');d.className='fi '+type;
+  d.innerHTML=`<div class="ft"><span>${src||'AGENT'}</span><span>${new Date().toLocaleTimeString('en-US',{hour12:false})}</span></div><div class="fm">${msg}</div>`+
+   (act?`<div class="ft" style="margin-top:6px;margin-bottom:0;color:var(--amber)"><span>→ ${act}</span><span></span></div>`:'');
+  body.prepend(d);while(body.children.length>18)body.lastChild.remove();
+  BRAIN[0]+=1;BRAIN[1]+=1;if(act){BRAIN[2]+=1;BRAIN[3]+=Math.random()>.5?1:0;}paintBrain();
+}
+let BRAIN=[1284,1176,38,14];
+function paintBrain(){['b1','b2','b3','b4'].forEach((id,i)=>{const el=document.getElementById(id);if(el)el.textContent=BRAIN[i].toLocaleString();});}
+paintBrain();
+FEED.slice(0,6).forEach(([t,s,m,a])=>pushFeed(t,m,s,a));
+setInterval(()=>{const [t,s,m,a]=FEED[fi%FEED.length];pushFeed(t,m,s,a);fi++;},9000);
+
+function go(v){
+  document.querySelectorAll('nav button').forEach(x=>x.classList.remove('on'));
+  document.querySelectorAll('.view').forEach(x=>x.classList.remove('on'));
+  const b=document.querySelector(`nav button[data-v="${v}"]`);if(b)b.classList.add('on');
+  document.getElementById(v).classList.add('on');window.scrollTo({top:0,behavior:'smooth'});
+}
+document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>go(b.dataset.v));
+document.querySelectorAll('.kpi.clk').forEach(k=>k.onclick=()=>go(k.dataset.go));
+function bindActs(){
+  document.querySelectorAll('.act').forEach(btn=>{
+    if(btn._b)return;btn._b=1;
+    btn.onclick=()=>{
+      if(btn.dataset.go){go(btn.dataset.go);return;}
+      const a=AGENTS.find(x=>x.id===btn.dataset.agent);if(!a)return;
+      go('ag');
+      setTimeout(()=>{const c=document.getElementById('btn_'+a.id).closest('.agent');
+        c.scrollIntoView({behavior:'smooth',block:'center'});setTimeout(()=>runAgent(a),380);},320);
+    };});
+}
+
+/* ===== exec arrows ===== */
+const eDots=document.getElementById('eDots');
+STMTS.forEach((_,i)=>{const d=document.createElement('i');d.onclick=()=>{si=i;render();};eDots.appendChild(d);});
+let timer;
+function render(){
+  document.getElementById('execStmt').innerHTML=STMTS[si][0];
+  document.getElementById('execCyc').textContent=STMTS[si][1];
+  [...eDots.children].forEach((d,i)=>d.classList.toggle('on',i===si));
+  clearInterval(timer);timer=setInterval(()=>{si=(si+1)%STMTS.length;render();},9000);
+}
+document.getElementById('ePrev').onclick=()=>{si=(si-1+STMTS.length)%STMTS.length;render();};
+document.getElementById('eNext').onclick=()=>{si=(si+1)%STMTS.length;render();};
+render();
+
+/* ===== KPI drilldown modal ===== */
+const MON=['Sep','Oct','Nov','Dec','Jan','Feb','Mar','Apr','May','Jun','Jul','Aug'];
+const DRILL={
+ pipeline:{t:'Organic-sourced pipeline',u:'$',s:'Dollar value of opportunities whose first touch was organic',
+  d:[3.31,3.42,3.55,3.61,3.78,3.94,4.05,4.22,4.31,4.48,4.67,4.82],fmt:v=>'$'+v.toFixed(2)+'M',
+  note:'Grew every month for twelve months. No single month above +5%, which is the signal of a compounding channel rather than a campaign spike.'},
+ aiconv:{t:'AI-assisted conversions',u:'',s:'Conversions with an AI answer engine somewhere in the path',
+  d:[451,498,566,612,703,812,948,1104,1287,1441,1688,1847],fmt:v=>Math.round(v).toLocaleString(),
+  note:'Up 310% year over year off a small base. Still only 6.1% of converting sessions, which is precisely why now is the cheap time to build position.'},
+ cac:{t:'Organic CAC vs paid',u:'$',s:'Cost to acquire one customer through organic',
+  d:[168,164,159,157,152,148,144,141,137,133,131,128],fmt:v=>'$'+Math.round(v),
+  note:'Falling steadily while paid CAC rose from $381 to $412 over the same period. The gap is the argument for shifting mix.'},
+ forecast:{t:'Forecast Q4 contribution',u:'$',s:'Modeled organic pipeline at current velocity',
+  d:[3.55,3.61,3.78,3.94,4.05,4.22,4.31,4.48,4.67,4.82,5.40,6.10],fmt:v=>'$'+v.toFixed(2)+'M',
+  note:'Last two points are modeled, not actual. Range is $5.4M to $6.9M depending on whether the state coverage and citation recovery programs ship this quarter.'},
+ brand:{t:'Brand accuracy score',u:'',s:'How correctly AI engines describe brightwheel',
+  d:[81,80,82,81,79,78,77,75,74,73,72,71],fmt:v=>Math.round(v)+'/100',
+  note:'Twelve straight months of decline. Traceable to competitor comparison content published in Q1 that no one has countered.'},
+ sent:{t:'Sentiment score',u:'',s:'Tone of AI-generated descriptions',
+  d:[74,75,74,76,77,76,78,77,78,77,77,78],fmt:v=>Math.round(v)+'/100',
+  note:'Flat. Strong where engines cite reviews and owned content, weak where they cite third-party comparisons. Stability here masks a widening split by topic.'},
+ tech:{t:'Technical AI readiness',u:'',s:'Whether pages are mechanically citable',
+  d:[38,39,41,42,44,45,47,48,50,51,53,54],fmt:v=>Math.round(v)+'/100',
+  note:'Improving slowly through incremental page work. The three template-level P0 fixes would move this to roughly 78 in two sprints.'}
+};
+function spark(data,fmt){
+  const w=920,h=200,pad=34;
+  const mn=Math.min(...data),mx=Math.max(...data),rg=(mx-mn)||1;
+  const x=i=>pad+i*((w-pad*2)/(data.length-1));
+  const y=v=>h-pad-((v-mn)/rg)*(h-pad*2);
+  const pts=data.map((v,i)=>`${x(i)},${y(v)}`).join(' ');
+  const area=`${pad},${h-pad} ${pts} ${x(data.length-1)},${h-pad}`;
+  const dots=data.map((v,i)=>`<circle cx="${x(i)}" cy="${y(v)}" r="3" fill="var(--amber)"/>`).join('');
+  const labs=data.map((v,i)=>i%2===0?`<text x="${x(i)}" y="${h-12}" fill="var(--dim)" font-size="10" text-anchor="middle" font-family="monospace">${MON[i]}</text>`:'').join('');
+  return `<svg class="chart" viewBox="0 0 ${w} ${h}" preserveAspectRatio="none">
+   <polygon points="${area}" fill="rgba(240,169,59,.12)"/>
+   <polyline points="${pts}" fill="none" stroke="var(--amber)" stroke-width="2"/>
+   ${dots}${labs}
+   <text x="${pad}" y="18" fill="var(--dim)" font-size="10" font-family="monospace">${fmt(mx)}</text>
+   <text x="${pad}" y="${h-pad+14}" fill="var(--dim)" font-size="10" font-family="monospace">${fmt(mn)}</text></svg>`;
+}
+const ovl=document.getElementById('ovl'),mdl=document.getElementById('mdl');
+function openDrill(k){
+  const D=DRILL[k];if(!D)return;
+  const first=D.d[0],last=D.d[D.d.length-1];
+  const chg=((last-first)/first*100);
+  const q=((last-D.d[9])/D.d[9]*100);
+  const m=((last-D.d[10])/D.d[10]*100);
+  const inv=(k==='cac');
+  const cls=v=>((inv?-v:v)>=0?'up':'down');
+  const rows=D.d.map((v,i)=>`<tr><td class="p">${MON[i]} ${i<4?'2025':'2026'}</td><td class="p">${D.fmt(v)}</td><td class="${i?cls((v-D.d[i-1])/D.d[i-1]*100):'flat'}">${i?((v-D.d[i-1])/D.d[i-1]*100).toFixed(1)+'%':'—'}</td></tr>`).join('');
+  mdl.innerHTML=`<div class="mh"><div><h3>${D.t}</h3><p>${D.s} · 12-month view</p></div><button class="x" id="mx">CLOSE</button></div>
+  <div class="mb">
+    <div class="kpis" style="margin-top:0;margin-bottom:14px">
+      <div class="kpi"><div class="k">Current</div><div class="v">${D.fmt(last)}</div></div>
+      <div class="kpi"><div class="k">Month over month</div><div class="v ${cls(m)}" style="font-size:19px">${m>0?'+':''}${m.toFixed(1)}%</div></div>
+      <div class="kpi"><div class="k">Quarter over quarter</div><div class="v ${cls(q)}" style="font-size:19px">${q>0?'+':''}${q.toFixed(1)}%</div></div>
+      <div class="kpi"><div class="k">Year over year</div><div class="v ${cls(chg)}" style="font-size:19px">${chg>0?'+':''}${chg.toFixed(1)}%</div></div>
+    </div>
+    ${spark(D.d,D.fmt)}
+    <div class="note" style="margin-bottom:14px"><b>Read this way.</b> ${D.note}</div>
+    <table><tr><th>Month</th><th>Value</th><th>Change</th></tr>${rows}</table>
+    <div style="margin-top:14px"><button class="copybtn" id="cpy">COPY 12-MONTH SERIES</button>
+    <span style="font-size:11px;color:var(--dim);margin-left:10px">paste straight into a deck or sheet</span></div>
+  </div>`;
+  ovl.classList.add('on');
+  document.getElementById('mx').onclick=()=>ovl.classList.remove('on');
+  document.getElementById('cpy').onclick=e=>{
+    const txt=D.t+'\n'+D.d.map((v,i)=>MON[i]+'\t'+D.fmt(v)).join('\n');
+    navigator.clipboard?.writeText(txt);e.target.textContent='COPIED ✓';
+    setTimeout(()=>e.target.textContent='COPY 12-MONTH SERIES',1500);};
+}
+ovl.onclick=e=>{if(e.target===ovl)ovl.classList.remove('on');};
+document.addEventListener('keydown',e=>{if(e.key==='Escape')ovl.classList.remove('on');});
+document.querySelectorAll('[data-drill]').forEach(el=>{
+  el.addEventListener('click',ev=>{ev.stopPropagation();openDrill(el.dataset.drill);});
+});
+
+/* ===== brand claim drilldown ===== */
+const CLAIMS={
+ c1:{t:'"Pricing scales with enrollment, can get expensive"',v:'PARTIALLY TRUE',
+  src:'Competitor comparison post, published 2026-03, updated 2026-07. Ranks #3 for "brightwheel pricing" and is retrieved by 4 of 5 engines.',
+  why:'The claim is technically accurate and framed unfavourably. Because we publish no pricing, this page is the only pricing anchor engines can find, so a competitor is defining our cost story.',
+  fix:['Publish a starting-at price with a per-child calculator','Add Offer and PriceSpecification schema so the number is machine-readable','Publish a total-cost-of-ownership comparison with sourced assumptions'],
+  imp:'+$410K est. pipeline · brand accuracy 46 → 74 on this cluster'},
+ c2:{t:'"Lighter on billing than Procare"',v:'OUTDATED',
+  src:'Third-party software review site, last substantively updated 2024. Still cited by 3 of 5 engines because it carries strong domain authority.',
+  why:'Billing capability has shipped meaningfully since that review. Nothing dated after it exists in the corpus to override it, so engines keep repeating a two-year-old snapshot.',
+  fix:['Publish dated billing capability documentation with a changelog','Request an updated review from the source site','Publish two customer stories specifically about billing depth, dated'],
+  imp:'+$260K est. pipeline · sentiment on billing topic 64 → 79'},
+ c3:{t:'"Struggles with consolidated multi-site dashboards"',v:'DISPUTED',
+  src:'Competitor blog post titled "Why Child Care Centers Are Switching from brightwheel in 2026". Retrieved by 2 of 5 engines on trust-intent prompts.',
+  why:'Directly contradicted by the product. This is the single most damaging claim in the corpus because it targets the highest-ACV buyer, where our citation coverage is already lowest.',
+  fix:['Publish a multi-site capability page with screenshots and a demo video','Add structured feature data for consolidated reporting','Secure one franchise customer story with named attribution'],
+  imp:'+$1.4M est. pipeline · affects the $90K+ ACV segment directly'}};
+document.querySelectorAll('[data-claim]').forEach(tr=>{
+  tr.onclick=()=>{
+    const c=CLAIMS[tr.dataset.claim];
+    mdl.innerHTML=`<div class="mh"><div><h3>${c.t}</h3><p>traced to source · ${c.v}</p></div><button class="x" id="mx">CLOSE</button></div>
+    <div class="mb">
+      <div class="panel" style="border:none;padding:0;margin-bottom:14px">
+        <div class="lbl" style="font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--amber);margin-bottom:7px">Where it comes from</div>
+        <p style="font-size:13px;color:var(--mut);margin-bottom:16px">${c.src}</p>
+        <div class="lbl" style="font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--amber);margin-bottom:7px">Why it persists</div>
+        <p style="font-size:13px;color:var(--mut);margin-bottom:16px">${c.why}</p>
+        <div class="lbl" style="font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--amber);margin-bottom:7px">Recommended response</div>
+        <ul style="list-style:none;margin-bottom:16px">${c.fix.map(f=>`<li style="font-size:13px;color:var(--mut);padding:6px 0 6px 16px;position:relative"><span style="position:absolute;left:0;color:var(--amber)">▸</span>${f}</li>`).join('')}</ul>
+      </div>
+      <div class="todo" style="margin-top:0"><div class="h">Projected impact if actioned</div>
+      <p style="color:var(--ink);font-size:14px">${c.imp}</p>
+      <div class="acts"><button class="act" id="dispatchC">Dispatch Narrative Defense Agent →</button></div></div>
+    </div>`;
+    ovl.classList.add('on');
+    document.getElementById('mx').onclick=()=>ovl.classList.remove('on');
+    document.getElementById('dispatchC').onclick=()=>{ovl.classList.remove('on');
+      const a=AGENTS.find(x=>x.id==='a4');go('ag');
+      setTimeout(()=>{const el=document.getElementById('btn_a4').closest('.agent');
+        el.scrollIntoView({behavior:'smooth',block:'center'});setTimeout(()=>runAgent(a),380);},320);};
+  };
+});
+
+/* ===== content heatmap ===== */
+const CLUSTERS=[
+ ['State compliance',8420,31,'stale'],['Billing & payments',3110,68,'good'],['Parent communication',2870,74,'good'],
+ ['Staff management',2340,52,'mixed'],['Enrollment & marketing',2180,61,'mixed'],['Curriculum & learning',1920,44,'mixed'],
+ ['Health & safety',1640,38,'stale'],['Subsidy programs',1420,22,'stale'],['Software comparison',1180,18,'stale'],
+ ['Business operations',1090,57,'mixed'],['Franchise & multi-site',760,16,'stale'],['Integrations',540,29,'stale'],
+ ['Product updates',480,71,'good'],['Customer stories',390,66,'good'],['Glossary & definitions',340,49,'mixed'],
+ ['Templates & forms',290,63,'good'],['Industry research',180,55,'mixed'],['Careers & culture',150,42,'mixed']];
+const HF=[['all','All content'],['stale','At risk'],['mixed','Needs work'],['good','Performing']];
+const hFil=document.getElementById('hFilters');
+let curF='all';
+HF.forEach(([k,l])=>{const b=document.createElement('button');b.className='hf'+(k==='all'?' on':'');b.textContent=l;
+ b.onclick=()=>{curF=k;[...hFil.children].forEach(c=>c.classList.remove('on'));b.classList.add('on');paintHeat();};hFil.appendChild(b);});
+function heatColor(v){return v>=60?'var(--green)':v>=40?'var(--amber)':'var(--red)';}
+function paintHeat(){
+  const el=document.getElementById('heat');el.innerHTML='';
+  CLUSTERS.filter(c=>curF==='all'||c[3]===curF).forEach(([n,p,sc,t])=>{
+    const d=document.createElement('div');d.className='hc';
+    d.style.borderLeft='2px solid '+heatColor(sc);
+    d.style.background=sc>=60?'rgba(63,207,142,.07)':sc>=40?'rgba(240,169,59,.07)':'rgba(242,86,92,.08)';
+    d.innerHTML=`<div class="hn">${n}</div><div class="hv" style="color:${heatColor(sc)}">${sc}<span style="color:var(--dim)"> · ${p.toLocaleString()}p</span></div>`;
+    d.onclick=()=>{document.getElementById('heatNote').innerHTML=
+      `<b>${n}</b> — ${p.toLocaleString()} pages, health ${sc}/100. `+
+      (sc<40?`Majority are stale or thin. ${Math.round(p*0.34).toLocaleString()} pages have not been reviewed in over a year and ${Math.round(p*0.19).toLocaleString()} draw no traffic. This cluster is a candidate for automated refresh pushed directly to Contentful rather than manual rewriting.`
+       :sc<60?`Mixed. ${Math.round(p*0.22).toLocaleString()} pages perform well and are worth deepening; the rest are candidates for merging. Consolidating here typically recovers more value than publishing net-new.`
+       :`Performing. Use these as the structural template for weaker clusters. ${Math.round(p*0.41).toLocaleString()} pages earn citations, the highest rate on the site.`);
+    };
+    el.appendChild(d);
+  });
+}
+paintHeat();
+
+bindActs();
+
+/* demo reset */
+const rstBtn=document.getElementById('rst');
+rstBtn.onclick=()=>{
+  AGENTS.forEach(a=>{
+    const b=document.getElementById('btn_'+a.id), l=document.getElementById('log_'+a.id);
+    if(b){b.disabled=false;b.textContent='Run agent';
+      const p=b.closest('.agent').querySelector('.pill');p.className='pill p-info';p.textContent='IDLE';}
+    if(l){l.className='log';l.innerHTML='';}
+  });
+  body.innerHTML='';
+  FEED.slice(0,6).forEach(([t,src,m,a])=>pushFeed(t,m,src,a));
+  fi=0; si=0; render();
+  showState('OH', document.querySelector('.tile.sel')?null:null);
+  document.querySelectorAll('.tile').forEach(t=>t.classList.remove('sel'));
+  go('cmd');
+  rstBtn.classList.add('flash'); rstBtn.textContent='✓ RESET';
+  setTimeout(()=>{rstBtn.classList.remove('flash');rstBtn.textContent='⟲ RESET DEMO';},1400);
+};
+
+/* theme toggle */
+const root=document.documentElement, tog=document.getElementById('tog'), togL=document.getElementById('togL');
+function setTheme(t){root.setAttribute('data-theme',t);togL.textContent=t==='light'?'DARK':'LIGHT';}
+setTheme('dark');
+tog.onclick=()=>setTheme(root.getAttribute('data-theme')==='light'?'dark':'light');
+</script>
+</body>
+</html>
