@@ -6,48 +6,46 @@
 <title>Organic Revenue Command Center — brightwheel</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#080C11;--panel:#111922;--panel2:#17212B;--line:#243240;--ink:#E7EDF3;--mut:#8A9CAE;--dim:#5C6E80;
---amber:#F0A93B;--green:#3FCF8E;--red:#F2565C;--blue:#5B9EE8;--purple:#A47FE8;
---rowhov:#131C25;--rowline:#19222C;--track:#0B1219;--logbg:#040609;--todobg:#0C141C;
---tipbg:#050810;--scrollbg:#0B1219;--scrollth:#2A3846;--execgrad:linear-gradient(90deg,#12202B,#111922);--logoink:#080C11}
-html[data-theme="light"]{--bg:#F4F6F8;--panel:#FFFFFF;--panel2:#EEF1F4;--line:#D5DCE3;--ink:#16202B;--mut:#4F6070;--dim:#7B8B9A;
---amber:#B4700F;--green:#1F7A4D;--red:#C0353B;--blue:#2C6BB0;--purple:#6B48B8;
---rowhov:#F0F3F6;--rowline:#E5EAEF;--track:#E2E7EC;--logbg:#0E151C;--todobg:#FBF6EC;
---tipbg:#16202B;--scrollbg:#E8ECF0;--scrollth:#BAC5CF;--execgrad:linear-gradient(90deg,#FBF3E4,#FFFFFF);--logoink:#FFFFFF}
-html[data-theme="light"] .log .ln{color:#8A9CAE}
-html[data-theme="light"] .log .out{color:#E7EDF3}
-html[data-theme="light"] .i .tip{color:#E7EDF3}
-html[data-theme="light"] .i .tip b{color:#F0A93B}
-html[data-theme="light"] .tile.g0{background:rgba(192,53,59,.16)}
-html[data-theme="light"] .tile.g1{background:rgba(180,112,15,.18)}
-html[data-theme="light"] .tile.g2{background:rgba(44,107,176,.14)}
-html[data-theme="light"] .tile.g3{background:rgba(31,122,77,.16)}
-html[data-theme="light"] .run{color:#FFFFFF}
+/* Palette lifted from mybrightwheel.com design tokens. Light only: the brand surface is white.
+   The log pane and tooltips stay dark on purpose and carry their own fixed on-dark colours. */
+:root{--bg:#F7F9FB;--panel:#FFFFFF;--panel2:#F7F9FF;--line:#EBEFF4;--ink:#18181D;--mut:#5C5E6A;--dim:#737685;
+--brand:#5463D6;--brand2:#6476FF;--teal:#03A39C;--warn:#896507;--green:#21774E;--red:#CF193A;--blue:#1570B9;--purple:#7E42EB;
+--rowhov:#F7F9FF;--rowline:#EBEFF4;--track:#EEF1FF;--logbg:#1E2549;--todobg:#F7F9FF;
+--tipbg:#1E2549;--scrollbg:#EEF1FF;--scrollth:#BABEC6;--execgrad:linear-gradient(90deg,#EEF1FF,#FFFFFF);--logoink:#FFFFFF;
+--r:10px;--rs:6px;--shadow:0 1px 2px rgba(24,24,29,.06),0 4px 16px rgba(24,24,29,.05)}
+/* The log pane and tooltips are dark surfaces in BOTH themes, so they carry fixed on-dark colors. */
+.log .ln{color:#8B93B8}.log .ln.hi{color:#B1BAFF}.log .ln.ok{color:#62CD8B}.log .ln.info{color:#49A8F3}
+.log .out{color:#F7F9FF}
+.i .tip{color:#F7F9FF}.i .tip b{color:#B1BAFF}
+.tile.g0{background:rgba(207,25,58,.14)}.tile.g1{background:rgba(254,204,56,.30)}
+.tile.g2{background:rgba(21,112,185,.13)}.tile.g3{background:rgba(33,119,78,.15)}
 *{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--bg);color:var(--ink);transition:background .2s,color .2s;font-family:'IBM Plex Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased}
+body{background:var(--bg);color:var(--ink);transition:background .2s,color .2s;font-family:'AvenirNext','Avenir Next',Avenir,Figtree,'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased}
 .app{max-width:1600px;margin:0 auto;padding:0 18px 50px}
 .shell{display:grid;grid-template-columns:1fr 316px;gap:16px;align-items:start}
 @media(max-width:1180px){.shell{grid-template-columns:1fr}}
 header{display:flex;align-items:center;gap:14px;padding:16px 0 14px;border-bottom:1px solid var(--line);flex-wrap:wrap}
-.logo{width:30px;height:30px;background:var(--amber);border-radius:6px;display:grid;place-items:center;color:var(--logoink);font-weight:700;font-size:16px}
+.logo{display:flex;align-items:center;gap:10px;flex:none}
+.lg-mark{width:32px;height:32px;flex:none}
+.lg-word{height:19px;width:auto;color:var(--ink);flex:none}
+.hdiv{width:1px;height:30px;background:var(--line);flex:none}
+@media(max-width:620px){.hdiv{display:none}}
 .hd h1{font-size:15.5px;font-weight:600;letter-spacing:-.01em}
 .hd p{font-size:11px;color:var(--dim);font-family:'IBM Plex Mono',ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace;letter-spacing:.04em}
-.rst{background:none;border:1px solid var(--line);color:var(--dim);font:inherit;font-size:11px;font-family:'IBM Plex Mono',ui-monospace,Menlo,monospace;padding:6px 11px;cursor:pointer;letter-spacing:.06em}
+.rst{background:none;border:1px solid var(--line);border-radius:var(--rs);color:var(--dim);font:inherit;font-size:11px;font-family:'IBM Plex Mono',ui-monospace,Menlo,monospace;padding:6px 11px;cursor:pointer;letter-spacing:.06em}
 .rst:hover{border-color:var(--red);color:var(--red)}
 .rst.flash{border-color:var(--green);color:var(--green)}
-.tog{background:none;border:1px solid var(--line);color:var(--mut);font:inherit;font-size:11px;font-family:'IBM Plex Mono',ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace;padding:6px 11px;cursor:pointer;display:flex;align-items:center;gap:6px;letter-spacing:.06em}
-.tog:hover{border-color:var(--amber);color:var(--amber)}
 .live{margin-left:auto;display:flex;align-items:center;gap:8px;font-family:'IBM Plex Mono',ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace;font-size:10.5px;color:var(--mut)}
 .dot{width:7px;height:7px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
-.exec{background:var(--execgrad);border:1px solid var(--line);border-left:3px solid var(--amber);padding:16px 20px;margin-top:14px}
-.exec .lbl{font-family:'IBM Plex Mono',ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--amber);margin-bottom:8px;display:flex;align-items:center;gap:7px}
+.exec{background:var(--execgrad);border:1px solid var(--line);border-left:3px solid var(--brand);border-radius:var(--r);padding:16px 20px;margin-top:14px}
+.exec .lbl{font-family:'IBM Plex Mono',ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--brand);margin-bottom:8px;display:flex;align-items:center;gap:7px}
 .exec .stmt{font-size:16.5px;line-height:1.55;font-weight:500}
 .exec .stmt b{color:var(--green)}
 .exec .cyc{margin-top:9px;font-family:'IBM Plex Mono',ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace;font-size:10.5px;color:var(--dim)}
-.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(168px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);margin-top:14px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(168px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;margin-top:14px;box-shadow:var(--shadow)}
 .kpi{background:var(--panel);padding:13px 15px;position:relative}
 .kpi.clk{cursor:pointer}.kpi.clk:hover{background:var(--panel2)}
 .kpi .k{font-family:'IBM Plex Mono',ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);margin-bottom:7px;display:flex;align-items:center;gap:5px}
@@ -56,25 +54,25 @@ header{display:flex;align-items:center;gap:14px;padding:16px 0 14px;border-botto
 .up{color:var(--green)}.down{color:var(--red)}.flat{color:var(--mut)}
 .kpi .arrow{position:absolute;right:11px;bottom:9px;color:var(--dim);font-size:11px}
 .i{display:inline-grid;place-items:center;width:12px;height:12px;border:1px solid var(--dim);border-radius:50%;font-size:8.5px;color:var(--dim);cursor:help;position:relative;font-weight:600;flex:none}
-.i:hover{border-color:var(--amber);color:var(--amber)}
-.i .tip{visibility:hidden;opacity:0;position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);width:290px;background:var(--tipbg);border:1px solid var(--amber);padding:11px 13px;font-size:11.5px;line-height:1.55;color:var(--ink);text-transform:none;letter-spacing:0;z-index:99;transition:.15s;font-weight:400;text-align:left;box-shadow:0 8px 28px rgba(0,0,0,.7)}
+.i:hover{border-color:var(--brand);color:var(--brand)}
+.i .tip{visibility:hidden;opacity:0;position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);width:290px;background:var(--tipbg);border:1px solid var(--brand);border-radius:8px;padding:11px 13px;font-size:11.5px;line-height:1.55;color:var(--ink);text-transform:none;letter-spacing:0;z-index:99;transition:.15s;font-weight:400;text-align:left;box-shadow:0 8px 28px rgba(24,24,29,.28)}
 .i:hover .tip{visibility:visible;opacity:1}
-.i .tip b{color:var(--amber)}
+.i .tip b{color:var(--brand)}
 .i.r .tip{left:auto;right:0;transform:none}
 nav{display:flex;gap:2px;margin-top:16px;border-bottom:1px solid var(--line);overflow-x:auto}
 nav button{background:none;border:none;color:var(--mut);font:inherit;font-size:12.5px;padding:10px 14px;cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap}
 nav button:hover{color:var(--ink)}
-nav button.on{color:var(--amber);border-bottom-color:var(--amber)}
+nav button.on{color:var(--brand);border-bottom-color:var(--brand)}
 .view{display:none;padding-top:18px}.view.on{display:block;animation:fade .22s ease}
 @keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
 .row{display:grid;gap:13px;margin-bottom:13px}
 .c2{grid-template-columns:1fr 1fr}.c3{grid-template-columns:1.35fr 1fr}
 @media(max-width:900px){.c2,.c3{grid-template-columns:1fr}}
-.panel{background:var(--panel);border:1px solid var(--line);padding:17px}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:17px;box-shadow:var(--shadow)}
 .panel h3{font-size:13px;font-weight:600;margin-bottom:3px;display:flex;align-items:center;gap:7px}
 .panel .sub{font-size:11px;color:var(--dim);margin-bottom:14px;font-family:'IBM Plex Mono',ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace}
 .bar-row{display:grid;grid-template-columns:128px 1fr 50px;align-items:center;gap:11px;padding:6px 0}
-.bar-row .nm{font-size:12px;color:var(--mut)}.bar-row .nm.us{color:var(--amber);font-weight:600}
+.bar-row .nm{font-size:12px;color:var(--mut)}.bar-row .nm.us{color:var(--brand);font-weight:600}
 .track{height:7px;background:var(--track);border-radius:3px;overflow:hidden}
 .fill{display:block;height:100%;border-radius:3px;transition:width .8s cubic-bezier(.4,0,.2,1)}
 .bar-row .pct{font-family:'IBM Plex Mono',ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace;font-size:11.5px;text-align:right}
@@ -82,15 +80,15 @@ table{width:100%;border-collapse:collapse;font-size:12px}
 th{text-align:left;font-family:'IBM Plex Mono',ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);padding:0 9px 8px 0;border-bottom:1px solid var(--line);font-weight:500}
 td{padding:8px 9px 8px 0;border-bottom:1px solid var(--rowline);color:var(--mut)}
 td.p{color:var(--ink)}tr:hover td{background:var(--rowhov)}
-.pill{font-family:'IBM Plex Mono',ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace;font-size:9.5px;padding:2px 6px;border-radius:3px;display:inline-block;white-space:nowrap}
-.p-crit{background:rgba(242,86,92,.13);color:var(--red)}.p-warn{background:rgba(240,169,59,.13);color:var(--amber)}
-.p-ok{background:rgba(63,207,142,.13);color:var(--green)}.p-info{background:rgba(91,158,232,.13);color:var(--blue)}
-.todo{background:var(--todobg);border:1px solid var(--line);border-top:2px solid var(--amber);padding:13px 15px;margin-top:13px}
-.todo .h{font-family:'IBM Plex Mono',ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace;font-size:9.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--amber);margin-bottom:9px}
+.pill{border-radius:4px;font-family:'IBM Plex Mono',ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace;font-size:9.5px;padding:2px 6px;border-radius:3px;display:inline-block;white-space:nowrap}
+.p-crit{background:rgba(207,25,58,.12);color:var(--red)}.p-warn{background:rgba(254,204,56,.22);color:var(--warn)}
+.p-ok{background:rgba(33,119,78,.13);color:var(--green)}.p-info{background:rgba(21,112,185,.12);color:var(--blue)}
+.todo{background:var(--todobg);border:1px solid var(--line);border-top:2px solid var(--brand);padding:13px 15px;margin-top:13px}
+.todo .h{font-family:'IBM Plex Mono',ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace;font-size:9.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--brand);margin-bottom:9px}
 .todo p{font-size:12.5px;color:var(--mut);margin-bottom:11px}
 .acts{display:flex;gap:8px;flex-wrap:wrap}
-.act{background:none;border:1px solid var(--line);color:var(--amber);font:inherit;font-size:11px;padding:6px 11px;cursor:pointer;font-family:'IBM Plex Mono',ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace}
-.act:hover{border-color:var(--amber);background:rgba(240,169,59,.08)}
+.act{background:none;border:1px solid var(--line);border-radius:var(--rs);color:var(--brand);font:inherit;font-size:11px;padding:7px 12px;cursor:pointer;font-family:'IBM Plex Mono',ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace}
+.act:hover{border-color:var(--brand);background:rgba(100,118,255,.08)}
 .scores{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:13px}
 .score{background:var(--panel2);border:1px solid var(--line);padding:15px;text-align:center}
 .score .n{font-family:'IBM Plex Mono',ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace;font-size:31px;font-weight:600;line-height:1}
@@ -98,11 +96,11 @@ td.p{color:var(--ink)}tr:hover td{background:var(--rowhov)}
 .score .b{font-family:'IBM Plex Mono',ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace;font-size:10px;margin-top:5px}
 .usmap{display:grid;grid-template-columns:repeat(11,1fr);gap:4px;max-width:660px;margin:0 auto}
 .tile{aspect-ratio:1;background:var(--panel2);border:1px solid var(--line);display:grid;place-items:center;cursor:pointer;transition:.13s;position:relative}
-.tile:hover{transform:scale(1.11);z-index:5;border-color:var(--amber)}
-.tile.sel{border-color:var(--amber);box-shadow:0 0 0 2px rgba(240,169,59,.3)}
+.tile:hover{transform:scale(1.11);z-index:5;border-color:var(--brand)}
+.tile.sel{border-color:var(--brand);box-shadow:0 0 0 2px rgba(100,118,255,.32)}
 .tile span{font-family:'IBM Plex Mono',ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace;font-size:10.5px;font-weight:600}
-.tile.g0{background:rgba(242,86,92,.22)}.tile.g1{background:rgba(240,169,59,.2)}
-.tile.g2{background:rgba(91,158,232,.18)}.tile.g3{background:rgba(63,207,142,.22)}
+.tile.g0{background:rgba(207,25,58,.14)}.tile.g1{background:rgba(254,204,56,.30)}
+.tile.g2{background:rgba(21,112,185,.13)}.tile.g3{background:rgba(33,119,78,.15)}
 .legend{display:flex;gap:15px;flex-wrap:wrap;justify-content:center;margin-top:15px;font-family:'IBM Plex Mono',ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace;font-size:10px;color:var(--dim)}
 .legend i{display:inline-block;width:9px;height:9px;margin-right:5px;border-radius:2px}
 .stkpi{display:grid;grid-template-columns:repeat(auto-fit,minmax(112px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);margin-bottom:13px}
@@ -119,21 +117,23 @@ td.p{color:var(--ink)}tr:hover td{background:var(--rowhov)}
 .fi .fm{font-size:11.5px;color:var(--mut);line-height:1.5}
 .fi .fm b{color:var(--ink);font-weight:600}
 .fi.crit{border-left:2px solid var(--red)}.fi.opp{border-left:2px solid var(--green)}
-.fi.warn{border-left:2px solid var(--amber)}.fi.info{border-left:2px solid var(--blue)}
+.fi.warn{border-left:2px solid var(--brand)}.fi.info{border-left:2px solid var(--blue)}
 .agents{display:grid;grid-template-columns:repeat(auto-fill,minmax(292px,1fr));gap:12px}
-.agent{background:var(--panel);border:1px solid var(--line);padding:15px;display:flex;flex-direction:column}
+.agent{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:15px;display:flex;flex-direction:column;box-shadow:var(--shadow)}
 .agent .top{display:flex;justify-content:space-between;gap:9px;margin-bottom:8px}
 .agent h4{font-size:13px;font-weight:600}
 .agent .desc{font-size:11.5px;color:var(--mut);margin-bottom:11px;flex:1}
 .agent .meta{font-family:'IBM Plex Mono',ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace;font-size:10px;color:var(--dim);margin-bottom:11px;line-height:1.7}
 .agent .meta b{color:var(--mut);font-weight:500}
-.run{background:var(--amber);border:none;color:var(--logoink);font:inherit;font-weight:600;font-size:12px;padding:8px;cursor:pointer;width:100%}
+.run{background:var(--brand);border:none;border-radius:var(--rs);color:var(--logoink);font:inherit;font-weight:600;font-size:12px;padding:9px;cursor:pointer;width:100%}
+.run:hover:not(:disabled){background:var(--brand2)}
 .run:hover{background:#FFBB55}.run:disabled{background:var(--panel2);color:var(--dim);cursor:default}
 .log{background:var(--logbg);border:1px solid var(--line);border-top:none;padding:0 12px;font-family:'IBM Plex Mono',ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace;font-size:10px;line-height:1.85;max-height:0;overflow:hidden;transition:max-height .4s ease}
 .log.open{max-height:320px;overflow-y:auto;padding:11px 12px}
-.log .ln{color:var(--dim)}.log .ln.ok{color:var(--green)}.log .ln.hi{color:var(--amber)}.log .ln.info{color:var(--blue)}
+.log .ln{color:var(--dim)}.log .ln.ok{color:var(--green)}.log .ln.hi{color:var(--brand)}.log .ln.info{color:var(--blue)}
 .log .out{color:var(--ink);border-top:1px solid var(--line);margin-top:8px;padding-top:8px;white-space:pre-wrap}
-.note{background:var(--panel2);border-left:2px solid var(--blue);padding:11px 14px;font-size:12px;color:var(--mut);margin-top:12px}
+.note{background:var(--panel2);border-left:2px solid var(--blue);border-radius:0 var(--rs) var(--rs) 0;padding:11px 14px;font-size:12px;color:var(--mut);line-height:1.6;margin-top:12px}
+.note b{color:var(--ink)}
 .note b{color:var(--ink)}
 footer{margin-top:22px;padding-top:14px;border-top:1px solid var(--line);font-family:'IBM Plex Mono',ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace;font-size:10px;color:var(--dim);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
 
@@ -142,7 +142,7 @@ footer{margin-top:22px;padding-top:14px;border-top:1px solid var(--line);font-fa
 .ds{flex:1;min-width:132px;padding:9px 13px;border-right:1px solid var(--line);display:flex;align-items:center;gap:8px}
 .ds:last-child{border-right:none}
 .ds .sd{width:6px;height:6px;border-radius:50%;background:var(--green);flex:none}
-.ds .sd.amb{background:var(--amber)}
+.ds .sd.amb{background:var(--brand)}
 .ds .nm{font-family:'IBM Plex Mono',ui-monospace,Menlo,monospace;font-size:10px;color:var(--mut);letter-spacing:.05em}
 .ds .st{margin-left:auto;font-family:'IBM Plex Mono',ui-monospace,Menlo,monospace;font-size:9px;color:var(--dim)}
 /* exec nav */
@@ -150,10 +150,10 @@ footer{margin-top:22px;padding-top:14px;border-top:1px solid var(--line);font-fa
 .execrow .txt{flex:1}
 .enav{display:flex;gap:5px;flex:none}
 .enav button{background:none;border:1px solid var(--line);color:var(--mut);width:26px;height:26px;cursor:pointer;font-size:13px;line-height:1;display:grid;place-items:center}
-.enav button:hover{border-color:var(--amber);color:var(--amber)}
+.enav button:hover{border-color:var(--brand);color:var(--brand)}
 .edots{display:flex;gap:5px;margin-top:10px}
 .edots i{width:16px;height:2px;background:var(--line);display:block;cursor:pointer}
-.edots i.on{background:var(--amber)}
+.edots i.on{background:var(--brand)}
 /* impact badge */
 .imp{font-family:'IBM Plex Mono',ui-monospace,Menlo,monospace;font-size:9.5px;color:var(--green);border:1px solid rgba(63,207,142,.3);background:rgba(63,207,142,.08);padding:1px 5px;margin-left:6px;border-radius:2px}
 /* modal */
@@ -167,24 +167,24 @@ footer{margin-top:22px;padding-top:14px;border-top:1px solid var(--line);font-fa
 .mdl .x:hover{border-color:var(--red);color:var(--red)}
 .mdl .mb{padding:20px 22px}
 .chart{width:100%;height:210px;margin:6px 0 14px}
-.copybtn{background:none;border:1px solid var(--line);color:var(--amber);font-family:'IBM Plex Mono',ui-monospace,Menlo,monospace;font-size:11px;padding:6px 11px;cursor:pointer}
-.copybtn:hover{border-color:var(--amber)}
+.copybtn{background:none;border:1px solid var(--line);color:var(--brand);font-family:'IBM Plex Mono',ui-monospace,Menlo,monospace;font-size:11px;padding:6px 11px;cursor:pointer}
+.copybtn:hover{border-color:var(--brand)}
 /* brain */
 .brain{padding:12px 15px;border-bottom:1px solid var(--line);background:var(--panel2)}
 .brain .bt{font-family:'IBM Plex Mono',ui-monospace,Menlo,monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);margin-bottom:9px}
 .bstage{display:flex;align-items:center;gap:8px;padding:4px 0;font-size:11px;color:var(--mut)}
 .bstage .bn{font-family:'IBM Plex Mono',ui-monospace,Menlo,monospace;font-size:13px;font-weight:600;color:var(--ink);min-width:34px}
 .bstage .bl{flex:1}
-.bstage .bd{width:5px;height:5px;border-radius:50%;background:var(--amber)}
+.bstage .bd{width:5px;height:5px;border-radius:50%;background:var(--brand)}
 /* heatmap */
 .heat{display:grid;grid-template-columns:repeat(auto-fill,minmax(94px,1fr));gap:4px}
 .hc{padding:9px 8px;border:1px solid var(--line);cursor:pointer;transition:.13s}
-.hc:hover{transform:translateY(-2px);border-color:var(--amber)}
+.hc:hover{transform:translateY(-2px);border-color:var(--brand)}
 .hc .hn{font-size:10.5px;color:var(--ink);line-height:1.25;margin-bottom:5px}
 .hc .hv{font-family:'IBM Plex Mono',ui-monospace,Menlo,monospace;font-size:11px}
 .hfilters{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:13px}
-.hf{background:none;border:1px solid var(--line);color:var(--mut);font:inherit;font-size:11px;padding:5px 10px;cursor:pointer;font-family:'IBM Plex Mono',ui-monospace,Menlo,monospace}
-.hf.on{border-color:var(--amber);color:var(--amber);background:rgba(240,169,59,.08)}
+.hf{background:none;border:1px solid var(--line);border-radius:var(--rs);color:var(--mut);font:inherit;font-size:11px;padding:5px 10px;cursor:pointer;font-family:'IBM Plex Mono',ui-monospace,Menlo,monospace}
+.hf.on{border-color:var(--brand);color:var(--brand);background:rgba(100,118,255,.08)}
 /* persona */
 .pcards{display:grid;grid-template-columns:repeat(auto-fit,minmax(232px,1fr));gap:12px}
 .pc{background:var(--panel2);border:1px solid var(--line);padding:14px}
@@ -198,17 +198,56 @@ footer{margin-top:22px;padding-top:14px;border-top:1px solid var(--line);font-fa
 
 ::-webkit-scrollbar{width:7px;height:7px}::-webkit-scrollbar-track{background:var(--scrollbg)}
 ::-webkit-scrollbar-thumb{background:var(--scrollth);border-radius:4px}
+
+/* ---- competitive / SOV views ---- */
+.sovgrid{display:grid;grid-template-columns:1fr 1fr;gap:13px}
+@media(max-width:900px){.sovgrid{grid-template-columns:1fr}}
+.dv{display:grid;grid-template-columns:122px 1fr 62px;align-items:center;gap:11px;padding:5px 0}
+.dv .nm{font-size:12px;color:var(--mut)}.dv .nm.us{color:var(--brand);font-weight:700}
+.dvt{position:relative;height:16px;background:var(--track);border-radius:3px}
+.dvt::before{content:'';position:absolute;left:50%;top:-3px;bottom:-3px;width:1px;background:var(--line)}
+.dvb{position:absolute;top:3px;bottom:3px;border-radius:2px;transition:width .8s cubic-bezier(.4,0,.2,1)}
+.dv .pct{font-family:'IBM Plex Mono',ui-monospace,Menlo,monospace;font-size:11.5px;text-align:right}
+.wl{display:grid;grid-template-columns:1fr 1fr;gap:13px}
+@media(max-width:900px){.wl{grid-template-columns:1fr}}
+.wlcard{border:1px solid var(--line);border-radius:var(--r);padding:14px;background:var(--panel2)}
+.wlcard.win{border-top:2px solid var(--green)}
+.wlcard.lose{border-top:2px solid var(--red)}
+.wlcard h4{font-size:12px;font-weight:700;margin-bottom:2px}
+.wlcard .sb{font-family:'IBM Plex Mono',ui-monospace,Menlo,monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--dim);margin-bottom:11px}
+.wlr{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:baseline;padding:7px 0;border-bottom:1px solid var(--rowline)}
+.wlr:last-child{border-bottom:none}
+.wlr .t{display:block;font-size:12px;color:var(--ink)}
+.wlr .m{display:block;font-size:10.5px;color:var(--dim);font-family:'IBM Plex Mono',ui-monospace,Menlo,monospace;margin-top:3px}
+.wlr .g{font-family:'IBM Plex Mono',ui-monospace,Menlo,monospace;font-size:12.5px;font-weight:600;white-space:nowrap}
+.eng{display:grid;grid-template-columns:118px 1fr;gap:11px;align-items:center;padding:7px 0;border-bottom:1px solid var(--rowline)}
+.eng:last-child{border-bottom:none}
+.eng .en{font-size:12px;color:var(--ink)}
+.eng .en small{display:block;color:var(--dim);font-size:10px;font-family:'IBM Plex Mono',ui-monospace,Menlo,monospace}
+.engb{display:grid;grid-template-columns:1fr 50px 116px;gap:9px;align-items:center}
+.ldr{font-family:'IBM Plex Mono',ui-monospace,Menlo,monospace;font-size:10px;color:var(--dim);white-space:nowrap;text-align:right}
+.engt{position:relative;height:20px;background:var(--track);border-radius:3px;overflow:hidden}
+.engt .u{position:absolute;left:0;top:0;bottom:0;background:var(--brand);border-radius:3px 0 0 3px}
+.engt .l{position:absolute;top:0;bottom:0;border-left:2px dashed var(--red)}
+.oppcard{border:1px solid var(--line);border-radius:var(--r);padding:13px 15px;margin-bottom:9px;background:var(--panel2);display:grid;grid-template-columns:26px 1fr auto;gap:13px;align-items:start}
+.oppcard .rk{font-family:'IBM Plex Mono',ui-monospace,Menlo,monospace;font-size:16px;font-weight:700;color:var(--brand);line-height:1.2}
+.oppcard h4{font-size:13px;font-weight:600;margin-bottom:4px}
+.oppcard p{font-size:11.5px;color:var(--mut);line-height:1.55}
+.oppcard .val{font-family:'IBM Plex Mono',ui-monospace,Menlo,monospace;font-size:14px;font-weight:600;color:var(--green);white-space:nowrap;text-align:right}
+.oppcard .val small{display:block;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);font-weight:400;margin-top:3px}
+.lead{display:inline-block;font-family:'IBM Plex Mono',ui-monospace,Menlo,monospace;font-size:9.5px;padding:2px 6px;border-radius:4px;background:rgba(100,118,255,.10);color:var(--brand)}
 </style>
 </head>
 <body>
 <div class="app">
 <header>
-  <div class="logo">b</div>
+  <div class="logo"><svg class="lg-mark" viewBox="0 0 73 72" role="img" aria-label="brightwheel"><title>brightwheel</title><path fill-rule="evenodd" clip-rule="evenodd" d="M9.78268 43.3709C7.68611 45.4675 4.28555 45.4664 2.19673 43.3776C0.103487 41.2843 0.0968455 37.8971 2.20227 35.7917L9.73176 28.2633C11.8283 26.1667 15.2289 26.1678 17.3177 28.2566C19.4098 30.3499 19.4165 33.7371 17.3111 35.8426L9.78268 43.3709Z" fill="#FBA32A"/><path fill-rule="evenodd" clip-rule="evenodd" d="M29.069 9.31309C27.0028 7.21652 27.005 3.81486 29.0636 1.72604C31.1254 -0.366101 34.4647 -0.372743 36.5396 1.73268L43.9588 9.26106C46.025 11.3576 46.0239 14.7582 43.9643 16.847C41.9025 18.9402 38.5643 18.9469 36.4883 16.8415L29.069 9.31309Z" fill="#4FA06A"/><path fill-rule="evenodd" clip-rule="evenodd" d="M12.5878 22.1237C9.66633 22.1237 7.29688 19.6992 7.29688 16.7214C7.29688 13.738 9.65324 11.3203 12.5878 11.3203H23.0812C26.0027 11.3203 28.3711 13.7447 28.3711 16.7214C28.3711 19.7059 26.0158 22.1237 23.0812 22.1237H12.5878Z" fill="#FECC38"/><path fill-rule="evenodd" clip-rule="evenodd" d="M22.615 59.7589C22.615 62.7169 20.1895 65.1159 17.2128 65.1159C14.2294 65.1159 11.8105 62.7301 11.8105 59.7589V49.1343C11.8105 46.1763 14.235 43.7783 17.2128 43.7783C20.1962 43.7783 22.615 46.163 22.615 49.1343V59.7589Z" fill="#FF543E"/><path fill-rule="evenodd" clip-rule="evenodd" d="M43.9096 62.3353C46.0062 64.4318 46.005 67.8324 43.9162 69.9212C41.823 72.0145 38.4357 72.02 36.3303 69.9146L28.8008 62.3862C26.7042 60.2896 26.7064 56.8891 28.7953 54.8002C30.8885 52.707 34.2758 52.7004 36.3812 54.8058L43.9096 62.3353Z" fill="#FC47AD"/><path fill-rule="evenodd" clip-rule="evenodd" d="M60.3458 49.5205C63.3038 49.5205 65.7028 51.9449 65.7028 54.9227C65.7028 57.9061 63.317 60.325 60.3458 60.325H49.7223C46.7632 60.325 44.3652 57.9006 44.3652 54.9227C44.3652 51.9394 46.7511 49.5205 49.7223 49.5205H60.3458Z" fill="#5D688E"/><path fill-rule="evenodd" clip-rule="evenodd" d="M62.9435 28.5305C65.0401 26.4643 68.4407 26.4654 70.5295 28.524C72.6227 30.5869 72.6294 33.9251 70.5239 36L62.9956 43.4203C60.899 45.4865 57.4984 45.4843 55.4096 43.4258C53.3164 41.3629 53.3097 38.0247 55.4152 35.9498L62.9435 28.5305Z" fill="#5463D6"/><path fill-rule="evenodd" clip-rule="evenodd" d="M50.1113 12.0965C50.1113 9.175 52.5357 6.80664 55.5124 6.80664C58.4969 6.80664 60.9147 9.16191 60.9147 12.0965V22.5899C60.9147 25.5114 58.4903 27.8808 55.5124 27.8808C52.5291 27.8808 50.1113 25.5245 50.1113 22.5899V12.0965Z" fill="#29B9BB"/></svg>
+  <svg class="lg-word" viewBox="153 339 650 102" role="img" aria-hidden="true"><path fill="currentColor" d="M155.006,437.346h14.386l0.046-9.133h0.256c2.199,3.716,5.159,6.42,8.881,8.108s7.74,2.534,12.054,2.534   c4.653,0,8.839-0.825,12.561-2.472c3.723-1.647,6.895-3.907,9.517-6.781c2.622-2.873,4.609-6.253,5.962-10.14   c1.353-3.887,2.031-8.069,2.031-12.549c0-4.479-0.72-8.661-2.157-12.549c-1.437-3.886-3.446-7.266-6.023-10.139   c-2.58-2.874-5.687-5.134-9.323-6.781c-3.637-1.647-7.611-2.473-11.923-2.473c-2.875,0-5.413,0.295-7.61,0.886   c-2.199,0.591-4.144,1.352-5.835,2.281c-1.691,0.929-3.13,1.921-4.313,2.978c-1.184,1.056-2.155,2.09-2.916,3.103h-0.402v-42.719   h-15.191V437.346L155.006,437.346z M204.301,413.761c-0.805,2.197-1.99,4.143-3.556,5.833c-1.565,1.691-3.45,3.044-5.651,4.058   c-2.202,1.016-4.7,1.521-7.493,1.521c-2.795,0-5.293-0.506-7.494-1.521c-2.202-1.014-4.087-2.366-5.652-4.058   c-1.566-1.691-2.751-3.636-3.556-5.833c-0.805-2.197-1.206-4.479-1.206-6.848c0-2.367,0.401-4.649,1.206-6.847   c0.805-2.197,1.99-4.141,3.556-5.832c1.565-1.691,3.45-3.043,5.652-4.059c2.201-1.014,4.699-1.521,7.494-1.521   c2.793,0,5.291,0.507,7.493,1.521c2.201,1.016,4.085,2.367,5.651,4.059c1.566,1.691,2.751,3.635,3.556,5.832   c0.805,2.197,1.208,4.479,1.208,6.847S205.106,411.563,204.301,413.761L204.301,413.761z M227.217,437.346h15.191v-32.558   c0-0.844,0.19-2.11,0.57-3.801c0.38-1.688,1.14-3.378,2.281-5.068c1.142-1.688,2.789-3.188,4.944-4.497   c2.155-1.308,5.008-1.963,8.558-1.963c1.182,0,2.386,0.104,3.612,0.308c1.225,0.204,2.471,0.472,3.74,0.798v-14.688   c-0.931-0.257-1.839-0.473-2.726-0.646c-0.886-0.173-1.795-0.259-2.726-0.259c-4.056,0-7.647,0.975-10.774,2.924   c-3.128,1.949-5.536,4.702-7.225,8.259h-0.254v-9.673h-15.191L227.217,437.346L227.217,437.346z M272.703,437.346h15.191v-60.865   h-15.191V437.346z M273.314,362.194c1.817,1.812,4.119,2.718,6.907,2.718s5.132-0.863,7.034-2.592   c1.9-1.728,2.852-3.898,2.852-6.513c0-2.612-0.951-4.783-2.852-6.512c-1.902-1.728-4.246-2.592-7.034-2.592   s-5.09,0.907-6.907,2.719c-1.817,1.812-2.724,3.941-2.724,6.385C270.591,358.253,271.498,360.381,273.314,362.194L273.314,362.194z    M347.812,376.481l-0.046,9.133h-0.256c-2.201-3.716-5.161-6.418-8.883-8.108c-3.723-1.688-7.738-2.534-12.052-2.534   c-4.738,0-8.946,0.826-12.626,2.475c-3.68,1.65-6.83,3.912-9.452,6.788c-2.622,2.876-4.61,6.259-5.963,10.15   c-1.354,3.891-2.03,8.076-2.03,12.558c0,4.313,0.718,8.374,2.155,12.18c1.437,3.807,3.485,7.104,6.148,9.896   c2.663,2.791,5.852,5.011,9.571,6.66c3.72,1.65,7.86,2.474,12.425,2.474c3.803,0,7.521-0.74,11.154-2.216   c3.635-1.478,6.551-3.696,8.748-6.651h0.302v4.422c0,3.032-0.317,5.79-0.951,8.274c-0.635,2.484-1.691,4.61-3.169,6.381   c-1.479,1.769-3.465,3.158-5.958,4.17c-2.492,1.01-5.557,1.516-9.189,1.516c-4.31,0-8.114-0.761-11.408-2.281   c-3.297-1.522-6.466-3.677-9.508-6.465l-9.126,12.42c4.31,3.801,8.999,6.418,14.07,7.854c5.069,1.436,10.436,2.153,16.098,2.153   c5.915,0,11.027-0.846,15.336-2.534c4.309-1.691,7.877-4.077,10.705-7.16c2.826-3.085,4.915-6.844,6.266-11.279   c1.35-4.437,2.026-9.4,2.026-14.892v-55.381H347.812L347.812,376.481L347.812,376.481z M342.979,393.607   c3.223,3.303,4.834,7.62,4.834,12.954c0,2.54-0.425,4.912-1.271,7.113c-0.85,2.2-2.057,4.085-3.625,5.65   c-1.568,1.567-3.476,2.817-5.722,3.748c-2.248,0.931-4.77,1.396-7.567,1.396c-2.543,0-4.919-0.465-7.122-1.396   c-2.204-0.931-4.112-2.201-5.722-3.811c-1.611-1.609-2.863-3.473-3.753-5.588c-0.89-2.116-1.334-4.403-1.334-6.858   c0-2.71,0.444-5.186,1.334-7.431c0.89-2.243,2.119-4.148,3.688-5.714c1.569-1.566,3.456-2.793,5.659-3.683   c2.204-0.89,4.664-1.334,7.377-1.334C335.349,388.654,339.757,390.306,342.979,393.607L342.979,393.607z M388.032,341.501h-15.191   v95.844h15.191v-33.223c0-2.027,0.253-3.972,0.76-5.832c0.506-1.859,1.328-3.508,2.466-4.945c1.138-1.437,2.573-2.578,4.303-3.423   c1.729-0.846,3.857-1.269,6.388-1.269c2.614,0,4.682,0.613,6.2,1.839s2.636,2.748,3.353,4.565c0.718,1.817,1.159,3.761,1.328,5.833   c0.169,2.071,0.254,3.951,0.254,5.642v30.812h15.19v-38.413c0-3.126-0.38-6.127-1.14-9c-0.759-2.874-2.024-5.409-3.796-7.606   c-1.773-2.198-4.071-3.972-6.897-5.324s-6.266-2.029-10.314-2.029c-4.726,0-8.585,1.036-11.581,3.104s-5.083,4.37-6.264,6.904   h-0.249V341.501L388.032,341.501z M444.795,389.459v27.864c0,3.546,0.273,6.671,0.822,9.373s1.561,4.961,3.039,6.776   c1.478,1.815,3.502,3.166,6.076,4.053c2.573,0.886,5.889,1.329,9.944,1.329c1.773,0,3.823-0.148,6.146-0.442   c2.323-0.298,4.288-0.825,5.895-1.585v-12.805c-0.931,0.66-2.197,1.134-3.803,1.423c-1.606,0.289-3.084,0.432-4.436,0.432   c-3.382,0-5.642-0.885-6.783-2.654c-1.142-1.771-1.71-4.174-1.71-7.209v-26.555h16.731v-12.978h-16.731v-17.62h-15.191v17.62   h-12.549v12.978H444.795z M502.072,437.346h15.717l12.804-41.591h0.253l14.451,41.591h15.084l20.663-60.865h-15.339l-12.676,42.606   h-0.254l-13.184-42.606h-16.478l-12.296,42.606h-0.253l-13.185-42.606h-16.479L502.072,437.346L502.072,437.346z M600.637,341.501   h-15.19v95.844h15.19v-33.223c0-2.027,0.254-3.972,0.76-5.832c0.506-1.859,1.328-3.508,2.466-4.945   c1.139-1.437,2.573-2.578,4.303-3.423s3.857-1.269,6.388-1.269c2.614,0,4.682,0.613,6.2,1.839s2.636,2.748,3.353,4.565   s1.159,3.761,1.329,5.833c0.168,2.071,0.253,3.951,0.253,5.642v30.812h15.19v-38.413c0-3.126-0.38-6.127-1.14-9   c-0.759-2.874-2.024-5.409-3.796-7.606c-1.772-2.198-4.071-3.972-6.897-5.324s-6.266-2.029-10.314-2.029   c-4.726,0-8.585,1.036-11.581,3.104s-5.083,4.37-6.264,6.904h-0.249V341.501L600.637,341.501z M709.713,412.195v-4.179   c0-5.316-0.697-10.022-2.094-14.116c-1.396-4.093-3.342-7.534-5.838-10.32c-2.495-2.785-5.498-4.915-9.009-6.393   c-3.511-1.478-7.382-2.216-11.609-2.216c-4.568,0-8.884,0.76-12.943,2.282c-4.062,1.521-7.572,3.675-10.532,6.464   c-2.962,2.789-5.309,6.148-7.042,10.078c-1.735,3.93-2.602,8.302-2.602,13.117c0,4.816,0.864,9.189,2.595,13.12   c1.729,3.93,4.072,7.287,7.025,10.075c2.953,2.789,6.459,4.944,10.515,6.466c4.056,1.52,8.366,2.281,12.929,2.281   c4.816,0,9.423-0.931,13.817-2.789c4.394-1.859,8.366-4.987,11.915-9.385l-10.901-8.238c-1.944,2.367-4.204,4.332-6.782,5.895   s-5.768,2.344-9.568,2.344c-4.311,0-7.987-1.27-11.028-3.812c-3.044-2.542-4.818-6.101-5.324-10.675H709.713L709.713,412.195   L709.713,412.195z M663.234,400.827c0.593-4.404,2.225-7.921,4.896-10.548c2.671-2.625,6.296-3.939,10.875-3.939   c4.832,0,8.606,1.292,11.319,3.876c2.714,2.584,4.112,6.122,4.197,10.611H663.234L663.234,400.827z M777.442,412.195v-4.179   c0-5.316-0.698-10.022-2.094-14.116c-1.396-4.093-3.343-7.534-5.838-10.32c-2.496-2.785-5.499-4.915-9.009-6.393   c-3.512-1.478-7.382-2.216-11.61-2.216c-4.568,0-8.883,0.76-12.943,2.282c-4.062,1.521-7.572,3.675-10.532,6.464   c-2.961,2.789-5.309,6.148-7.042,10.078c-1.735,3.93-2.602,8.302-2.602,13.117c0,4.816,0.865,9.189,2.596,13.12   c1.729,3.93,4.071,7.287,7.024,10.075c2.954,2.789,6.459,4.944,10.515,6.466c4.056,1.52,8.366,2.281,12.93,2.281   c4.816,0,9.422-0.931,13.816-2.789c4.394-1.859,8.366-4.987,11.916-9.385l-10.901-8.238c-1.944,2.367-4.205,4.332-6.783,5.895   s-5.768,2.344-9.568,2.344c-4.31,0-7.986-1.27-11.028-3.812c-3.043-2.542-4.818-6.101-5.324-10.675H777.442L777.442,412.195   L777.442,412.195z M730.964,400.827c0.592-4.404,2.224-7.921,4.896-10.548c2.671-2.625,6.295-3.939,10.874-3.939   c4.832,0,8.606,1.292,11.319,3.876c2.714,2.584,4.112,6.122,4.197,10.611H730.964L730.964,400.827z M784.809,437.346H800v-95.83   h-15.191V437.346L784.809,437.346z"/></svg></div>
+  <div class="hdiv"></div>
   <div class="hd"><h1>Organic Revenue Command Center</h1>
-  <p>brightwheel &nbsp;·&nbsp; owned + earned + community + paid, measured as one demand system</p></div>
+  <p>owned + earned + community + paid, measured as one demand system</p></div>
   <div class="live"><span class="dot"></span>DEMO DATA · 2026-08-14 06:11 ET</div>
   <button class="rst" id="rst" title="Clear all agent runs and restore the opening state">⟲ RESET DEMO</button>
-  <button class="tog" id="tog" title="Toggle light / dark">◐ <span id="togL">LIGHT</span></button>
 </header>
 
 <div class="dsbar">
@@ -230,17 +269,20 @@ footer{margin-top:22px;padding-top:14px;border-top:1px solid var(--line);font-fa
 </div>
 
 <div class="kpis">
+  <div class="kpi clk" data-go="comp"><div class="k">GEO share of voice <span class="i">i<span class="tip"><b>Share of AI answers to category buying questions that name brightwheel.</b> We rank 1st in search share of voice and 3rd here. Full competitive detail on the Competitors &amp; SOV tab.</span></span></div><div class="v" style="color:var(--red)">18.4%</div><div class="d down">rank 3 of 7 · −7.7pt to leader</div><div class="arrow">→</div></div>
   <div class="kpi clk" data-drill="pipeline"><div class="k">Organic-sourced pipeline <span class="i">i<span class="tip"><b>Pipeline dollars</b> attributable to organic first touch, on the same attribution model as paid. The number that makes organic defensible in a budget conversation.</span></span></div><div class="v" style="color:var(--green)">$4.82M</div><div class="d up">▲ 11.4% QoQ · ▲ 31% YoY</div></div>
   <div class="kpi clk" data-drill="aiconv"><div class="k">AI-assisted conversions <span class="i">i<span class="tip"><b>Conversions where an AI answer engine appeared in the path.</b> 6.1% of converting sessions and growing ~2 pts per quarter. Low volume, disproportionate value: these buyers arrive pre-qualified because the engine already screened alternatives.</span></span></div><div class="v">1,847</div><div class="d up">▲ 42% QoQ</div></div>
   <div class="kpi clk" data-drill="cac"><div class="k">Organic CAC vs paid <span class="i">i<span class="tip"><b>Blended cost per acquisition, organic against paid.</b> The durability argument: organic CAC compounds downward as content ages, paid CAC does not. This ratio is the strongest case for shifting mix.</span></span></div><div class="v" style="color:var(--green)">0.31×</div><div class="d up">paid $412 · organic $128</div></div>
   <div class="kpi clk" data-drill="forecast"><div class="k">Forecast Q4 contribution <span class="i">i<span class="tip"><b>Modeled organic pipeline for Q4</b> at current velocity with the state-coverage and citation-recovery programs shipped. Range reflects citation volatility, not measurement error.</span></span></div><div class="v" style="color:var(--blue)">$6.1M</div><div class="d flat">range $5.4M – $6.9M</div></div>
-  <div class="kpi clk" data-go="brand" data-drill="brand"><div class="k">Brand accuracy <span class="i">i<span class="tip"><b>How correctly engines describe brightwheel</b> when they mention you, scored by topic cluster. Distinct from sentiment: an engine can be positive and wrong. Factual drift compounds silently and surfaces later as churn.</span></span></div><div class="v" style="color:var(--amber)">71</div><div class="d down">▼ 6 pts QoQ</div><span class="arrow">→</span></div>
+  <div class="kpi clk" data-go="brand" data-drill="brand"><div class="k">Brand accuracy <span class="i">i<span class="tip"><b>How correctly engines describe brightwheel</b> when they mention you, scored by topic cluster. Distinct from sentiment: an engine can be positive and wrong. Factual drift compounds silently and surfaces later as churn.</span></span></div><div class="v" style="color:var(--brand)">71</div><div class="d down">▼ 6 pts QoQ</div><span class="arrow">→</span></div>
   <div class="kpi clk" data-go="sent" data-drill="sent"><div class="k">Sentiment <span class="i">i<span class="tip"><b>Tone of AI-generated descriptions,</b> normalized 0–100 across clusters and engines. Tracked separately from accuracy because they move independently and need different fixes.</span></span></div><div class="v" style="color:var(--green)">78</div><div class="d flat">▲ 1 pt QoQ</div><span class="arrow">→</span></div>
   <div class="kpi clk" data-go="tech" data-drill="tech"><div class="k">Technical AI readiness <span class="i">i<span class="tip"><b>Whether pages are mechanically citable:</b> answer-first passages, entity and schema coverage, crawler access, llms.txt, attribution, freshness. The controllable half of citation.</span></span></div><div class="v" style="color:var(--red)">54</div><div class="d up">▲ 4 pts QoQ</div><span class="arrow">→</span></div>
 </div>
 
 <nav>
   <button class="on" data-v="cmd">Command</button>
+  <button data-v="comp">Competitors &amp; SOV</button>
+  <button data-v="gaps">Gaps &amp; Opportunities</button>
   <button data-v="pers">Personas &amp; Journey</button>
   <button data-v="brand">Brand Accuracy</button>
   <button data-v="sent">Sentiment</button>
@@ -293,7 +335,7 @@ footer{margin-top:22px;padding-top:14px;border-top:1px solid var(--line);font-fa
     <div class="panel">
       <h3>Where citations originate <span class="i">i<span class="tip"><b>Owned content is roughly a third of the input.</b> The rest is review platforms, community, earned press, and video. This is the structural reason AI search cannot be run as an SEO channel and has to be run as an integrated program.</span></span></h3>
       <div class="sub">source mix across cited answers · 30d</div>
-      <div class="bar-row"><span class="nm us">Owned site</span><span class="track"><span class="fill" style="width:34%;background:var(--amber)"></span></span><span class="pct">34%</span></div>
+      <div class="bar-row"><span class="nm us">Owned site</span><span class="track"><span class="fill" style="width:34%;background:var(--brand)"></span></span><span class="pct">34%</span></div>
       <div class="bar-row"><span class="nm">Review platforms</span><span class="track"><span class="fill" style="width:23%;background:var(--red)"></span></span><span class="pct">23%</span></div>
       <div class="bar-row"><span class="nm">Reddit / ECE forums</span><span class="track"><span class="fill" style="width:17%;background:var(--purple)"></span></span><span class="pct">17%</span></div>
       <div class="bar-row"><span class="nm">Trade press / PR</span><span class="track"><span class="fill" style="width:12%;background:var(--blue)"></span></span><span class="pct">12%</span></div>
@@ -319,12 +361,22 @@ footer{margin-top:22px;padding-top:14px;border-top:1px solid var(--line);font-fa
     </div>
   </div>
   <div class="panel">
+    <h3>Competitive position <span class="i">i<span class="tip"><b>The category scoreboard, in one line each.</b> Search share of voice is volume-weighted by ranking position; answer-engine share is the share of sampled AI answers naming each brand. Full breakdown, per-engine detail and the gap sets are on the Competitors &amp; SOV tab.</span></span></h3>
+    <div class="sub">brightwheel vs the tracked competitive set</div>
+    <div class="sovgrid">
+      <div><h4 style="font-size:12px;margin-bottom:3px">Search SOV</h4><div class="sub">we lead · 24.8%</div><div id="sovSeoMini"></div></div>
+      <div><h4 style="font-size:12px;margin-bottom:3px">Answer-engine SOV</h4><div class="sub">we are 3rd · 18.4%</div><div id="sovGeoMini"></div></div>
+    </div>
+    <div class="note"><b>Same brands, different result.</b> We win the search race and lose the answer race, and the two are drifting apart quarter over quarter. Every cluster we lose is a buying-committee topic: billing, scale, subsidy, price, comparison.</div>
+    <div class="acts" style="margin-top:12px"><button class="act" data-go="comp">Open competitive view →</button><button class="act" data-go="gaps">Open gaps &amp; opportunities →</button></div></div>
+
+  <div class="panel" style="margin-top:13px">
     <h3>State coverage rollup <span class="i">i<span class="tip"><b>The single most winnable surface brightwheel has.</b> Childcare is licensed state by state, so every operator has jurisdiction-specific questions with real commercial intent. Full detail on the State Coverage tab.</span></span></h3>
     <div class="sub">50 states · regulatory query surface · the number to report upward</div>
     <div class="stkpi">
       <div><div class="k">States cited</div><div class="v" style="color:var(--green)">7</div></div>
       <div><div class="k">Covered, not cited</div><div class="v" style="color:var(--blue)">12</div></div>
-      <div><div class="k">Thin / stale</div><div class="v" style="color:var(--amber)">13</div></div>
+      <div><div class="k">Thin / stale</div><div class="v" style="color:var(--brand)">13</div></div>
       <div><div class="k">No coverage</div><div class="v" style="color:var(--red)">18</div></div>
       <div><div class="k">Uncovered queries/mo</div><div class="v">14.2K</div></div>
       <div><div class="k">Pipeline at stake</div><div class="v" style="color:var(--green)">$2.1M</div></div>
@@ -335,6 +387,108 @@ footer{margin-top:22px;padding-top:14px;border-top:1px solid var(--line);font-fa
   </div>
 </section>
 
+
+<section class="view" id="comp">
+  <div class="panel">
+    <h3>Share of voice, search and answer engines <span class="i">i<span class="tip"><b>Two different races, scored on the same competitive set.</b> Search SOV is volume-weighted by ranking position across the tracked keyword universe. Answer-engine SOV is the share of AI answers to category buying questions that mention each brand, sampled repeatedly per prompt. A brand can lead one and lose the other, and that gap is the whole point of this view.</span></span></h3>
+    <div class="sub">4,180 tracked keywords &nbsp;·&nbsp; 240 prompts × 20 samples × 5 engines &nbsp;·&nbsp; noise floor ±2.2pt</div>
+    <div class="stkpi">
+      <div><div class="k">SEO SOV</div><div class="v" style="color:var(--green)">24.8%</div></div>
+      <div><div class="k">SEO rank</div><div class="v">1 of 7</div></div>
+      <div><div class="k">GEO SOV</div><div class="v" style="color:var(--red)">18.4%</div></div>
+      <div><div class="k">GEO rank</div><div class="v" style="color:var(--red)">3 of 7</div></div>
+      <div><div class="k">Gap to GEO leader</div><div class="v" style="color:var(--red)">−7.7pt</div></div>
+      <div><div class="k">Clusters led</div><div class="v">5 of 18</div></div>
+    </div>
+    <div class="sovgrid" style="margin-top:14px">
+      <div>
+        <h4 style="font-size:12px;margin-bottom:3px">Search share of voice</h4>
+        <div class="sub">volume-weighted by position · Google US</div>
+        <div id="sovSeo"></div>
+      </div>
+      <div>
+        <h4 style="font-size:12px;margin-bottom:3px">Answer-engine share of voice</h4>
+        <div class="sub">share of AI answers mentioning the brand</div>
+        <div id="sovGeo"></div>
+      </div>
+    </div>
+    <div class="note"><b>Read it this way.</b> brightwheel wins the search race and loses the answer race. Procare converts less search presence into more answer presence, and Playground converts 8.9% of search into 19.7% of answers — the single most efficient competitor in the category. Ranking is no longer the same asset as being cited.</div>
+  </div>
+
+  <div class="row c2">
+    <div class="panel">
+      <h3>Answer-layer efficiency <span class="i">i<span class="tip"><b>GEO SOV minus SEO SOV, per brand.</b> Positive means a brand is cited more than its search footprint would predict — it has structured content engines prefer to retrieve. Negative means search authority that is failing to convert into citation. This is the most actionable single chart in the tool because the fix is structural, not budgetary.</span></span></h3>
+      <div class="sub">positive = over-indexing in AI answers</div>
+      <div id="sovDelta"></div>
+      <div class="note"><b>We are the worst converter in the set.</b> −6.4pt means we hold search authority that engines are not turning into citations. Playground at +10.8pt publishes pricing, structured comparisons and specification tables. That is a content-format gap, and it is cheap to close relative to its value.</div>
+    </div>
+    <div class="panel">
+      <h3>GEO share of voice by engine <span class="i">i<span class="tip"><b>Every engine grounds its answers differently.</b> AI Overviews leans on classic ranking authority, which is why we lead there. Copilot repeats the G2 AI summary, Perplexity favours structured and freshly-dated sources, and Claude weights documentation depth. One aggregate number hides all of it.</span></span></h3>
+      <div class="sub">solid bar = brightwheel · dashed marker = leading competitor</div>
+      <div id="engRows"></div>
+      <div class="acts" style="margin-top:12px"><button class="act" data-agent="a13">Run competitive SOV tracker <span class="imp">monitoring</span></button></div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h3>Head-to-head <span class="i">i<span class="tip"><b>The competitive set on every dimension that feeds citation.</b> Review count and recency are here because review platforms are a top-three citation source in this category — they belong in a search scorecard even though nobody in search owns them.</span></span></h3>
+    <div class="sub">tracked competitive set · last 90 days</div>
+    <div style="overflow-x:auto"><table>
+      <tr><th>Brand</th><th>SEO SOV</th><th>GEO SOV</th><th>Δ</th><th>Avg pos</th><th>Top-3 kw</th><th>Own-domain citation rate</th><th>G2 reviews / 90d</th></tr>
+      <tbody id="h2h"></tbody>
+    </table></div>
+    <div class="note"><b>The review column explains the Copilot column.</b> Procare added 23 reviews in the last 90 days to our 1. Copilot and Gemini both lean on aggregated review summaries, so the review-recency gap converts directly into an answer-layer gap. That work sits with Customer Success, not with search.</div>
+  </div>
+
+  <div class="panel">
+    <h3>SERP feature ownership <span class="i">i<span class="tip"><b>Who occupies the surfaces above the classic blue links.</b> These are the positions that survive the shift to answer-first search, and the review rich snippet row is the one most directly tied to the citation gap.</span></span></h3>
+    <div class="sub">share of tracked keywords where each brand owns the feature</div>
+    <div style="overflow-x:auto"><table>
+      <tr><th>Feature</th><th>Keywords</th><th>brightwheel</th><th>Procare</th><th>Playground</th><th>Lillio</th><th>Unowned</th></tr>
+      <tbody id="serpFeat"></tbody>
+    </table></div>
+    <div class="note"><b>Unowned is the opportunity column.</b> On People Also Ask, 41% of eligible keywords have no consistent owner. Those are answerable with structured Q&amp;A content we already have the source material to write.</div>
+  </div>
+</section>
+
+<section class="view" id="gaps">
+  <div class="panel">
+    <h3>Where we win and where we lose <span class="i">i<span class="tip"><b>Eighteen topic clusters, scored on combined SEO and GEO share against the leading competitor in each.</b> We lead where the buyer is a single-site director asking about daily operations. We lose everywhere money, scale, or comparison enters the question — which is precisely where deal size lives.</span></span></h3>
+    <div class="sub">our share vs the leading competitor, by cluster</div>
+    <div class="wl">
+      <div class="wlcard win"><h4>Where we are winning</h4><div class="sb">5 clusters led</div><div id="wins"></div></div>
+      <div class="wlcard lose"><h4>Where we are losing</h4><div class="sb">7 clusters, ranked by revenue exposure</div><div id="loses"></div></div>
+    </div>
+    <div class="note"><b>The pattern is not random.</b> Every cluster we win is a daily-use product story. Every cluster we lose is a buying-committee story: billing, scale, subsidy, price, and comparison. Winning the director and losing the finance signer is how you end up with strong traffic and falling ACV.</div>
+  </div>
+
+  <div class="panel">
+    <h3>Keyword gaps <span class="i">i<span class="tip"><b>Keywords where a competitor ranks in the top 10 and we do not rank in the top 20.</b> Sorted by commercial value rather than volume. The two brand rows are the uncomfortable ones: competitors outrank us on our own brand terms, which means a prospect researching us is reading someone else's framing of us.</span></span></h3>
+    <div class="sub">competitor top-10 · brightwheel outside top-20 · Google US, monthly volume</div>
+    <div style="overflow-x:auto"><table>
+      <tr><th>Keyword</th><th>Volume</th><th>Our pos</th><th>Owner</th><th>Their pos</th><th>KD</th><th>Status</th></tr>
+      <tbody id="kwGap"></tbody>
+    </table></div>
+    <div class="acts" style="margin-top:12px"><button class="act" data-agent="a13">Refresh gap set <span class="imp">analysis</span></button><button class="act" data-agent="a4">Reclaim brand SERP <span class="imp">+$520K est.</span></button></div>
+  </div>
+
+  <div class="panel">
+    <h3>Prompt gaps <span class="i">i<span class="tip"><b>The GEO equivalent of a keyword gap.</b> Buying-intent prompts where competitors are named consistently and we are not. Mention rate is measured across 20 samples per prompt per engine, so a low number is a stable absence rather than one unlucky query.</span></span></h3>
+    <div class="sub">100 samples per prompt across 5 engines · noise floor ±2.2pt</div>
+    <div style="overflow-x:auto"><table>
+      <tr><th>Prompt</th><th>Our mention rate</th><th>Leader</th><th>Their rate</th><th>Absent on</th></tr>
+      <tbody id="ptGap"></tbody>
+    </table></div>
+    <div class="note"><b>The fourth row is the one to read twice.</b> On "brightwheel vs procare" — a prompt with our own name in it — we are mentioned in 44% of answers and Procare in 91%. Engines are answering a question about us using their competitor's material.</div>
+  </div>
+
+  <div class="panel">
+    <h3>Opportunity board <span class="i">i<span class="tip"><b>Every gap above, priced and ranked.</b> Value is modelled from keyword volume, prompt frequency, and the pipeline conversion rate of the matching buyer role. Each row routes to the agent that produces the artifact, so the board is a work queue rather than a reading exercise.</span></span></h3>
+    <div class="sub">ranked by modelled annual contribution · total $4.55M</div>
+    <div id="oppBoard"></div>
+  </div>
+</section>
+
 <section class="view" id="pers">
   <div class="panel">
     <h3>Who we sell to, and where AI enters their journey <span class="i">i<span class="tip"><b>This is a B2B purchase with a long cycle.</b> A director evaluating software touches 8 to 14 sources over 30 to 90 days. AI engines now sit at the front of that journey, shaping the shortlist before anyone visits a website. Coverage has to be measured per role, not in aggregate.</span></span></h3>
@@ -342,12 +496,12 @@ footer{margin-top:22px;padding-top:14px;border-top:1px solid var(--line);font-fa
     <div class="pcards">
       <div class="pc"><h4>Center Director</h4><div class="role">$3–8K ACV · decides alone · 30-day cycle</div>
         <div class="stage"><span>Awareness</span><span class="track"><span class="fill" style="width:74%;background:var(--green)"></span></span><span>74%</span></div>
-        <div class="stage"><span>Compare</span><span class="track"><span class="fill" style="width:41%;background:var(--amber)"></span></span><span>41%</span></div>
-        <div class="stage"><span>Validate</span><span class="track"><span class="fill" style="width:33%;background:var(--amber)"></span></span><span>33%</span></div>
+        <div class="stage"><span>Compare</span><span class="track"><span class="fill" style="width:41%;background:var(--brand)"></span></span><span>41%</span></div>
+        <div class="stage"><span>Validate</span><span class="track"><span class="fill" style="width:33%;background:var(--brand)"></span></span><span>33%</span></div>
         <div class="stage"><span>Decide</span><span class="track"><span class="fill" style="width:27%;background:var(--red)"></span></span><span>27%</span></div>
         <div class="note" style="margin-top:10px">Asks AI first about licensing and daily operations, then compares. We win awareness and lose the compare step.</div></div>
       <div class="pc"><h4>Multi-Site Operator</h4><div class="role">$25–90K ACV · 2–4 stakeholders · 60-day cycle</div>
-        <div class="stage"><span>Awareness</span><span class="track"><span class="fill" style="width:38%;background:var(--amber)"></span></span><span>38%</span></div>
+        <div class="stage"><span>Awareness</span><span class="track"><span class="fill" style="width:38%;background:var(--brand)"></span></span><span>38%</span></div>
         <div class="stage"><span>Compare</span><span class="track"><span class="fill" style="width:16%;background:var(--red)"></span></span><span>16%</span></div>
         <div class="stage"><span>Validate</span><span class="track"><span class="fill" style="width:11%;background:var(--red)"></span></span><span>11%</span></div>
         <div class="stage"><span>Decide</span><span class="track"><span class="fill" style="width:9%;background:var(--red)"></span></span><span>9%</span></div>
@@ -360,8 +514,8 @@ footer{margin-top:22px;padding-top:14px;border-top:1px solid var(--line);font-fa
         <div class="note" style="margin-top:10px">Procurement and finance join the committee. Security, SLA, and integration questions have almost no owned content.</div></div>
       <div class="pc"><h4>New Center Owner</h4><div class="role">$2–5K ACV · decides alone · 45-day cycle</div>
         <div class="stage"><span>Awareness</span><span class="track"><span class="fill" style="width:81%;background:var(--green)"></span></span><span>81%</span></div>
-        <div class="stage"><span>Compare</span><span class="track"><span class="fill" style="width:44%;background:var(--amber)"></span></span><span>44%</span></div>
-        <div class="stage"><span>Validate</span><span class="track"><span class="fill" style="width:36%;background:var(--amber)"></span></span><span>36%</span></div>
+        <div class="stage"><span>Compare</span><span class="track"><span class="fill" style="width:44%;background:var(--brand)"></span></span><span>44%</span></div>
+        <div class="stage"><span>Validate</span><span class="track"><span class="fill" style="width:36%;background:var(--brand)"></span></span><span>36%</span></div>
         <div class="stage"><span>Decide</span><span class="track"><span class="fill" style="width:31%;background:var(--green)"></span></span><span>31%</span></div>
         <div class="note" style="margin-top:10px">Our best-covered journey, because state licensing content catches them before they even choose software.</div></div>
     </div>
@@ -378,16 +532,16 @@ footer{margin-top:22px;padding-top:14px;border-top:1px solid var(--line);font-fa
     <div class="scores" style="margin-bottom:15px">
       <div class="score"><div class="n" style="color:var(--green)">88</div><div class="t">Product capability</div><div class="b up">▲ 2</div></div>
       <div class="score"><div class="n" style="color:var(--red)">46</div><div class="t">Pricing</div><div class="b down">▼ 11</div></div>
-      <div class="score"><div class="n" style="color:var(--amber)">63</div><div class="t">Billing depth</div><div class="b down">▼ 14</div></div>
+      <div class="score"><div class="n" style="color:var(--brand)">63</div><div class="t">Billing depth</div><div class="b down">▼ 14</div></div>
       <div class="score"><div class="n" style="color:var(--green)">84</div><div class="t">Parent comms</div><div class="b flat">—</div></div>
-      <div class="score"><div class="n" style="color:var(--amber)">67</div><div class="t">Multi-site support</div><div class="b down">▼ 9</div></div>
+      <div class="score"><div class="n" style="color:var(--brand)">67</div><div class="t">Multi-site support</div><div class="b down">▼ 9</div></div>
       <div class="score"><div class="n" style="color:var(--green)">81</div><div class="t">Compliance / licensing</div><div class="b up">▲ 3</div></div>
     </div>
     <table>
       <tr><th>Detected claim</th><th>Accurate?</th><th>Traced to</th><th>Engines</th></tr>
-      <tr style="cursor:pointer" data-claim="c1"><td class="p">"Pricing scales with enrollment, can get expensive"</td><td><span class="pill p-warn">PARTIAL</span></td><td>competitor comparison post</td><td>4 of 5 <span style="color:var(--amber)">→</span></td></tr>
-      <tr style="cursor:pointer" data-claim="c2"><td class="p">"Lighter on billing than Procare"</td><td><span class="pill p-crit">OUTDATED</span></td><td>2024 third-party review</td><td>3 of 5 <span style="color:var(--amber)">→</span></td></tr>
-      <tr style="cursor:pointer" data-claim="c3"><td class="p">"Struggles with consolidated multi-site dashboards"</td><td><span class="pill p-crit">DISPUTED</span></td><td>competitor blog, 2026</td><td>2 of 5 <span style="color:var(--amber)">→</span></td></tr>
+      <tr style="cursor:pointer" data-claim="c1"><td class="p">"Pricing scales with enrollment, can get expensive"</td><td><span class="pill p-warn">PARTIAL</span></td><td>competitor comparison post</td><td>4 of 5 <span style="color:var(--brand)">→</span></td></tr>
+      <tr style="cursor:pointer" data-claim="c2"><td class="p">"Lighter on billing than Procare"</td><td><span class="pill p-crit">OUTDATED</span></td><td>2024 third-party review</td><td>3 of 5 <span style="color:var(--brand)">→</span></td></tr>
+      <tr style="cursor:pointer" data-claim="c3"><td class="p">"Struggles with consolidated multi-site dashboards"</td><td><span class="pill p-crit">DISPUTED</span></td><td>competitor blog, 2026</td><td>2 of 5 <span style="color:var(--brand)">→</span></td></tr>
       <tr><td class="p">"Reports of crashes during daily operations"</td><td><span class="pill p-crit">DISPUTED</span></td><td>competitor blog, 2026</td><td>2 of 5</td></tr>
       <tr><td class="p">"Strong parent engagement and daily reports"</td><td><span class="pill p-ok">ACCURATE</span></td><td>owned + reviews</td><td>5 of 5</td></tr>
     </table>
@@ -404,8 +558,8 @@ footer{margin-top:22px;padding-top:14px;border-top:1px solid var(--line);font-fa
     <div class="scores" style="margin-bottom:15px">
       <div class="score"><div class="n" style="color:var(--green)">86</div><div class="t">ChatGPT</div><div class="b up">▲ 3</div></div>
       <div class="score"><div class="n" style="color:var(--green)">89</div><div class="t">Google AI</div><div class="b up">▲ 2</div></div>
-      <div class="score"><div class="n" style="color:var(--amber)">68</div><div class="t">Perplexity</div><div class="b down">▼ 7</div></div>
-      <div class="score"><div class="n" style="color:var(--amber)">71</div><div class="t">Gemini</div><div class="b down">▼ 4</div></div>
+      <div class="score"><div class="n" style="color:var(--brand)">68</div><div class="t">Perplexity</div><div class="b down">▼ 7</div></div>
+      <div class="score"><div class="n" style="color:var(--brand)">71</div><div class="t">Gemini</div><div class="b down">▼ 4</div></div>
       <div class="score"><div class="n" style="color:var(--red)">58</div><div class="t">Copilot</div><div class="b down">▼ 9</div></div>
     </div>
     <div class="note"><b>The pattern is diagnostic.</b> Sentiment is strong where engines lean on owned content and reviews, weak where they lean on third-party comparison sites and G2 summaries. Perplexity and Copilot both cite the sources you have least influence over, which tells you exactly where to spend: review recency and community presence, not more blog posts.</div>
@@ -456,7 +610,7 @@ footer{margin-top:22px;padding-top:14px;border-top:1px solid var(--line);font-fa
       <div class="score"><div class="n" style="color:var(--red)">38</div><div class="t">Today</div><div class="b flat">baseline</div></div>
       <div class="score"><div class="n" style="color:var(--green)">79</div><div class="t">After roadmap</div><div class="b up">▲ 41 pts</div></div>
       <div class="score"><div class="n" style="color:var(--blue)">$1.9M</div><div class="t">Pipeline exposed</div><div class="b flat">agent-mediated by 2027</div></div>
-      <div class="score"><div class="n" style="color:var(--amber)">2</div><div class="t">Quarters to ship</div><div class="b flat">est. effort</div></div>
+      <div class="score"><div class="n" style="color:var(--brand)">2</div><div class="t">Quarters to ship</div><div class="b flat">est. effort</div></div>
     </div>
     <table>
       <tr><th>Where an agent touches us</th><th>What it tries to do</th><th>Today</th><th>After</th><th>Why it matters</th></tr>
@@ -625,7 +779,7 @@ function showState(ab,el){
   <div class="sub">licensed centers ≈ ${s.centers.toLocaleString()} · ${s.rules} tracked rule categories · last regulatory change ${s.lastChg}</div>
   <div class="stkpi">
     <div><div class="k">Queries / mo</div><div class="v">${s.q.toLocaleString()}</div></div>
-    <div><div class="k">Citation rate</div><div class="v" style="color:${s.cite>35?'var(--green)':s.cite>12?'var(--amber)':'var(--red)'}">${s.cite}%</div></div>
+    <div><div class="k">Citation rate</div><div class="v" style="color:${s.cite>35?'var(--green)':s.cite>12?'var(--brand)':'var(--red)'}">${s.cite}%</div></div>
     <div><div class="k">Pipeline at stake</div><div class="v" style="color:var(--green)">$${(s.pipe/1000).toFixed(0)}K</div></div>
     <div><div class="k">TAM (centers)</div><div class="v">${(s.centers/1000).toFixed(1)}K</div></div>
     <div><div class="k">Answer owned by</div><div class="v" style="font-size:12px">${s.comp}</div></div>
@@ -660,6 +814,9 @@ const AGENTS=[
 {id:'a1',imp:'+$2.1M est.',n:'State Coverage Agent',d:'Monitors all 50 state licensing authorities for rule changes, diffs against published content, drafts updates with primary-source citations.',src:'DataForSEO SERP + state .gov sources',out:'Refresh queue + drafted deltas',guard:'Every regulatory claim routes to human review',
 log:['Loading 50 state authority source registry','Fetching current rule text · 50 jurisdictions','Diffing against published pages','› OH ratio rule changed 2026-06-01, page not updated','› TX training hours revised, page stale 11mo','› 18 states with no page at all','Drafting answer-first passages with statute citations','Scoring extractability and schema readiness'],
 res:'31 states queued.\n13 stale pages with detected rule drift → priority refresh.\n18 net-new drafted with primary-source citations.\nAll routed to human review. Zero auto-publish.\nEst. reach 14,200 monthly queries · $2.1M pipeline at stake.'},
+{id:'a13',imp:'monitoring',n:'Competitive SOV Tracker',d:'Scores share of voice in search and in answer engines against the tracked competitive set, and flags which competitor moved and why.',src:'DataForSEO SERP + Labs + LLM sampling',out:'SOV delta report + gap set refresh',guard:'Analysis only',
+log:['Pulling 4,180 tracked keywords · Google US','Weighting by volume × position CTR curve','Sampling 240 prompts × 20 × 5 engines','\u203a SEO SOV 24.8% — rank 1 of 7','\u203a GEO SOV 18.4% — rank 3 of 7','\u203a delta \u22126.4pt, worst converter in the set','\u203a Playground +10.8pt on one pricing page','Diffing cited competitor page structure','Refreshing keyword and prompt gap sets'],
+res:'brightwheel leads search share and trails answer share.\nThe gap is structural, not budgetary: competitors publish extractable pricing, process documentation, and specification tables where we publish feature pages.\nRouted 7 opportunities to the board, $4.55M modelled annual contribution.'},
 {id:'a2',imp:'+$410K est.',n:'Pricing Extractability Agent',d:'Builds the citable pricing surface the category is missing. Your worst prompt cluster is the question you decline to answer.',src:'DataForSEO SERP + competitor pricing pages',out:'Page spec + Offer schema',guard:'Commercial terms require Product Marketing sign-off',
 log:['Sampling pricing-intent prompts (21 × 20)','Measuring competitor pricing-page citation rate','› Playground cited 29%, publishes tiered pricing','› brightwheel cited 6%, no published pricing','Modeling range vs starting-at vs calculator','Generating Offer + PriceSpecification schema','Drafting FAQ for 9 recurring pricing questions'],
 res:'Recommendation: publish starting-at range plus per-child calculator.\nEst. citation lift on pricing cluster 6% → 22–28%.\nBrand accuracy on pricing cluster 46 → est. 74.\nBlocked pending Product Marketing decision. Flagged as a business decision, not a search one.'},
@@ -734,7 +891,7 @@ const body=document.getElementById('feedBody');let fi=0;
 function pushFeed(type,msg,src,act){
   const d=document.createElement('div');d.className='fi '+type;
   d.innerHTML=`<div class="ft"><span>${src||'AGENT'}</span><span>${new Date().toLocaleTimeString('en-US',{hour12:false})}</span></div><div class="fm">${msg}</div>`+
-   (act?`<div class="ft" style="margin-top:6px;margin-bottom:0;color:var(--amber)"><span>→ ${act}</span><span></span></div>`:'');
+   (act?`<div class="ft" style="margin-top:6px;margin-bottom:0;color:var(--brand)"><span>→ ${act}</span><span></span></div>`:'');
   body.prepend(d);while(body.children.length>18)body.lastChild.remove();
   BRAIN[0]+=1;BRAIN[1]+=1;if(act){BRAIN[2]+=1;BRAIN[3]+=Math.random()>.5?1:0;}paintBrain();
 }
@@ -810,11 +967,11 @@ function spark(data,fmt){
   const y=v=>h-pad-((v-mn)/rg)*(h-pad*2);
   const pts=data.map((v,i)=>`${x(i)},${y(v)}`).join(' ');
   const area=`${pad},${h-pad} ${pts} ${x(data.length-1)},${h-pad}`;
-  const dots=data.map((v,i)=>`<circle cx="${x(i)}" cy="${y(v)}" r="3" fill="var(--amber)"/>`).join('');
+  const dots=data.map((v,i)=>`<circle cx="${x(i)}" cy="${y(v)}" r="3" fill="var(--brand)"/>`).join('');
   const labs=data.map((v,i)=>i%2===0?`<text x="${x(i)}" y="${h-12}" fill="var(--dim)" font-size="10" text-anchor="middle" font-family="monospace">${MON[i]}</text>`:'').join('');
   return `<svg class="chart" viewBox="0 0 ${w} ${h}" preserveAspectRatio="none">
    <polygon points="${area}" fill="rgba(240,169,59,.12)"/>
-   <polyline points="${pts}" fill="none" stroke="var(--amber)" stroke-width="2"/>
+   <polyline points="${pts}" fill="none" stroke="var(--brand)" stroke-width="2"/>
    ${dots}${labs}
    <text x="${pad}" y="18" fill="var(--dim)" font-size="10" font-family="monospace">${fmt(mx)}</text>
    <text x="${pad}" y="${h-pad+14}" fill="var(--dim)" font-size="10" font-family="monospace">${fmt(mn)}</text></svg>`;
@@ -879,12 +1036,12 @@ document.querySelectorAll('[data-claim]').forEach(tr=>{
     mdl.innerHTML=`<div class="mh"><div><h3>${c.t}</h3><p>traced to source · ${c.v}</p></div><button class="x" id="mx">CLOSE</button></div>
     <div class="mb">
       <div class="panel" style="border:none;padding:0;margin-bottom:14px">
-        <div class="lbl" style="font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--amber);margin-bottom:7px">Where it comes from</div>
+        <div class="lbl" style="font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--brand);margin-bottom:7px">Where it comes from</div>
         <p style="font-size:13px;color:var(--mut);margin-bottom:16px">${c.src}</p>
-        <div class="lbl" style="font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--amber);margin-bottom:7px">Why it persists</div>
+        <div class="lbl" style="font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--brand);margin-bottom:7px">Why it persists</div>
         <p style="font-size:13px;color:var(--mut);margin-bottom:16px">${c.why}</p>
-        <div class="lbl" style="font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--amber);margin-bottom:7px">Recommended response</div>
-        <ul style="list-style:none;margin-bottom:16px">${c.fix.map(f=>`<li style="font-size:13px;color:var(--mut);padding:6px 0 6px 16px;position:relative"><span style="position:absolute;left:0;color:var(--amber)">▸</span>${f}</li>`).join('')}</ul>
+        <div class="lbl" style="font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--brand);margin-bottom:7px">Recommended response</div>
+        <ul style="list-style:none;margin-bottom:16px">${c.fix.map(f=>`<li style="font-size:13px;color:var(--mut);padding:6px 0 6px 16px;position:relative"><span style="position:absolute;left:0;color:var(--brand)">▸</span>${f}</li>`).join('')}</ul>
       </div>
       <div class="todo" style="margin-top:0"><div class="h">Projected impact if actioned</div>
       <p style="color:var(--ink);font-size:14px">${c.imp}</p>
@@ -912,7 +1069,7 @@ const hFil=document.getElementById('hFilters');
 let curF='all';
 HF.forEach(([k,l])=>{const b=document.createElement('button');b.className='hf'+(k==='all'?' on':'');b.textContent=l;
  b.onclick=()=>{curF=k;[...hFil.children].forEach(c=>c.classList.remove('on'));b.classList.add('on');paintHeat();};hFil.appendChild(b);});
-function heatColor(v){return v>=60?'var(--green)':v>=40?'var(--amber)':'var(--red)';}
+function heatColor(v){return v>=60?'var(--green)':v>=40?'var(--brand)':'var(--red)';}
 function paintHeat(){
   const el=document.getElementById('heat');el.innerHTML='';
   CLUSTERS.filter(c=>curF==='all'||c[3]===curF).forEach(([n,p,sc,t])=>{
@@ -933,6 +1090,183 @@ paintHeat();
 
 bindActs();
 
+/* ============ competitive set: SOV in search and in answer engines ============
+   seo = volume-weighted share of the tracked keyword universe by ranking position
+   geo = share of sampled AI answers to category buying prompts that name the brand */
+const COMPSET=[
+ {n:'brightwheel',us:true,seo:24.8,geo:18.4,pos:8.2,top3:412,cite:21,rev:1},
+ {n:'Procare',     seo:21.3,geo:26.1,pos:9.1,top3:356,cite:33,rev:23},
+ {n:'Playground',  seo:8.9, geo:19.7,pos:14.6,top3:121,cite:29,rev:14},
+ {n:'Lillio',      seo:12.4,geo:11.2,pos:11.8,top3:198,cite:16,rev:9},
+ {n:'LineLeader',  seo:9.7, geo:7.9, pos:13.2,top3:143,cite:12,rev:6},
+ {n:'Kangarootime',seo:6.1, geo:4.3, pos:16.4,top3:78, cite:8, rev:3},
+ {n:'Sandbox',     seo:4.8, geo:3.6, pos:18.1,top3:61, cite:6, rev:2},
+ {n:'Long tail / other',seo:12.0,geo:8.8,pos:null,top3:null,cite:null,rev:null}
+];
+
+function sovBars(el,key,limit){
+  const host=document.getElementById(el); if(!host) return;
+  const max=Math.max(...COMPSET.map(c=>c[key]));
+  let set=COMPSET.slice().sort((a,b)=>b[key]-a[key]);
+  if(limit) set=set.filter(c=>!c.n.startsWith('Long')).slice(0,limit);
+  host.innerHTML=set.map(c=>{
+    const col=c.us?'var(--brand)':(c.n.startsWith('Long')?'var(--dim)':'var(--mut)');
+    return `<div class="bar-row"><span class="nm${c.us?' us':''}">${c.n}</span>`+
+      `<span class="track"><span class="fill" style="width:${(c[key]/max*100).toFixed(1)}%;background:${col}"></span></span>`+
+      `<span class="pct"${c.us?' style="color:var(--brand);font-weight:600"':''}>${c[key].toFixed(1)}%</span></div>`;
+  }).join('');
+}
+
+/* GEO minus SEO — who converts search presence into citation, and who does not */
+function sovDelta(){
+  const host=document.getElementById('sovDelta'); if(!host) return;
+  const rows=COMPSET.filter(c=>!c.n.startsWith('Long')).map(c=>({...c,d:+(c.geo-c.seo).toFixed(1)}));
+  const max=Math.max(...rows.map(r=>Math.abs(r.d)));
+  host.innerHTML=rows.sort((a,b)=>b.d-a.d).map(r=>{
+    const w=Math.abs(r.d)/max*50, pos=r.d>=0;
+    return `<div class="dv"><span class="nm${r.us?' us':''}">${r.n}</span>`+
+      `<span class="dvt"><span class="dvb" style="${pos?'left:50%':'right:50%'};width:${w.toFixed(1)}%;background:${pos?'var(--green)':'var(--red)'}"></span></span>`+
+      `<span class="pct" style="color:${pos?'var(--green)':'var(--red)'}">${pos?'+':''}${r.d.toFixed(1)}pt</span></div>`;
+  }).join('');
+}
+
+/* Per-engine GEO SOV. Engines ground answers differently, so the aggregate hides the story. */
+const ENGINES=[
+ {e:'Google AI Overviews',b:'grounded in classic ranking',us:24.6,l:'Procare',lv:22.1},
+ {e:'ChatGPT',   b:'corpus + browsing',      us:19.2,l:'Procare',lv:27.4},
+ {e:'Perplexity',b:'favours fresh, structured',us:16.1,l:'Procare',lv:24.8},
+ {e:'Gemini',    b:'review-summary weighted', us:17.3,l:'Procare',lv:25.9},
+ {e:'Claude',    b:'documentation depth',     us:15.8,l:'Playground',lv:22.4},
+ {e:'Copilot',   b:'repeats G2 AI summary',   us:14.2,l:'Procare',lv:31.6}
+];
+function engRows(){
+  const host=document.getElementById('engRows'); if(!host) return;
+  const max=35;
+  host.innerHTML=ENGINES.map(x=>{
+    const win=x.us>=x.lv;
+    return `<div class="eng"><span class="en">${x.e}<small>${x.b}</small></span>`+
+      `<span class="engb"><span class="engt">`+
+        `<span class="u" style="width:${(x.us/max*100).toFixed(1)}%;background:${win?'var(--green)':'var(--brand)'}"></span>`+
+        `<span class="l" style="left:${(x.lv/max*100).toFixed(1)}%"></span>`+
+      `</span><span class="pct" style="color:${win?'var(--green)':'var(--red)'}">${x.us}%</span>`+
+      `<span class="ldr">${win?'\u2713 we lead':'vs '+x.l+' '+x.lv+'%'}</span></span></div>`;
+  }).join('');
+}
+
+function h2h(){
+  const host=document.getElementById('h2h'); if(!host) return;
+  host.innerHTML=COMPSET.filter(c=>c.pos!==null).map(c=>{
+    const d=+(c.geo-c.seo).toFixed(1);
+    return `<tr><td class="p"${c.us?' style="color:var(--brand);font-weight:600"':''}>${c.n}${c.us?' <span class="lead">us</span>':''}</td>`+
+      `<td class="p">${c.seo.toFixed(1)}%</td><td class="p">${c.geo.toFixed(1)}%</td>`+
+      `<td class="${d>=0?'up':'down'}">${d>=0?'+':''}${d.toFixed(1)}pt</td>`+
+      `<td>${c.pos}</td><td>${c.top3}</td><td>${c.cite}%</td>`+
+      `<td class="${c.rev<=2?'down':''}">${c.rev}</td></tr>`;
+  }).join('');
+}
+
+const SERPF=[
+ ['AI Overview cited source',1840,18,27,14,9,32],
+ ['Featured snippet',612,22,24,8,11,35],
+ ['People Also Ask',2410,16,21,12,10,41],
+ ['Video pack',388,9,12,4,26,49],
+ ['Review rich snippet',244,4,31,19,14,32],
+ ['Local pack',156,2,6,1,3,88]
+];
+function serpFeat(){
+  const host=document.getElementById('serpFeat'); if(!host) return;
+  host.innerHTML=SERPF.map(([f,k,us,pr,pl,li,un])=>{
+    const lead=Math.max(us,pr,pl,li);
+    const c=v=>v===lead&&v===us?' style="color:var(--green);font-weight:600"':(v===lead?' style="color:var(--red)"':'');
+    return `<tr><td class="p">${f}</td><td>${k.toLocaleString()}</td>`+
+      `<td class="p"${c(us)}>${us}%</td><td${c(pr)}>${pr}%</td><td${c(pl)}>${pl}%</td><td${c(li)}>${li}%</td>`+
+      `<td><span class="pill ${un>=40?'p-warn':'p-info'}">${un}%</span></td></tr>`;
+  }).join('');
+}
+
+/* cluster-level win / loss against the leading competitor in each */
+const WINS=[
+ ['Parent communication & daily reports','next: Lillio 14.8%',41.2,26.4],
+ ['Photo & video sharing','next: Lillio 16.1%',38.9,22.8],
+ ['Check-in & attendance tracking','next: Procare 18.2%',34.6,16.4],
+ ['Preschool & daycare app','next: Playground 12.7%',29.4,16.7],
+ ['Learning & assessment','next: Lillio 19.3%',26.1,6.8]
+];
+const LOSES=[
+ ['Billing, payments & tuition','Procare 34.2% · $960K exposure',11.8,-22.4],
+ ['Pricing & cost comparison','Playground 28.9% · we publish no pricing',6.2,-22.7],
+ ['Multi-site & franchise management','Procare 31.7% · $1.4M exposure',9.4,-22.3],
+ ['"vs" / alternatives / comparison','Procare 27.3% · brand-adjacent',8.9,-18.4],
+ ['Childcare subsidy & CACFP','LineLeader 24.8% · $680K exposure',7.1,-17.7],
+ ['Staff scheduling & payroll','Procare 26.4%',14.2,-12.2],
+ ['Integrations & API','Kangarootime 21.6%',12.4,-9.2]
+];
+function winLose(){
+  const w=document.getElementById('wins'), l=document.getElementById('loses');
+  if(w) w.innerHTML=WINS.map(([t,m,v,g])=>`<div class="wlr"><span><span class="t">${t}</span><span class="m">${m}</span></span><span class="g" style="color:var(--green)">${v}% <small style="color:var(--dim)">+${g}</small></span></div>`).join('');
+  if(l) l.innerHTML=LOSES.map(([t,m,v,g])=>`<div class="wlr"><span><span class="t">${t}</span><span class="m">${m}</span></span><span class="g" style="color:var(--red)">${v}% <small style="color:var(--dim)">${g}</small></span></div>`).join('');
+}
+
+const KWGAP=[
+ ['childcare center management software',4400,'#6','Procare','#1',52,'crit'],
+ ['brightwheel pricing',3400,'#4','Playground','#1',22,'crit'],
+ ['childcare billing software',2900,'—','Procare','#1',48,'crit'],
+ ['brightwheel alternatives',1900,'#7','Procare','#1',26,'crit'],
+ ['daycare tuition payment software',1600,'#24','Procare','#2',41,'warn'],
+ ['childcare software cost',1300,'—','Playground','#1',35,'crit'],
+ ['daycare payroll software',1100,'#28','Procare','#1',39,'warn'],
+ ['childcare subsidy billing',880,'—','LineLeader','#1',29,'warn'],
+ ['multi site childcare management software',720,'#31','Procare','#1',44,'crit'],
+ ['cacfp software',590,'—','Procare','#2',24,'warn']
+];
+function kwGap(){
+  const host=document.getElementById('kwGap'); if(!host) return;
+  host.innerHTML=KWGAP.map(([k,v,op,ow,tp,kd,st])=>
+    `<tr><td class="p">${k}</td><td>${v.toLocaleString()}</td>`+
+    `<td class="${op==='—'?'down':''}">${op}</td><td class="p">${ow}</td><td>${tp}</td><td>${kd}</td>`+
+    `<td><span class="pill p-${st}">${st==='crit'?'PRIORITY':'GAP'}</span></td></tr>`).join('');
+}
+
+const PTGAP=[
+ ['best childcare software for multi-site operators',11,'Procare',68,'ChatGPT · Gemini · Copilot'],
+ ['how much does childcare management software cost',6,'Playground',71,'all 5 engines'],
+ ['best daycare billing software',14,'Procare',73,'ChatGPT · Gemini · Copilot · Perplexity'],
+ ['brightwheel vs procare',44,'Procare',91,'—'],
+ ['childcare software that handles subsidy billing',9,'LineLeader',54,'ChatGPT · Perplexity · Claude'],
+ ['franchise childcare management platform',7,'Procare',62,'all 5 engines'],
+ ['childcare software with QuickBooks integration',17,'Kangarootime',49,'ChatGPT · Claude']
+];
+function ptGap(){
+  const host=document.getElementById('ptGap'); if(!host) return;
+  host.innerHTML=PTGAP.map(([q,us,l,lv,miss])=>
+    `<tr><td class="p">"${q}"</td>`+
+    `<td><span class="pill ${us<15?'p-crit':'p-warn'}">${us}%</span></td>`+
+    `<td class="p">${l}</td><td class="down">${lv}%</td><td>${miss}</td></tr>`).join('');
+}
+
+const OPPS=[
+ ['Build the multi-site & franchise content set','Procare holds 31.7% of the cluster on consolidated dashboards, subsidy handling and billing depth. Highest ACV, worst coverage.','$1.4M','a7'],
+ ['Publish billing-depth documentation','Procare owns 34.2% of billing SOV. Our billing pages are feature descriptions where engines retrieve process documentation.','$960K','a7'],
+ ['Structure subsidy & CACFP content','LineLeader leads at 24.8% on a topic with real commercial intent and no structured owner across 40+ state programs.','$680K','a1'],
+ ['Reclaim the brand SERP','Competitors rank #1 on "brightwheel pricing" and "brightwheel alternatives". Prospects researching us read a competitor first.','$520K','a4'],
+ ['Publish a citable pricing surface','Playground converts one pricing page into 28.9% of pricing SOV and 19.7% GEO SOV overall. We are cited on 6% of pricing prompts.','$410K','a2'],
+ ['Ship the comparison / "vs" page set','Self-comparison pages are discounted by every engine, but their absence cedes the entire compare stage to competitor-authored framing.','$340K','a3'],
+ ['Close the review recency gap','Procare added 23 G2 reviews in 90 days to our 1, and Copilot repeats the G2 AI summary near-verbatim. Owned by CS, not search.','$240K','a5']
+];
+function oppBoard(){
+  const host=document.getElementById('oppBoard'); if(!host) return;
+  host.innerHTML=OPPS.map(([t,d,v,ag],i)=>
+    `<div class="oppcard"><span class="rk">${i+1}</span>`+
+    `<span><h4>${t}</h4><p>${d}</p>`+
+    `<span class="acts" style="margin-top:9px"><button class="act" data-agent="${ag}">Run agent →</button></span></span>`+
+    `<span class="val">${v}<small>est. annual</small></span></div>`).join('');
+}
+
+document.querySelectorAll('.kpi[data-go]').forEach(k=>{k.onclick=()=>go(k.dataset.go);});
+sovBars('sovSeo','seo'); sovBars('sovGeo','geo'); sovBars('sovSeoMini','seo',5); sovBars('sovGeoMini','geo',5); sovDelta(); engRows();
+h2h(); serpFeat(); winLose(); kwGap(); ptGap(); oppBoard();
+bindActs(); /* re-bind: the competitive boards render their own agent buttons */
+
 /* demo reset */
 const rstBtn=document.getElementById('rst');
 rstBtn.onclick=()=>{
@@ -952,11 +1286,6 @@ rstBtn.onclick=()=>{
   setTimeout(()=>{rstBtn.classList.remove('flash');rstBtn.textContent='⟲ RESET DEMO';},1400);
 };
 
-/* theme toggle */
-const root=document.documentElement, tog=document.getElementById('tog'), togL=document.getElementById('togL');
-function setTheme(t){root.setAttribute('data-theme',t);togL.textContent=t==='light'?'DARK':'LIGHT';}
-setTheme('dark');
-tog.onclick=()=>setTheme(root.getAttribute('data-theme')==='light'?'dark':'light');
 </script>
 </body>
 </html>
